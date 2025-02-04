@@ -1,0 +1,140 @@
+/* Estilo global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Fondo de la página */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 40px;
+}
+
+/* Encabezado */
+header {
+    text-align: center;
+    background-color: #FFF;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #333;
+    font-size: 2.5rem;
+}
+
+p {
+    color: #555;
+    font-size: 1.2rem;
+}
+
+/* Contenedor de las playlists */
+.playlist-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin: 0 10px;
+}
+
+/* Estilo de cada playlist */
+.playlist {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.playlist:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Títulos de las playlists */
+h2 {
+    color: #333;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Estilo de los iframes */
+iframe {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+iframe:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo del enlace "Abrir en YouTube" */
+.open-in-youtube {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    color: white;
+    background-color: #FF0000; /* Rojo de YouTube */
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efecto hover para cambiar el color y agregar un pequeño zoom */
+.open-in-youtube:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+/* Estilo para el texto cuando el enlace está inactivo */
+.open-in-youtube:active {
+    background-color: #990000;
+}
+
+/* Pie de página */
+footer {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+footer p {
+    color: #666;
+}
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 600px) {
+    header {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .playlist-container {
+        margin: 0 5px;
+    }
+
+    .playlist {
+        padding: 10px;
+    }
+
+    iframe {
+        height: 250px;
+    }
+}
