@@ -131,6 +131,14 @@ footer p {
         font-size: 1rem;
     }
 
+    /* Imagen del título */
+    .titulo-img {
+        width: 80%; /* Ajusta el tamaño en pantallas pequeñas */
+        max-width: 400px; /* Tamaño máximo */
+        height: auto; /* Mantiene la proporción */
+        margin: 0 auto; /* Centra la imagen */
+    }
+
     .playlist-container {
         margin: 0 5px;
     }
