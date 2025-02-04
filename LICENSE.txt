@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.The MIT License (MIT)
 
-Copyright (c) 2025 Miguel  (https://codepen.io/Alves1992/pen/azoxJgW)
+Copyright (c)  © 2025 Videos PUR Uruguay (https://codepen.io/Alves1992/pen/azoryBb)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
