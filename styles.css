@@ -144,6 +144,46 @@ iframe:hover {
     transform: scale(1.05);
 }
 
+/* Sección de Donaciones */
+.donation-access {
+    text-align: center;
+    background-color: #fff7e6; /* Tono cálido */
+    padding: 30px;
+    margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.donation-access h2 {
+    font-size: 1.8rem;
+    color: #d17b00;
+    margin-bottom: 15px;
+}
+
+.donation-access p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.donation-button {
+    display: inline-block;
+    background-color: #ffb300;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+.donation-button:hover {
+    background-color: #cc8c00;
+    transform: scale(1.05);
+}
+
 /* Pie de página */
 footer {
     background-color: #f0f0f0;
@@ -197,6 +237,16 @@ footer p {
     }
 
     .drive-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .donation-access {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .donation-button {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
