@@ -321,8 +321,50 @@
       });
     }
     async function fetchMeta(id){try{const r=await fetch(`https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&id=${id}&key=${API_KEY}`); const j=await r.json(); return j.items?.[0]||null;}catch{return null;}}
-    async function fetchItems(id){try{const r=await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${id}&key=${API_KEY}`); const j=await r.json(); return j.items||[];}catch{return [];}}
-    async function fetchDetails(ids){if(!ids.length) return []; try{const r=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${ids.slice(0,50).join(',')}&key=${API_KEY}`); const j=await r.json(); return j.items||[];}catch{return [];}}
+    // FIX: paginación completa para playlists de 151 videos como Encares CIR-PUR
+    async function fetchItems(id){
+      let allItems = [];
+      let pageToken = '';
+      let pages = 0;
+      try{
+        do{
+          const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${id}&key=${API_KEY}${pageToken ? `&pageToken=${pageToken}` : ''}`;
+          const r = await fetch(url);
+          const j = await r.json();
+          if(j.error) throw j.error;
+          allItems = allItems.concat(j.items || []);
+          pageToken = j.nextPageToken || '';
+          pages++;
+          // Actualizar UI con progreso para playlists grandes
+          if(pages > 1){
+            document.getElementById('currentMeta').textContent = `Cargando... ${allItems.length} clases cargadas`;
+          }
+          // seguridad: máximo 10 páginas (500 videos)
+          if(pages >= 10) break;
+        } while(pageToken);
+        return allItems;
+      }catch(e){
+        console.error('Error fetchItems paginado', e);
+        return allItems;
+      }
+    }
+    // FIX: fetchDetails en batches de 50 para >50 videos
+    async function fetchDetails(ids){
+      if(!ids.length) return [];
+      let allDetails = [];
+      try{
+        for(let i=0; i<ids.length; i+=50){
+          const chunk = ids.slice(i, i+50);
+          const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=status,contentDetails&id=${chunk.join(',')}&key=${API_KEY}`);
+          const j = await r.json();
+          if(j.items) allDetails = allDetails.concat(j.items);
+        }
+        return allDetails;
+      }catch(e){
+        console.error('Error fetchDetails batch', e);
+        return allDetails;
+      }
+    }
     async function loadPlaylist(pid){
       currentPl=pid;
       const pl=PLAYLISTS.find(p=>p.id===pid);
@@ -331,9 +373,14 @@
       document.querySelectorAll('.chip').forEach(c=>{c.classList.toggle('active', c.dataset.pl===pid);});
       document.getElementById('moduleInitial').textContent=pl?.name?.[0]||'M';
       document.getElementById('openYT').href=`https://www.youtube.com/playlist?list=${pid}`;
-      document.getElementById('videoList').innerHTML='<div class="p-4 text-center text-[12px] text-slate-400">Cargando clases...</div>';
+      document.getElementById('videoList').innerHTML='<div class="p-4 text-center text-[12px] text-slate-400">Cargando todas las clases...<br><span class="text-[10px] opacity-60">Esto puede tardar unos segundos para playlists grandes como Encares (151 videos)</span></div>';
       const [meta, items]=await Promise.all([fetchMeta(pid), fetchItems(pid)]);
-      if(meta){document.getElementById('currentMeta').textContent=`${meta.contentDetails.itemCount} clases • ${meta.snippet.channelTitle||'Facultad de Medicina'}`; document.getElementById('heroDesc').textContent=meta.snippet.description?.slice(0,160)||'Clases organizadas por cátedra'; const el=document.getElementById(`count-${pid}`); if(el) el.textContent=meta.contentDetails.itemCount; const sub=document.getElementById(`sub-${pid}`); if(sub) sub.textContent=`${meta.contentDetails.itemCount} clases`;}
+      if(meta){
+        document.getElementById('currentMeta').textContent=`${meta.contentDetails.itemCount} clases totales • Mostrando ${items.length} • ${meta.snippet.channelTitle||'Facultad de Medicina'}`;
+        document.getElementById('heroDesc').textContent=meta.snippet.description?.slice(0,160)||'Clases organizadas por cátedra';
+        const el=document.getElementById(`count-${pid}`); if(el) el.textContent=meta.contentDetails.itemCount;
+        const sub=document.getElementById(`sub-${pid}`); if(sub) sub.textContent=`${meta.contentDetails.itemCount} clases`;
+      }
       let valid=items.filter(it=> it.snippet.title!=='Private video' && it.snippet.title!=='Deleted video' && it.snippet.resourceId?.videoId);
       const ids=valid.map(it=>it.snippet.resourceId.videoId);
       const details=await fetchDetails(ids);
@@ -341,6 +388,10 @@
       let embeddable=valid.filter(it=> map[it.snippet.resourceId.videoId]!==false);
       if(embeddable.length===0) embeddable=valid;
       videos=embeddable.map(it=>({id:it.snippet.resourceId.videoId, title:it.snippet.title, thumb:it.snippet.thumbnails?.medium?.url||'', desc:it.snippet.description||''}));
+      // Actualizar contador final con todos los videos
+      if(meta){
+        document.getElementById('currentMeta').textContent=`${videos.length} clases disponibles de ${meta.contentDetails.itemCount} totales • ${meta.snippet.channelTitle||'Facultad de Medicina'}`;
+      }
       renderList('');
       if(videos.length) play(0);
     }
