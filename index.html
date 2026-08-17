@@ -16,9 +16,9 @@
   <style>
     *{font-family:'Inter',sans-serif;}
     .jakarta{font-family:'Plus Jakarta Sans',sans-serif;}
-    body{background:#f8fafc;}
+    body{background:#f8fafc; -webkit-tap-highlight-color: transparent;}
     .hero-bg{background: radial-gradient(120% 120% at 0% 0%, #14b8a6 0%, #0f172a 45%, #020617 100%);}
-    .glass{background:rgba(255,255,255,0.06); backdrop-filter: blur(16px); border:1px solid rgba(255,255,255,0.1);}
+    .glass{background:rgba(255,255,255,0.08); backdrop-filter: blur(16px); border:1px solid rgba(255,255,255,0.12);}
     .sidebar{width:340px; background:white; border-right:1px solid #e2e8f0; height:100vh; position:fixed; left:0; top:0; overflow-y:auto; z-index:40; display:flex; flex-direction:column;}
     .main{margin-left:340px;}
     .pl-btn{display:flex; align-items:center; gap:14px; width:100%; text-align:left; padding:12px 14px; border-radius:16px; transition:.25s; border:1px solid transparent; background:white; cursor:pointer;}
@@ -38,19 +38,48 @@
     .player-wrap{background:#000; border-radius:24px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.25); position:relative;}
     .shimmer{background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size:200% 100%; animation: shimmer 1.5s infinite;}
     @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-    @media(max-width:1024px){.sidebar{transform:translateX(-100%); transition:transform .35s cubic-bezier(.4,0,.2,1); width:88%; max-width:360px;} .sidebar.open{transform:translateX(0);} .main{margin-left:0;} }
+    /* Mobile chips */
+    .chips-scroll{display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; padding-bottom:4px;}
+    .chips-scroll::-webkit-scrollbar{display:none;}
+    .chip{white-space:nowrap; padding:9px 14px; border-radius:100px; font-size:12.5px; font-weight:700; border:1px solid #e2e8f0; background:white; flex-shrink:0; transition:.2s;}
+    .chip.active{background:#0f172a; color:white; border-color:#0f172a;}
+    /* Mobile improvements */
+    @media(max-width:1024px){
+      .sidebar{transform:translateX(-100%); transition:transform .35s cubic-bezier(.4,0,.2,1); width:88%; max-width:360px; z-index:50;}
+      .sidebar.open{transform:translateX(0);}
+      .main{margin-left:0;}
+      .player-wrap{border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.18);}
+      .hero-mobile{height:200px !important;}
+      .hero-mobile h2{font-size:26px !important;}
+      .sticky-player{position:sticky; top:56px; z-index:20; background:#f8fafc; padding-bottom:12px; margin:-16px -16px 0 -16px; padding:0 16px 12px 16px;}
+      .video-card{border-radius:14px;}
+      .video-card img{width:110px !important; height:62px !important;}
+    }
+    @media(max-width:640px){
+      .hero-mobile{height:170px !important;}
+      .pl-btn{padding:14px 14px;}
+      .pl-icon-wrap{width:40px; height:40px;}
+    }
+
   </style>
 </head>
 <body>
   <!-- Mobile topbar -->
-  <div class="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+  <div class="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-xl border-b border-slate-200/80 px-4 py-2.5 flex items-center justify-between safe-top">
     <div class="flex items-center gap-2.5">
-      <img src="logo.png" class="w-8 h-8 rounded-xl" alt="logo" onerror="this.style.display='none'">
-      <span class="jakarta font-extrabold text-[14px] tracking-tight">VIDEOS PUR URUGUAY</span>
+      <img src="logo.png" class="w-8 h-8 rounded-xl shadow-sm" alt="logo" onerror="this.style.display='none'">
+      <div class="leading-none"><span class="jakarta font-extrabold text-[13px] tracking-tight block">VIDEOS PUR</span><span class="jakarta font-extrabold text-[13px] tracking-tight block -mt-0.5">URUGUAY</span></div>
     </div>
-    <button id="menuBtn" class="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center">☰</button>
+    <div class="flex items-center gap-2">
+      <button id="searchToggle" class="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center">🔍</button>
+      <button id="menuBtn" class="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center text-[14px]">☰</button>
+    </div>
   </div>
-  <div id="overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+  <div id="overlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+  <!-- Mobile chips - visible only on mobile -->
+  <div class="lg:hidden fixed top-[56px] left-0 right-0 z-20 bg-white/95 backdrop-blur-xl border-b border-slate-200 px-4 py-2.5">
+    <div class="chips-scroll" id="mobileChips"></div>
+  </div>
 
   <aside class="sidebar" id="sidebar">
     <div class="p-6">
@@ -187,9 +216,9 @@
   </aside>
 
   <main class="main">
-    <div class="pt-[64px] lg:pt-0">
+    <div class="pt-[104px] lg:pt-0">
       <!-- Hero banner image -->
-      <div class="relative h-[280px] lg:h-[340px] overflow-hidden">
+      <div class="relative h-[280px] lg:h-[340px] overflow-hidden hero-mobile">
         <img src="banner.webp" alt="banner" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">
         <div class="absolute inset-0 hero-bg opacity-90"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent"></div>
@@ -216,7 +245,7 @@
         </div>
 
         <div class="grid lg:grid-cols-[1.3fr_0.7fr] gap-6">
-          <div>
+          <div class="sticky-player lg:static">
             <div class="player-wrap aspect-video">
               <div id="player" class="w-full h-full"></div>
               <div id="fallback" class="absolute inset-0 hidden bg-slate-900 flex-col items-center justify-center text-white p-8 text-center">
@@ -260,6 +289,27 @@
     const PLAYLISTS=[{'name': 'Medicina Interna', 'id': 'PLlowrdZNq7BrGgfB_btvmmnu5VX7XCSCO', 'icon': '🫀', 'color': '#0ea5e9'}, {'name': 'Medicina Familiar', 'id': 'PLlowrdZNq7Brfy2mPzuDiuhMHHKCM8CED', 'icon': '👨\u200d⚕️', 'color': '#14b8a6'}, {'name': 'Ginecología', 'id': 'PLlowrdZNq7BrBJxAZUpgb-PA7yKMvQK2F', 'icon': '🤰', 'color': '#ec4899'}, {'name': 'Pediatría', 'id': 'PLlowrdZNq7Braarje6YAeBdCVs-7FuM9u', 'icon': '👶', 'color': '#8b5cf6'}, {'name': 'Cirugía', 'id': 'PLlowrdZNq7BqcGg6OyZPRCCy5JsJaAv81', 'icon': '🔪', 'color': '#f59e0b'}, {'name': 'Psiquiatría', 'id': 'PLlowrdZNq7BowXZS5riW-a9GONXKwZW_0', 'icon': '🧠', 'color': '#6366f1'}, {'name': 'Bioética y Medicina Legal', 'id': 'PLlowrdZNq7Boo_mK9hlyHqBhKQFgMhHGo', 'icon': '⚖️', 'color': '#10b981'}, {'name': 'Encares CIR-PUR 2025-2026', 'id': 'PLpH8Nr6hu9eNdWgmU91xJB-3tRFfnrwUi', 'icon': '📋', 'color': '#06b6d4'}, {'name': 'RCP Adulto', 'id': 'PLlowrdZNq7BpkoKlPR0xiV2ERYwdWyf_G', 'icon': '❤️\u200d🩹', 'color': '#ef4444'}, {'name': 'RCP Pediátrico', 'id': 'PLlowrdZNq7BoPHnZ5DUQBCoRLT2DhxilG', 'icon': '👧', 'color': '#f97316'}];
     let player=null, videos=[], currentIdx=0, currentPl=PLAYLISTS[0].id;
     const sidebarEl=document.getElementById('sidebar'), overlay=document.getElementById('overlay');
+    // Build mobile chips
+    const chipsContainer = document.getElementById('mobileChips');
+    if (chipsContainer) {
+      PLAYLISTS.forEach((pl, idx) => {
+        const chip = document.createElement('button');
+        chip.className = `chip ${idx===0?'active':''}`;
+        chip.dataset.pl = pl.id;
+        chip.innerHTML = `${pl.icon} ${pl.name}`;
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+          chip.classList.add('active');
+          document.querySelectorAll('.pl-btn').forEach(b=>{b.classList.toggle('active', b.dataset.pl===pl.id);});
+          loadPlaylist(pl.id);
+        });
+        chipsContainer.appendChild(chip);
+      });
+    }
+    document.getElementById('searchToggle')?.addEventListener('click', ()=> {
+      const s = document.getElementById('search');
+      if(s) { s.focus(); s.scrollIntoView({behavior:'smooth', block:'center'}); }
+    });
     document.getElementById('menuBtn')?.addEventListener('click',()=>{sidebarEl.classList.add('open'); overlay.classList.remove('hidden');});
     overlay?.addEventListener('click',()=>{sidebarEl.classList.remove('open'); overlay.classList.add('hidden');});
 
@@ -278,6 +328,7 @@
       const pl=PLAYLISTS.find(p=>p.id===pid);
       document.getElementById('currentTitle').textContent=pl?.name||''; 
       document.getElementById('heroTitle').textContent=pl?.name||'';
+      document.querySelectorAll('.chip').forEach(c=>{c.classList.toggle('active', c.dataset.pl===pid);});
       document.getElementById('moduleInitial').textContent=pl?.name?.[0]||'M';
       document.getElementById('openYT').href=`https://www.youtube.com/playlist?list=${pid}`;
       document.getElementById('videoList').innerHTML='<div class="p-4 text-center text-[12px] text-slate-400">Cargando clases...</div>';
