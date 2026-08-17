@@ -68,7 +68,7 @@ El sitio usa YouTube Data API v3 para traer información real de las playlists.
 const API_KEY = 'TU_API_KEY_AQUI';
 ```
 
-> La key actual en el código es `AIzaSyDlaWEBNRRG4d3sHU7H-JjedEvrwejv9vc` - restringila a tu dominio para evitar abuso.
+> ⚠️ **Importante:** Nunca subas tu API key real a GitHub público. Restringí siempre la key a tu dominio en Google Cloud Console para evitar abuso y cargos.
 
 ## 🌐 Deploy en GitHub Pages
 
