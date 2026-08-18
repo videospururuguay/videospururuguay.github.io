@@ -1,0 +1,40 @@
+{
+  "name": "Videos PUR Uruguay - Educación Médica en Video",
+  "short_name": "Videos PUR",
+  "description": "Clases gratuitas de Medicina para la Prueba Única de Residencia (PUR) en Uruguay. Aprende, Practica, Certifica.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a1931",
+  "theme_color": "#0a1931",
+  "lang": "es-UY",
+  "categories": [
+    "education",
+    "medical"
+  ],
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
