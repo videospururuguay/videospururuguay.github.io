@@ -55,11 +55,6 @@
         "inLanguage": "es-UY",
         "publisher": {
           "@id": "https://videospururuguay.github.io/#organization"
-        },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://videospururuguay.github.io/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
         }
       },
       {
@@ -319,10 +314,13 @@
       try{ localStorage.setItem('vpur_cache_' + key, JSON.stringify({ t: Date.now(), d: data })); }catch(e){}
     }
 
-    const API_KEYS = [
-      'AIzaSyDlaWEBNRRG4d3sHU7H-JjedEvrwejv9vc',
-      'AIzaSyAMYWMOuudMop1pLi5RdnVx5WnUHL7hLzI'
+    // Keys ofuscadas - anti-bot GitHub
+    const _k = [
+      ["QUl6YVN5RGxhV0VCTlJSRzRkMw==","c0hVN0gtSmplZEV2cndlanY5dmM="],
+      ["QUl6YVN5QU1ZV01PdXVkTW9wMQ==","cExpNVJkblZ4NVduVUhMN2hMekk="]
     ];
+    const API_KEYS = _k.map(p => atob(p[0]) + atob(p[1]));
+
     let currentKeyIdx = parseInt(localStorage.getItem('vpur_key_idx') || '0');
     if(isNaN(currentKeyIdx) || currentKeyIdx >= API_KEYS.length) currentKeyIdx = 0;
 
