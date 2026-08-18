@@ -510,5 +510,127 @@
     if(plId) currentPl=plId;
     (async()=>{let total=0; for(const pl of PLAYLISTS){const m=await fetchMeta(pl.id); if(m){total+=m.contentDetails.itemCount; const el=document.getElementById(`count-${pl.id}`); if(el) el.textContent=m.contentDetails.itemCount;}} const b=document.getElementById('totalBadge'); if(b) b.textContent=`${total}+ videos`;})();
   </script>
+
+<!-- INVISIBLE SEO PATCH - NO TOCA DISEÑO -->
+<script>
+// === SEO DINAMICO POR MODULO ===
+const SEO_DATA = {
+  "medicina-interna": { title: "Medicina Interna PUR Uruguay 2026 | Clases para Residencia Médica", desc: "Clases completas de Medicina Interna para la PUR Uruguay 2026. Cardiología, neumología, gastroenterología, nefrología y más. Gratis." },
+  "medicina-familiar": { title: "Medicina Familiar PUR Uruguay | Clases Completas 2026", desc: "Todo Medicina Familiar y Comunitaria para la Prueba Única de Residencia Uruguay. Clases actualizadas de las cátedras de Udelar." },
+  "ginecologia": { title: "Ginecología PUR Uruguay | Clases para Residencia 2026", desc: "Clases de Ginecología y Obstetricia para preparar la PUR Uruguay. Embarazo, parto, patología ginecológica. Videos gratis." },
+  "pediatria": { title: "Pediatría PUR Uruguay 2026 | Videos para Residencia Médica", desc: "Clases de Pediatría para la PUR Uruguay 2026. Neonatología, crecimiento, urgencias pediátricas. 80+ videos gratis." },
+  "cirugia": { title: "Cirugía PUR Uruguay | Clases para Prueba de Residencia", desc: "Videos de Cirugía General para la PUR Uruguay. Pre y postoperatorio, abdomen agudo, trauma. Clases de Udelar gratis." },
+  "psiquiatria": { title: "Psiquiatría PUR Uruguay | Clases para Residencia Médica", desc: "Clases de Psiquiatría para la PUR Uruguay. Trastornos del ánimo, ansiedad, psicosis, psicofármacos. Gratis." },
+  "bioetica": { title: "Bioética y Medicina Legal PUR Uruguay | Clases 2026", desc: "Bioética, medicina legal y responsabilidad médica para la PUR Uruguay. Clases completas gratis para residencia." },
+  "encares": { title: "Encares CIR-PUR Uruguay 2025-2026 | Casos Clínicos", desc: "Encares clínicos CIR-PUR 2025-2026 resueltos. Casos prácticos para preparar la Prueba Única de Residencia Uruguay." }
+};
+
+(function(){
+  const urlParams = new URLSearchParams(location.search);
+  const modulo = urlParams.get('modulo');
+  const data = SEO_DATA[modulo];
+  if(data){
+    document.title = data.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if(metaDesc) metaDesc.setAttribute('content', data.desc);
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if(ogTitle) ogTitle.setAttribute('content', data.title);
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if(ogDesc) ogDesc.setAttribute('content', data.desc);
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if(twTitle) twTitle.setAttribute('content', data.title);
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if(twDesc) twDesc.setAttribute('content', data.desc);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if(canonical) canonical.setAttribute('href', 'https://videospururuguay.github.io/?modulo=' + modulo);
+  }
+})();
+
+// === COURSE SCHEMA - INVISIBLE ===
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Preparación PUR Uruguay - Prueba Única de Residencia",
+  "description": "Curso completo en video para preparar la Prueba Única de Residencia Médica de Uruguay. 500+ clases de Medicina Interna, Familiar, Ginecología, Pediatría, Cirugía, Psiquiatría, Bioética y Encares CIR-PUR.",
+  "provider": { "@type": "Organization", "name": "Videos PUR Uruguay", "sameAs": "https://videospururuguay.github.io/" },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "isAccessibleForFree": true,
+    "inLanguage": "es-UY"
+  },
+  "isAccessibleForFree": true,
+  "educationalLevel": "Especialización médica",
+  "inLanguage": "es-UY"
+};
+const s1 = document.createElement('script'); s1.type='application/ld+json'; s1.textContent = JSON.stringify(courseSchema); document.head.appendChild(s1);
+
+// === FAQ SCHEMA - INVISIBLE - PARA POSICIONAR EN PAA ===
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "¿Qué es la PUR Uruguay?", "acceptedAnswer": { "@type": "Answer", "text": "La PUR (Prueba Única de Residencia) es el examen único que deben rendir los egresados de medicina en Uruguay para acceder a una residencia médica. Evalúa Medicina Interna, Familiar, Ginecología, Pediatría, Cirugía, Psiquiatría y Bioética." } },
+    { "@type": "Question", "name": "¿Cuándo es la PUR Uruguay 2026?", "acceptedAnswer": { "@type": "Answer", "text": "La PUR Uruguay 2026 se rinde generalmente a fin de año. En Videos PUR Uruguay tenés todas las clases actualizadas de las cátedras de Udelar para prepararla." } },
+    { "@type": "Question", "name": "¿Cómo preparar la PUR Uruguay gratis?", "acceptedAnswer": { "@type": "Answer", "text": "Podés preparar la PUR Uruguay gratis con Videos PUR Uruguay, que organiza más de 500 clases en video de las cátedras de Facultad de Medicina de Udelar por materia." } },
+    { "@type": "Question", "name": "¿Qué materias entran en la PUR Uruguay?", "acceptedAnswer": { "@type": "Answer", "text": "Entran Medicina Interna, Medicina Familiar y Comunitaria, Ginecología y Obstetricia, Pediatría, Cirugía, Psiquiatría, Bioética y Medicina Legal, y Encares CIR." } },
+    { "@type": "Question", "name": "¿Dónde ver clases de medicina para la residencia en Uruguay?", "acceptedAnswer": { "@type": "Answer", "text": "En videospururuguay.github.io tenés clases organizadas por materia, con buscador, reproductor sin error 153 y 100% gratis, optimizado para celular y PC." } }
+  ]
+};
+const s2 = document.createElement('script'); s2.type='application/ld+json'; s2.textContent = JSON.stringify(faqSchema); document.head.appendChild(s2);
+
+// === BREADCRUMB SCHEMA ===
+(function(){
+  const urlParams = new URLSearchParams(location.search);
+  const modulo = urlParams.get('modulo');
+  if(!modulo) return;
+  const pretty = modulo.replace(/-/g,' ').replace(/\w/g, l=>l.toUpperCase());
+  const bc = {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Inicio","item":"https://videospururuguay.github.io/"},
+      {"@type":"ListItem","position":2,"name":pretty,"item":"https://videospururuguay.github.io/?modulo="+modulo}
+    ]
+  };
+  const s3 = document.createElement('script'); s3.type='application/ld+json'; s3.textContent = JSON.stringify(bc); document.head.appendChild(s3);
+})();
+
+// === VIDEOOBJECT DINAMICO - INVISIBLE - PARA GOOGLE VIDEOS ===
+(function(){
+  const originalPlay = window.play;
+  if(typeof originalPlay !== 'function') return;
+  let videoSchemaEl = null;
+  window.play = function(idx){
+    originalPlay(idx);
+    try{
+      const v = window.videos ? window.videos[idx] : null;
+      if(!v) return;
+      if(videoSchemaEl) videoSchemaEl.remove();
+      const pl = window.PLAYLISTS ? window.PLAYLISTS.find(p=>p.id===window.currentPl) : null;
+      const schema = {
+        "@context":"https://schema.org",
+        "@type":"VideoObject",
+        "name": v.title,
+        "description": (v.desc || v.title).substring(0,300),
+        "thumbnailUrl": v.thumb,
+        "uploadDate": "2025-01-01T00:00:00-03:00",
+        "contentUrl": "https://www.youtube.com/watch?v="+v.id,
+        "embedUrl": "https://www.youtube-nocookie.com/embed/"+v.id,
+        "isFamilyFriendly": true,
+        "inLanguage": "es-UY",
+        "publisher": { "@type":"Organization", "name":"Videos PUR Uruguay", "logo": {"@type":"ImageObject","url":"https://videospururuguay.github.io/logo.png"} },
+        "isPartOf": { "@type":"Course", "name": pl ? pl.name + " PUR Uruguay" : "PUR Uruguay" }
+      };
+      videoSchemaEl = document.createElement('script');
+      videoSchemaEl.type='application/ld+json';
+      videoSchemaEl.textContent = JSON.stringify(schema);
+      document.head.appendChild(videoSchemaEl);
+    }catch(e){}
+  };
+})();
+</script>
+<!-- FIN PATCH INVISIBLE -->
+
 </body>
 </html>
