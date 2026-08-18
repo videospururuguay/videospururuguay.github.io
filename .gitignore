@@ -1,0 +1,10 @@
+# Keys locales
+.env
+.env.local
+config.js
+*_key.txt
+
+# Sistema
+.DS_Store
+Thumbs.db
+node_modules/
