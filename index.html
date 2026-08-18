@@ -298,7 +298,7 @@
     document.getElementById('darkToggle')?.addEventListener('click', toggleDark);
     document.getElementById('darkToggleMobile')?.addEventListener('click', toggleDark);
 
-    // --- INICIO: UNICO CAMBIO -> CACHE DE 12 HORAS ---
+    // --- CACHE + 2 KEYS ---
     const CACHE_HOURS = 12;
     const CACHE_MS = CACHE_HOURS * 60 * 60 * 1000;
     function getCache(key){
@@ -311,11 +311,46 @@
       }catch{ return null; }
     }
     function setCache(key, data){
-      try{ localStorage.setItem('vpur_cache_' + key, JSON.stringify({ t: Date.now(), d: data })); }catch(e){ /* storage lleno, ignoramos */ }
+      try{ localStorage.setItem('vpur_cache_' + key, JSON.stringify({ t: Date.now(), d: data })); }catch(e){}
     }
-    // --- FIN: UNICO CAMBIO -> CACHE ---
 
-    const API_KEY = 'AIzaSyDlaWEBNRRG4d3sHU7H-JjedEvrwejv9vc';
+    const API_KEYS = [
+      'AIzaSyDlaWEBNRRG4d3sHU7H-JjedEvrwejv9vc',
+      'AIzaSyAMYWMOuudMop1pLi5RdnVx5WnUHL7hLzI'
+    ];
+    let currentKeyIdx = parseInt(localStorage.getItem('vpur_key_idx') || '0');
+    if(isNaN(currentKeyIdx) || currentKeyIdx >= API_KEYS.length) currentKeyIdx = 0;
+
+    async function ytFetch(urlWithoutKey){
+      // intenta con todas las keys
+      for(let attempt = 0; attempt < API_KEYS.length; attempt++){
+        const key = API_KEYS[currentKeyIdx];
+        const url = urlWithoutKey + (urlWithoutKey.includes('?') ? '&' : '?') + 'key=' + key;
+        try{
+          const r = await fetch(url);
+          const j = await r.json();
+          if(j.error){
+            const reason = j.error.errors?.[0]?.reason || '';
+            const msg = j.error.message || '';
+            if(reason === 'quotaExceeded' || reason === 'rateLimitExceeded' || msg.toLowerCase().includes('quota')){
+              console.warn(`Key ${currentKeyIdx} sin cuota, rotando...`);
+              currentKeyIdx = (currentKeyIdx + 1) % API_KEYS.length;
+              localStorage.setItem('vpur_key_idx', currentKeyIdx);
+              continue; // prueba siguiente key
+            }
+            return j; // otro error, lo devolvemos
+          }
+          return j; // ok
+        }catch(e){
+          console.warn(`Error con key ${currentKeyIdx}`, e);
+          currentKeyIdx = (currentKeyIdx + 1) % API_KEYS.length;
+          localStorage.setItem('vpur_key_idx', currentKeyIdx);
+          continue;
+        }
+      }
+      throw new Error('Todas las API keys sin cuota');
+    }
+
     const PLAYLISTS = [
       {name: 'Medicina Interna', id: 'PLlowrdZNq7BrGgfB_btvmmnu5VX7XCSCO', icon: '🫀', color: '#0ea5e9', slug: 'medicina-interna', thumb: 'thumbs/medicina-interna.webp'},
       {name: 'Medicina Familiar', id: 'PLlowrdZNq7Brfy2mPzuDiuhMHHKCM8CED', icon: '👨‍⚕️', color: '#14b8a6', slug: 'medicina-familiar', thumb: 'thumbs/medicina-familiar.webp'},
@@ -378,30 +413,30 @@
     async function fetchMeta(pid){
       const ck = 'meta_' + pid;
       const cached = getCache(ck);
-      if(cached){ return cached; }
-      try{ const r = await fetch(`https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&id=${pid}&key=${API_KEY}`); const j = await r.json(); const item = j.items?.[0]||null; if(item) setCache(ck, item); return item; }catch{return null}
+      if(cached) return cached;
+      const j = await ytFetch(`https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&id=${pid}`);
+      const item = j.items?.[0]||null;
+      if(item) setCache(ck, item);
+      return item;
     }
     async function fetchItems(pid, pageToken=''){
-      // cache solo para primera pagina (sin token) que es lo comun
       if(!pageToken){
         const ck = 'items_' + pid;
         const cached = getCache(ck);
         if(cached) return cached;
       }
-      let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${pid}&maxResults=50&key=${API_KEY}`;
+      let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${pid}&maxResults=50`;
       if(pageToken) url+=`&pageToken=${pageToken}`;
-      const r = await fetch(url); const j = await r.json();
+      const j = await ytFetch(url);
       let items = j.items||[];
       if(j.nextPageToken){ const more = await fetchItems(pid, j.nextPageToken); items = items.concat(more); }
-      if(!pageToken){ setCache('items_' + pid, items); }
+      if(!pageToken) setCache('items_' + pid, items);
       return items;
     }
     async function fetchDetails(ids){
       if(!ids.length) return [];
-      const cacheKey = 'details_' + ids.join(',');
-      // no cacheamos details porque cambia embeddable, pero podes activarlo si queres
       const chunks=[]; for(let i=0;i<ids.length;i+=50) chunks.push(ids.slice(i,i+50));
-      let all=[]; for(const ch of chunks){ const r=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${ch.join(',')}&key=${API_KEY}`); const j=await r.json(); all=all.concat(j.items||[]); } return all;
+      let all=[]; for(const ch of chunks){ const j=await ytFetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${ch.join(',')}`); all=all.concat(j.items||[]); } return all;
     }
 
     async function loadPlaylist(pid){
