@@ -10,43 +10,51 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="192x192" href="favicon-192x192.png">
-  <title>Videos PUR Uruguay — Videos claros para estudiar medicina</title>
-  <meta name="description" content="Videos organizados por materia para estudiantes de medicina en Uruguay. Simple, gratis y sin vueltas.">
+  <title>Videos PUR Uruguay</title>
+  <meta name="description" content="Videos PUR Uruguay - Educación médica en video">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#f8fafc; --card:#fff; --border:#e2e8f0; --text:#0f172a; --muted:#64748b;}
+    :root{--bg:#f8fafc; --card:#ffffff; --border:#e2e8f0; --text:#0f172a; --muted:#64748b; --sidebar-bg:rgba(255,255,255,0.96); --input-bg:#f1f5f9;}
+    html.dark{--bg:#020617; --card:#0f172a; --border:#1e293b; --text:#f1f5f9; --muted:#94a3b8; --sidebar-bg:rgba(15,23,42,0.96); --input-bg:#1e293b;}
     *{font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
     .jakarta{font-family:'Plus Jakarta Sans',sans-serif;}
-    body{background:var(--bg); color:var(--text);}
-    .sidebar{width:320px; background:rgba(255,255,255,0.96); backdrop-filter: blur(20px) saturate(180%); border-right:1px solid var(--border); height:100vh; position:fixed; left:0; top:0; z-index:40; display:flex; flex-direction:column; transition:transform .35s cubic-bezier(.32,.72,0,1);}
+    body{background:var(--bg); color:var(--text); transition: background .25s, color .25s;}
+    .sidebar{width:320px; background:var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); border-right:1px solid var(--border); height:100vh; position:fixed; left:0; top:0; z-index:40; display:flex; flex-direction:column; transition:transform .35s cubic-bezier(.32,.72,0,1), background .25s, border-color .25s;}
     .pl-btn{display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:12px 12px; border-radius:16px; border:1px solid transparent; background:transparent; cursor:pointer; transition: all .22s ease;}
-    .pl-btn:hover{background:#f8fafc; border-color:#e2e8f0; transform:translateY(-1px);}
-    .pl-btn.active{background:#0f172a; color:white; border-color:#0f172a; box-shadow:0 10px 24px rgba(15,23,42,.18);}
-    .pl-icon-wrap{width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; background:color-mix(in srgb, var(--c) 12%, white); border:1px solid color-mix(in srgb, var(--c) 18%, transparent); flex-shrink:0;}
+    .pl-btn:hover{background:var(--input-bg); border-color:var(--border); transform:translateY(-1px);}
+    .pl-btn.active{background:#0f172a; color:white; border-color:#0f172a; box-shadow:0 10px 24px rgba(0,0,0,.2);}
+    html.dark .pl-btn.active{background:#f1f5f9; color:#020617; border-color:#f1f5f9;}
+    .pl-icon-wrap{width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; background:color-mix(in srgb, var(--c) 12%, var(--card)); border:1px solid color-mix(in srgb, var(--c) 18%, transparent); flex-shrink:0;}
     .pl-btn.active .pl-icon-wrap{background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.18);}
+    html.dark .pl-btn.active .pl-icon-wrap{background:rgba(0,0,0,.08); border-color:rgba(0,0,0,.1);}
     .pl-text{flex:1; min-width:0;}
     .pl-name{font-weight:700; font-size:13px; line-height:1.2; letter-spacing:-.01em;}
-    .pl-sub{font-size:11px; margin-top:2px; opacity:.6; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-    .pl-btn.active .pl-sub{opacity:.65; color:#94a3b8;}
-    .pl-count{font-size:11px; font-weight:700; background:#f1f5f9; padding:5px 9px; border-radius:20px; color:#475569; min-width:30px; text-align:center;}
+    .pl-count{font-size:11px; font-weight:700; background:var(--input-bg); padding:5px 9px; border-radius:20px; color:var(--muted); min-width:30px; text-align:center;}
     .pl-btn.active .pl-count{background:rgba(255,255,255,.14); color:white;}
+    html.dark .pl-btn.active .pl-count{background:rgba(0,0,0,.08); color:#020617;}
     .main{margin-left:320px; min-height:100vh;}
     .player-shell{background:#000; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.06) inset; aspect-ratio:16/9; position:relative;}
-    .v-card{display:flex; gap:12px; padding:10px; border-radius:14px; background:white; border:1px solid #e2e8f0; cursor:pointer; transition: all .2s ease;}
-    .v-card:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(15,23,42,.07); border-color:#cbd5e1;}
+    .v-card{display:flex; gap:12px; padding:10px; border-radius:14px; background:var(--card); border:1px solid var(--border); cursor:pointer; transition: all .2s ease;}
+    .v-card:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(15,23,42,.07); border-color:var(--border);}
     .v-card.active{background:#0f172a; border-color:#0f172a; color:white;}
-    .v-thumb{width:108px; height:62px; border-radius:10px; object-fit:cover; flex-shrink:0; background:#f1f5f9;}
-    .v-title{font-size:13px; font-weight:600; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:#0f172a;}
+    html.dark .v-card{background:var(--card); border-color:var(--border);}
+    html.dark .v-card.active{background:#f1f5f9; color:#020617; border-color:#f1f5f9;}
+    .v-thumb{width:108px; height:62px; border-radius:10px; object-fit:cover; flex-shrink:0; background:var(--input-bg);}
+    .v-title{font-size:13px; font-weight:600; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:var(--text);}
     .v-card.active .v-title{color:white;}
-    .v-meta{font-size:11px; color:#64748b; margin-top:4px; display:flex; align-items:center; gap:6px; font-weight:500;}
+    html.dark .v-card.active .v-title{color:#020617;}
+    .v-meta{font-size:11px; color:var(--muted); margin-top:4px; display:flex; align-items:center; gap:6px; font-weight:500;}
     .v-card.active .v-meta{color:#94a3b8;}
+    html.dark .v-card.active .v-meta{color:#475569;}
     .chips{display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;}
     .chips::-webkit-scrollbar{display:none;}
-    .chip{white-space:nowrap; padding:8px 14px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid #e2e8f0; background:white; flex-shrink:0; transition:.2s; cursor:pointer;}
+    .chip{white-space:nowrap; padding:8px 14px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid var(--border); background:var(--card); flex-shrink:0; transition:.2s; cursor:pointer; color:var(--text);}
     .chip.active{background:#0f172a; color:white; border-color:#0f172a;}
+    html.dark .chip.active{background:#f1f5f9; color:#020617; border-color:#f1f5f9;}
     .custom-scroll::-webkit-scrollbar{width:5px;}
     .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1; border-radius:10px;}
+    html.dark .custom-scroll::-webkit-scrollbar-thumb{background:#334155;}
     @media(max-width:1024px){
       .sidebar{transform:translateX(-100%); width:86%; max-width:360px; box-shadow:0 0 80px rgba(0,0,0,.2);}
       .sidebar.open{transform:translateX(0);}
@@ -56,66 +64,67 @@
 </head>
 <body>
   <!-- Topbar mobile -->
-  <div class="lg:hidden fixed top-0 inset-x-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 px-4 h-[56px] flex items-center justify-between">
+  <div class="lg:hidden fixed top-0 inset-x-0 z-30 bg-[var(--card)]/90 backdrop-blur-xl border-b border-[var(--border)] px-4 h-[56px] flex items-center justify-between">
     <div class="flex items-center gap-2.5">
       <img src="logo.png" class="w-8 h-8 rounded-xl" alt="logo">
-      <span class="jakarta font-extrabold text-[13px] tracking-tight leading-none">VIDEOS PUR<br><span class="opacity-60">URUGUAY</span></span>
+      <span class="jakarta font-extrabold text-[13px] tracking-tight leading-none">VIDEOS<br>PUR URUGUAY</span>
     </div>
-    <div class="flex gap-2">
-      <button id="menuBtn" class="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center">☰</button>
+    <div class="flex gap-2 items-center">
+      <button id="darkToggleMobile" class="w-9 h-9 bg-[var(--input-bg)] rounded-xl flex items-center justify-center text-[14px]">🌙</button>
+      <button id="menuBtn" class="w-9 h-9 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl flex items-center justify-center">☰</button>
     </div>
   </div>
-  <div class="lg:hidden fixed top-[56px] inset-x-0 z-20 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 px-4 py-2.5">
+  <div class="lg:hidden fixed top-[56px] inset-x-0 z-20 bg-[var(--card)]/90 backdrop-blur-xl border-b border-[var(--border)] px-4 py-2.5">
     <div class="chips" id="mobileChips"></div>
   </div>
   <div id="overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 hidden lg:hidden"></div>
 
   <!-- Header desktop -->
-  <header class="hidden lg:flex fixed top-0 left-[320px] right-0 z-20 h-[56px] bg-white/80 backdrop-blur-xl border-b border-slate-200/80 items-center justify-between px-8">
-    <div class="flex items-center gap-3">
+  <header class="hidden lg:flex fixed top-0 left-[320px] right-0 z-20 h-[56px] bg-[var(--card)]/80 backdrop-blur-xl border-b border-[var(--border)] items-center justify-between px-8">
+    <div class="flex items-center gap-2">
       <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-      <span class="text-[12px] font-semibold tracking-wide text-slate-600">Videos organizados, sin vueltas</span>
+      <span class="text-[12px] font-semibold tracking-wide text-[var(--muted)]">Educación Médica en Video</span>
     </div>
-    <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 text-[12px] font-bold transition">
-      ☕ Invitame un cafecito
-    </a>
+    <div class="flex items-center gap-2">
+      <button id="darkToggle" class="w-9 h-9 rounded-xl bg-[var(--input-bg)] border border-[var(--border)] flex items-center justify-center text-[14px] hover:scale-105 transition">🌙</button>
+      <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-900 dark:text-amber-200 text-[12px] font-bold transition">
+        ☕ Cafecito
+      </a>
+    </div>
   </header>
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-    <div class="px-5 pt-6 pb-4 border-b border-slate-100">
+    <div class="px-5 pt-6 pb-4 border-b border-[var(--border)]">
       <div class="flex items-center gap-3">
         <img src="logo.png" class="w-10 h-10 rounded-[12px] shadow-sm" alt="logo">
-        <div><h1 class="jakarta font-extrabold text-[15px] leading-[0.9] tracking-tight">VIDEOS<br>PUR URUGUAY</h1><div class="text-[10px] font-bold tracking-widest text-slate-400 mt-1">PARA ESTUDIAR TRANQUILO</div></div>
+        <div><h1 class="jakarta font-extrabold text-[15px] leading-[0.9] tracking-tight">VIDEOS<br>PUR URUGUAY</h1></div>
       </div>
       <div class="mt-5 relative">
-        <input id="moduleSearch" placeholder="Buscar materia..." class="w-full pl-9 pr-3 py-2.5 bg-slate-100 rounded-xl text-[12px] font-medium outline-none focus:bg-white focus:ring-2 focus:ring-slate-900/10 border border-transparent transition">
-        <span class="absolute left-3 top-2.5 text-slate-400 text-[12px]">🔍</span>
+        <input id="moduleSearch" placeholder="Buscar..." class="w-full pl-9 pr-3 py-2.5 bg-[var(--input-bg)] rounded-xl text-[12px] font-medium outline-none focus:ring-2 focus:ring-slate-900/10 border border-transparent transition">
+        <span class="absolute left-3 top-2.5 text-[var(--muted)] text-[12px]">🔍</span>
       </div>
     </div>
 
     <div class="px-4 py-4">
       <div class="rounded-[18px] p-4 text-white relative overflow-hidden" style="background: radial-gradient(120% 120% at 0% 0%, #14b8a6 0%, #0f172a 65%, #020617 100%);">
         <div class="relative">
-          <div class="text-[10px] font-bold tracking-widest opacity-60">TODO EN UN LUGAR</div>
           <div class="jakarta font-extrabold text-[17px] leading-[1] mt-1">Mirá.<br>Entendé.<br>Avanzá.</div>
-          <div class="mt-3 text-[11px] leading-[1.4] opacity-80 font-medium">Videos cortos y claros, ordenados por materia. Gratis, siempre.</div>
-          <div class="mt-3 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] font-bold backdrop-blur" id="totalBadge">cargando videos...</div>
+          <div class="mt-3 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] font-bold backdrop-blur" id="totalBadge">cargando...</div>
         </div>
       </div>
     </div>
 
     <div class="flex-1 overflow-y-auto custom-scroll px-3 pb-4">
-      <div class="text-[10px] font-bold tracking-[0.14em] text-slate-400 px-2 py-2">¿QUÉ QUERÉS VER HOY?</div>
+      <div class="text-[10px] font-bold tracking-[0.14em] text-[var(--muted)] px-2 py-2">MATERIAS</div>
       <div class="space-y-1.5" id="plList"></div>
       <div class="mt-6 px-2">
-        <div class="rounded-2xl bg-amber-50 border border-amber-200 p-4">
-          <div class="text-[13px] font-bold text-amber-900">¿Te sirve la página?</div>
-          <div class="text-[11px] text-amber-800/80 mt-1 leading-[1.4] font-medium">Es gratis y sin anuncios molestos. Si te ayuda, podés invitarme un cafecito.</div>
-          <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="mt-3 inline-flex w-full justify-center items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-900 text-white text-[12px] font-bold hover:bg-amber-950 transition">☕ Invitame un cafecito</a>
+        <div class="rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/30 p-4">
+          <div class="text-[13px] font-bold text-amber-900 dark:text-amber-100">¿Te sirve la página?</div>
+          <div class="text-[11px] text-amber-800/80 dark:text-amber-200/70 mt-1 leading-[1.4] font-medium">Si te ayuda, podés invitarme un cafecito.</div>
+          <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="mt-3 inline-flex w-full justify-center items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-900 dark:bg-amber-700 text-white text-[12px] font-bold hover:bg-amber-950 transition">☕ Invitame un cafecito</a>
         </div>
       </div>
-      <div class="mt-6 px-2 pb-2 text-[10px] text-slate-400 font-medium leading-[1.4]">Hecho en Uruguay 🇺🇾 con ganas de que estudiar sea más simple.</div>
     </div>
   </aside>
 
@@ -123,21 +132,16 @@
   <main class="main">
     <!-- Hero limpio -->
     <section class="relative overflow-hidden bg-[#0a1931]">
-      <div class="absolute inset-0" style="background: radial-gradient(100% 140% at 15% 0%, rgba(20,184,166,.35) 0%, transparent 55%), linear-gradient(90deg, #0a1931 0%, #0f2848 45%, #0f6b6b 100%);"></div>
-      <!-- decor -->
-      <div class="absolute right-[30%] top-[18%] opacity-30 hidden lg:block">
-        <svg width="420" height="220" viewBox="0 0 420 220" fill="none"><path d="M 20 100 Q 80 20 150 80 T 300 60" stroke="#5eead4" stroke-width="1.2" stroke-dasharray="6 6" opacity="0.6"/><circle cx="320" cy="40" r="28" stroke="#5eead4" stroke-width="1" opacity="0.4"/><path d="M 60 140 L 90 110 L 120 140 L 90 170 Z" stroke="#5eead4" stroke-width="1" opacity="0.5"/></svg>
-      </div>
+      <div class="absolute inset-0" style="background: radial-gradient(100% 140% at 15% 0%, rgba(20,184,166,.32) 0%, transparent 55%), linear-gradient(90deg, #0a1931 0%, #0f2848 45%, #0f6b6b 100%);"></div>
       <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 pt-[72px] lg:pt-[84px] pb-8 lg:pb-0 flex flex-col lg:flex-row items-end lg:items-center gap-6">
-        <div class="flex-1 py-6 lg:py-14">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur text-white text-[11px] font-bold tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span> 100% GRATIS • SIN VUELTAS</div>
-          <h1 class="jakarta font-extrabold text-white text-[34px] lg:text-[48px] leading-[0.9] tracking-tight mt-4">VIDEOS PUR<br>URUGUAY</h1>
+        <div class="flex-1 py-6 lg:py-16">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur text-white text-[11px] font-bold tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span> 100% GRATIS</div>
+          <h1 class="jakarta font-extrabold text-white text-[34px] lg:text-[52px] leading-[0.9] tracking-tight mt-4">VIDEOS PUR<br>URUGUAY</h1>
           <p class="text-[18px] lg:text-[20px] font-semibold text-[#7dd3d0] mt-3 tracking-tight">Educación Médica en Video</p>
-          <p class="text-[14px] lg:text-[15px] text-slate-300/90 mt-3 max-w-[520px] leading-[1.5] font-medium">Videos cortos, claros y organizados por materia. Para ver a tu ritmo, cuando quieras. <span class="text-white">Aprendé • Practicá • Certificá.</span></p>
-          <button id="scrollToContent" class="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-900 font-bold text-[13px] shadow-[0_8px_24px_rgba(0,0,0,.2)] hover:translate-y-[-1px] transition"><span class="w-7 h-7 rounded-full bg-teal-500 text-white flex items-center justify-center text-[11px]">▶</span> Comenzar a aprender</button>
+          <button id="scrollToContent" class="mt-7 inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-slate-900 font-bold text-[13px] shadow-[0_8px_24px_rgba(0,0,0,.2)] hover:translate-y-[-1px] transition"><span class="w-7 h-7 rounded-full bg-teal-500 text-white flex items-center justify-center text-[11px]">▶</span> Comenzar a aprender</button>
         </div>
         <div class="hidden lg:block w-[52%] self-stretch relative">
-          <img src="banner_cropped.webp" alt="Estudiantes de medicina" class="absolute bottom-0 right-0 w-full h-[92%] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,.35)]">
+          <img src="banner_cropped.webp" alt="Estudiantes" class="absolute bottom-0 right-0 w-full h-[92%] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,.35)]">
         </div>
         <div class="lg:hidden -mx-6 -mb-8">
           <img src="banner.webp" alt="banner" class="w-full h-auto object-cover opacity-95">
@@ -147,111 +151,113 @@
 
     <!-- Contenido -->
     <section id="contenido" class="max-w-[1280px] mx-auto px-4 lg:px-8 pt-8 pb-24">
-      <!-- Barra superior -->
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
-        <div>
-          <div class="flex items-center gap-3">
-            <div id="moduleInitial" class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-extrabold text-[14px]">M</div>
-            <div>
-              <h2 id="currentTitle" class="jakarta font-extrabold text-[18px] leading-none tracking-tight">Cargando...</h2>
-              <p id="currentMeta" class="text-[11px] text-slate-500 font-medium mt-1">Buscando videos...</p>
-            </div>
+        <div class="flex items-center gap-3">
+          <div id="moduleInitial" class="w-9 h-9 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-extrabold text-[14px]">M</div>
+          <div>
+            <h2 id="currentTitle" class="jakarta font-extrabold text-[18px] leading-none tracking-tight">Cargando...</h2>
+            <p id="currentMeta" class="text-[11px] text-[var(--muted)] font-medium mt-1"></p>
           </div>
         </div>
         <div class="flex items-center gap-2">
           <div class="relative flex-1 lg:w-[280px]">
-            <input id="search" placeholder="Buscar video..." class="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-200 rounded-xl text-[12px] font-medium outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition">
-            <span class="absolute left-3 top-2.5 text-slate-400 text-[12px]">🔍</span>
+            <input id="search" placeholder="Buscar video..." class="w-full pl-9 pr-3 py-2.5 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[12px] font-medium outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition">
+            <span class="absolute left-3 top-2.5 text-[var(--muted)] text-[12px]">🔍</span>
           </div>
-          <a id="openYT" href="#" target="_blank" class="hidden lg:inline-flex px-3 py-2.5 rounded-xl bg-white border border-slate-200 text-[11px] font-bold text-slate-600 hover:bg-slate-50">Ver en YouTube</a>
+          <a id="openYT" href="#" target="_blank" class="hidden lg:inline-flex px-3 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--input-bg)]">YouTube</a>
         </div>
       </div>
 
-      <!-- Player + Lista -->
       <div class="grid grid-cols-1 xl:grid-cols-[1.7fr_.9fr] gap-6 items-start">
         <div>
           <div class="player-shell" id="playerWrap">
             <div id="player" class="w-full h-full"></div>
             <div id="fallback" class="absolute inset-0 hidden flex-col items-center justify-center bg-black/90 p-6 text-center">
               <div class="text-white font-bold text-[14px]">Este video no se puede ver acá</div>
-              <div class="text-slate-400 text-[12px] mt-1">Abrilo en YouTube, funciona perfecto.</div>
               <div class="flex gap-2 mt-4">
                 <a id="fallbackLink" href="#" target="_blank" class="px-4 py-2 rounded-full bg-white text-slate-900 text-[12px] font-bold">Abrir en YouTube</a>
-                <button id="fallbackNext" class="px-4 py-2 rounded-full bg-white/10 border border-white/15 text-white text-[12px] font-bold">Siguiente video</button>
+                <button id="fallbackNext" class="px-4 py-2 rounded-full bg-white/10 border border-white/15 text-white text-[12px] font-bold">Siguiente</button>
               </div>
             </div>
           </div>
 
-          <div class="mt-4 bg-white border border-slate-200 rounded-[18px] p-5">
+          <div class="mt-4 bg-[var(--card)] border border-[var(--border)] rounded-[18px] p-5">
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1 min-w-0">
                 <h3 id="videoTitle" class="font-bold text-[15px] leading-[1.3] tracking-tight">Elegí un video para empezar</h3>
-                <p id="videoDesc" class="text-[12px] text-slate-500 mt-2 leading-[1.5] line-clamp-3">Acá va a aparecer una breve descripción del video que estés viendo.</p>
+                <p id="videoDesc" class="text-[12px] text-[var(--muted)] mt-2 leading-[1.5] line-clamp-3"></p>
               </div>
-              <button id="shareBtn" class="px-3 py-2 rounded-xl bg-slate-100 text-[11px] font-bold hover:bg-slate-200">Compartir</button>
+              <button id="shareBtn" class="px-3 py-2 rounded-xl bg-[var(--input-bg)] text-[11px] font-bold hover:opacity-80">Compartir</button>
             </div>
             <div class="mt-4 flex items-center gap-2">
-              <button id="prevBtn" class="px-4 py-2 rounded-xl bg-white border border-slate-200 text-[12px] font-bold hover:bg-slate-50">← Anterior</button>
-              <button id="nextBtn" class="px-4 py-2 rounded-xl bg-slate-900 text-white text-[12px] font-bold hover:bg-black">Siguiente →</button>
-              <span class="ml-auto text-[11px] text-slate-400 font-medium">Usá ← → del teclado</span>
+              <button id="prevBtn" class="px-4 py-2 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[12px] font-bold hover:bg-[var(--input-bg)]">← Anterior</button>
+              <button id="nextBtn" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[12px] font-bold hover:opacity-90">Siguiente →</button>
             </div>
           </div>
 
-          <!-- Cafecito intermedio mobile -->
-          <div class="xl:hidden mt-6 rounded-[18px] bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 p-5 flex items-center justify-between gap-4">
+          <div class="xl:hidden mt-6 rounded-[18px] bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/30 p-5 flex items-center justify-between gap-4">
             <div>
-              <div class="font-bold text-[14px] text-amber-950">¿Te ayuda la página?</div>
-              <div class="text-[12px] text-amber-800/80 font-medium mt-1">Invitame un cafecito y ayudás a que siga creciendo.</div>
+              <div class="font-bold text-[14px] text-amber-950 dark:text-amber-100">¿Te ayuda la página?</div>
+              <div class="text-[12px] text-amber-800/80 dark:text-amber-200/70 font-medium mt-1">Invitame un cafecito</div>
             </div>
-            <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="shrink-0 px-5 py-3 rounded-xl bg-amber-900 text-white font-bold text-[12px]">☕ Cafecito</a>
+            <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="shrink-0 px-5 py-3 rounded-xl bg-amber-900 dark:bg-amber-700 text-white font-bold text-[12px]">☕ Cafecito</a>
           </div>
         </div>
 
         <div class="xl:sticky xl:top-[72px]">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-[11px] font-bold tracking-widest text-slate-400" id="listCount">0 videos</span>
-            <button id="nextBtn2" class="text-[11px] font-bold text-slate-600 hover:text-slate-900">Siguiente →</button>
+            <span class="text-[11px] font-bold tracking-widest text-[var(--muted)]" id="listCount">0 videos</span>
+            <button id="nextBtn2" class="text-[11px] font-bold text-[var(--muted)] hover:text-[var(--text)]">Siguiente →</button>
           </div>
           <div id="videoList" class="space-y-2 max-h-[68vh] xl:max-h-[72vh] overflow-y-auto custom-scroll pr-1"></div>
         </div>
       </div>
 
-      <!-- Sección Cafecito final -->
-      <section id="cafecito" class="mt-16 rounded-[24px] border border-slate-200 bg-white p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+      <!-- Cafecito final -->
+      <section id="cafecito" class="mt-16 rounded-[24px] border border-[var(--border)] bg-[var(--card)] p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8">
         <div class="flex gap-5 items-start max-w-[560px]">
-          <div class="w-14 h-14 rounded-2xl bg-amber-100 border border-amber-200 flex items-center justify-center text-[28px]">☕</div>
+          <div class="w-14 h-14 rounded-2xl bg-amber-100 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800/30 flex items-center justify-center text-[28px]">☕</div>
           <div>
             <h3 class="jakarta font-extrabold text-[20px] leading-tight tracking-tight">Invitame un cafecito</h3>
-            <p class="text-[13px] text-slate-600 mt-2 leading-[1.6] font-medium">Esta página es gratis y la mantengo con tiempo y ganas. Si te sirvió para estudiar, repasar o preparar un examen, podés apoyar el proyecto con un cafecito. ¡Todo suma y se agradece mucho! 🇺🇾</p>
-            <div class="mt-3 flex flex-wrap gap-2">
-              <span class="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-bold tracking-wide text-slate-600">100% VOLUNTARIO</span>
-              <span class="px-2.5 py-1 rounded-full bg-slate-100 text-[10px] font-bold tracking-wide text-slate-600">SEGURO POR MERCADOPAGO</span>
-            </div>
+            <p class="text-[13px] text-[var(--muted)] mt-2 leading-[1.6] font-medium">Si te sirvió para estudiar o repasar, podés apoyar el proyecto con un cafecito. ¡Gracias! 🇺🇾</p>
           </div>
         </div>
         <div class="flex flex-col gap-3 w-full lg:w-auto">
           <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-2xl bg-[#009ee3] hover:bg-[#008ed0] text-white font-extrabold text-[14px] shadow-[0_10px_28px_rgba(0,158,227,.3)] transition hover:translate-y-[-1px]">
-            <span class="text-[18px]">☕</span> Invitame un cafecito
+            ☕ Invitame un cafecito
           </a>
-          <span class="text-[11px] text-slate-400 font-medium text-center">link.mercadopago.com.uy/miguesa</span>
+          <span class="text-[11px] text-[var(--muted)] font-medium text-center">link.mercadopago.com.uy/miguesa</span>
         </div>
       </section>
 
-      <footer class="mt-10 text-center text-[11px] text-slate-400 font-medium">Videos PUR Uruguay • Hecho con 🤍 para estudiantes • No reemplaza consejo médico profesional</footer>
+      <footer class="mt-10 text-center text-[11px] text-[var(--muted)] font-medium">Videos PUR Uruguay • Hecho en Uruguay 🇺🇾</footer>
     </section>
   </main>
 
   <script>
+    // Dark mode
+    const htmlEl = document.documentElement;
+    const savedDark = localStorage.getItem('vpur-dark');
+    if(savedDark === '1' || (!savedDark && window.matchMedia('(prefers-color-scheme: dark)').matches)){ htmlEl.classList.add('dark'); }
+    function updateDarkIcons(){
+      const isDark = htmlEl.classList.contains('dark');
+      document.querySelectorAll('#darkToggle, #darkToggleMobile').forEach(b=> b.textContent = isDark ? '☀️' : '🌙');
+    }
+    updateDarkIcons();
+    function toggleDark(){ htmlEl.classList.toggle('dark'); localStorage.setItem('vpur-dark', htmlEl.classList.contains('dark') ? '1' : '0'); updateDarkIcons(); }
+    document.getElementById('darkToggle')?.addEventListener('click', toggleDark);
+    document.getElementById('darkToggleMobile')?.addEventListener('click', toggleDark);
+
     const API_KEY = 'AIzaSyDlaWEBNRRG4d3sHU7H-JjedEvrwejv9vc';
     const PLAYLISTS = [
-      {name: 'Medicina Interna', id: 'PLlowrdZNq7BrGgfB_btvmmnu5VX7XCSCO', icon: '🫀', color: '#0ea5e9', slug: 'medicina-interna', desc: 'Todo lo clínico del adulto'},
-      {name: 'Medicina Familiar', id: 'PLlowrdZNq7Brfy2mPzuDiuhMHHKCM8CED', icon: '👨‍⚕️', color: '#14b8a6', slug: 'medicina-familiar', desc: 'La consulta del día a día'},
-      {name: 'Ginecología', id: 'PLlowrdZNq7BrBJxAZUpgb-PA7yKMvQK2F', icon: '🤰', color: '#ec4899', slug: 'ginecologia', desc: 'Salud de la mujer'},
-      {name: 'Pediatría', id: 'PLlowrdZNq7Braarje6YAeBdCVs-7FuM9u', icon: '👶', color: '#8b5cf6', slug: 'pediatria', desc: 'Niños y adolescentes'},
-      {name: 'Cirugía', id: 'PLlowrdZNq7BqcGg6OyZPRCCy5JsJaAv81', icon: '🩺', color: '#f59e0b', slug: 'cirugia', desc: 'Antes, durante y después de operar'},
-      {name: 'Psiquiatría', id: 'PLlowrdZNq7BowXZS5riW-a9GONXKwZW_0', icon: '🧠', color: '#6366f1', slug: 'psiquiatria', desc: 'Mente y emociones'},
-      {name: 'Bioética y Legal', id: 'PLlowrdZNq7Boo_mK9hlyHqBhKQFgMhHGo', icon: '⚖️', color: '#10b981', slug: 'bioetica', desc: 'Ética y leyes'},
-      {name: 'Casos Clínicos', id: 'PLpH8Nr6hu9eNdWgmU91xJB-3tRFfnrwUi', icon: '📋', color: '#06b6d4', slug: 'casos', desc: 'Cómo encarar casos reales'}
+      {name: 'Medicina Interna', id: 'PLlowrdZNq7BrGgfB_btvmmnu5VX7XCSCO', icon: '🫀', color: '#0ea5e9', slug: 'medicina-interna'},
+      {name: 'Medicina Familiar', id: 'PLlowrdZNq7Brfy2mPzuDiuhMHHKCM8CED', icon: '👨‍⚕️', color: '#14b8a6', slug: 'medicina-familiar'},
+      {name: 'Ginecología', id: 'PLlowrdZNq7BrBJxAZUpgb-PA7yKMvQK2F', icon: '🤰', color: '#ec4899', slug: 'ginecologia'},
+      {name: 'Pediatría', id: 'PLlowrdZNq7Braarje6YAeBdCVs-7FuM9u', icon: '👶', color: '#8b5cf6', slug: 'pediatria'},
+      {name: 'Cirugía', id: 'PLlowrdZNq7BqcGg6OyZPRCCy5JsJaAv81', icon: '🩺', color: '#f59e0b', slug: 'cirugia'},
+      {name: 'Psiquiatría', id: 'PLlowrdZNq7BowXZS5riW-a9GONXKwZW_0', icon: '🧠', color: '#6366f1', slug: 'psiquiatria'},
+      {name: 'Bioética y Medicina Legal', id: 'PLlowrdZNq7Boo_mK9hlyHqBhKQFgMhHGo', icon: '⚖️', color: '#10b981', slug: 'bioetica'},
+      {name: 'Encares CIR-PUR 2025-2026', id: 'PLpH8Nr6hu9eNdWgmU91xJB-3tRFfnrwUi', icon: '📋', color: '#06b6d4', slug: 'encares'}
     ];
 
     let currentPl = PLAYLISTS[0].id;
@@ -259,7 +265,6 @@
     let currentIdx = 0;
     let player = null;
 
-    // Build sidebar + chips
     const plList = document.getElementById('plList');
     const mobileChips = document.getElementById('mobileChips');
     function buildNav(){
@@ -269,10 +274,8 @@
         const btn = document.createElement('button');
         btn.className = `pl-btn ${i===0?'active':''}`;
         btn.dataset.pl = pl.id;
-        btn.dataset.slug = pl.slug;
-        btn.innerHTML = `<div class="pl-icon-wrap" style="--c:${pl.color}"><span>${pl.icon}</span></div><div class="pl-text"><div class="pl-name">${pl.name}</div><div class="pl-sub" id="sub-${pl.id}">${pl.desc}</div></div><div class="pl-count" id="count-${pl.id}">--</div>`;
+        btn.innerHTML = `<div class="pl-icon-wrap" style="--c:${pl.color}"><span>${pl.icon}</span></div><div class="pl-text"><div class="pl-name">${pl.name}</div></div><div class="pl-count" id="count-${pl.id}">--</div>`;
         plList.appendChild(btn);
-
         const chip = document.createElement('button');
         chip.className = `chip ${i===0?'active':''}`;
         chip.dataset.pl = pl.id;
@@ -282,7 +285,6 @@
     }
     buildNav();
 
-    // Sidebar filtering
     document.getElementById('moduleSearch').addEventListener('input', (e)=>{
       const q = e.target.value.toLowerCase();
       document.querySelectorAll('.pl-btn').forEach(b=>{
@@ -291,16 +293,12 @@
       });
     });
 
-    // Mobile menu
     const sidebarEl = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     document.getElementById('menuBtn').addEventListener('click', ()=>{ sidebarEl.classList.add('open'); overlay.classList.remove('hidden'); });
     overlay.addEventListener('click', ()=>{ sidebarEl.classList.remove('open'); overlay.classList.add('hidden'); });
-
-    // Scroll to content
     document.getElementById('scrollToContent').addEventListener('click', ()=>{ document.getElementById('contenido').scrollIntoView({behavior:'smooth'}); });
 
-    // YouTube API
     const tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
     window.onYouTubeIframeAPIReady = function(){
       player = new YT.Player('player', {
@@ -335,10 +333,10 @@
       document.getElementById('openYT').href=`https://www.youtube.com/playlist?list=${pid}`;
       document.querySelectorAll('.chip').forEach(c=>{c.classList.toggle('active', c.dataset.pl===pid);});
       document.querySelectorAll('.pl-btn').forEach(b=>{b.classList.toggle('active', b.dataset.pl===pid);});
-      document.getElementById('videoList').innerHTML='<div class="p-8 text-center"><div class="w-6 h-6 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin mx-auto"></div><div class="text-[12px] text-slate-500 mt-3 font-medium">Cargando videos...</div></div>';
+      document.getElementById('videoList').innerHTML='<div class="p-8 text-center"><div class="w-6 h-6 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin mx-auto"></div><div class="text-[12px] text-[var(--muted)] mt-3 font-medium">Cargando...</div></div>';
       const [meta, items]=await Promise.all([fetchMeta(pid), fetchItems(pid)]);
       if(meta){
-        document.getElementById('currentMeta').textContent=`${meta.contentDetails.itemCount} videos en esta materia`;
+        document.getElementById('currentMeta').textContent=`${meta.contentDetails.itemCount} videos`;
         const el=document.getElementById(`count-${pid}`); if(el) el.textContent=meta.contentDetails.itemCount;
       }
       let valid=items.filter(it=> it.snippet.title!=='Private video' && it.snippet.title!=='Deleted video' && it.snippet.resourceId?.videoId);
@@ -349,10 +347,8 @@
       if(embeddable.length===0) embeddable=valid;
       videos=embeddable.map(it=>({id:it.snippet.resourceId.videoId, title:it.snippet.title, thumb:it.snippet.thumbnails?.medium?.url||it.snippet.thumbnails?.high?.url||'', desc:it.snippet.description||''}));
       document.getElementById('listCount').textContent=`${videos.length} videos`;
-      if(meta) document.getElementById('currentMeta').textContent=`${videos.length} videos listos para ver`;
       renderList('');
       if(videos.length) play(0);
-      // update total badge
       let total=0; document.querySelectorAll('.pl-count').forEach(el=>{ const n=parseInt(el.textContent); if(!isNaN(n)) total+=n; }); if(total) document.getElementById('totalBadge').textContent=`${total}+ videos`;
     }
 
@@ -360,12 +356,12 @@
       const list=document.getElementById('videoList'); const f=filter.toLowerCase();
       const filtered=videos.filter(v=> v.title.toLowerCase().includes(f));
       list.innerHTML='';
-      if(!filtered.length){ list.innerHTML='<div class="p-6 text-center text-[12px] text-slate-400">No encontré videos con ese nombre</div>'; return; }
+      if(!filtered.length){ list.innerHTML='<div class="p-6 text-center text-[12px] text-[var(--muted)]">No encontré videos</div>'; return; }
       filtered.forEach(v=>{
         const idx=videos.indexOf(v);
         const div=document.createElement('div');
         div.className=`v-card ${idx===currentIdx?'active':''}`;
-        div.innerHTML=`<img src="${v.thumb}" class="v-thumb" loading="lazy"><div class="flex-1 min-w-0"><div class="v-title">${v.title}</div><div class="v-meta"><span class="w-4 h-4 rounded-full bg-slate-100 flex items-center justify-center text-[8px] text-slate-600">▶</span> Video ${idx+1} • Ver</div></div>`;
+        div.innerHTML=`<img src="${v.thumb}" class="v-thumb" loading="lazy"><div class="flex-1 min-w-0"><div class="v-title">${v.title}</div><div class="v-meta">▶ Video ${idx+1}</div></div>`;
         div.onclick=()=>play(idx);
         list.appendChild(div);
       });
@@ -375,38 +371,30 @@
       if(!videos[idx]) return;
       currentIdx=idx; const v=videos[idx];
       document.getElementById('videoTitle').textContent=v.title;
-      document.getElementById('videoDesc').textContent=v.desc.slice(0,220) || 'Video para repasar de forma simple y directa.';
+      document.getElementById('videoDesc').textContent=v.desc.slice(0,220) || '';
       document.getElementById('fallback').classList.add('hidden'); document.getElementById('fallback').classList.remove('flex');
       if(player && player.loadVideoById) player.loadVideoById({videoId:v.id});
       else document.getElementById('player').innerHTML=`<iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
       document.getElementById('fallbackLink').href=`https://www.youtube.com/watch?v=${v.id}`;
       sidebarEl.classList.remove('open'); overlay.classList.add('hidden');
       renderList(document.getElementById('search').value);
-      window.scrollTo({top: document.getElementById('contenido').offsetTop - 10, behavior:'smooth'});
     }
 
-    // Events
-    document.getElementById('plList').addEventListener('click', (e)=>{
-      const btn = e.target.closest('.pl-btn'); if(!btn) return; loadPlaylist(btn.dataset.pl);
-    });
-    document.getElementById('mobileChips').addEventListener('click', (e)=>{
-      const chip = e.target.closest('.chip'); if(!chip) return; loadPlaylist(chip.dataset.pl);
-    });
+    document.getElementById('plList').addEventListener('click', (e)=>{ const btn = e.target.closest('.pl-btn'); if(!btn) return; loadPlaylist(btn.dataset.pl); });
+    document.getElementById('mobileChips').addEventListener('click', (e)=>{ const chip = e.target.closest('.chip'); if(!chip) return; loadPlaylist(chip.dataset.pl); });
     document.getElementById('search').addEventListener('input', e=> renderList(e.target.value));
     document.getElementById('nextBtn').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
     document.getElementById('nextBtn2').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
     document.getElementById('prevBtn').addEventListener('click', ()=> play((currentIdx-1+videos.length)%videos.length));
     document.getElementById('fallbackNext').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
     document.getElementById('shareBtn').addEventListener('click', ()=>{const v=videos[currentIdx]; const url=v?`https://www.youtube.com/watch?v=${v.id}`:location.href; navigator.clipboard.writeText(url); const btn=document.getElementById('shareBtn'); const old=btn.textContent; btn.textContent='¡Copiado!'; setTimeout(()=>btn.textContent=old,1200);});
-    document.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); document.getElementById('search')?.focus(); } if(e.key==='ArrowRight') play((currentIdx+1)%videos.length); if(e.key==='ArrowLeft') play((currentIdx-1+videos.length)%videos.length); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') play((currentIdx+1)%videos.length); if(e.key==='ArrowLeft') play((currentIdx-1+videos.length)%videos.length); });
 
-    // Query param
     const params=new URLSearchParams(location.search);
     const mod=params.get('modulo'); const plId=params.get('playlist');
     if(mod){ const found=PLAYLISTS.find(p=>p.slug===mod); if(found) currentPl=found.id; }
     if(plId) currentPl=plId;
-    // total count
-    (async()=>{let total=0; for(const pl of PLAYLISTS){const m=await fetchMeta(pl.id); if(m){total+=m.contentDetails.itemCount; const el=document.getElementById(`count-${pl.id}`); if(el) el.textContent=m.contentDetails.itemCount;}} const b=document.getElementById('totalBadge'); if(b) b.textContent=`${total}+ videos disponibles`;})();
+    (async()=>{let total=0; for(const pl of PLAYLISTS){const m=await fetchMeta(pl.id); if(m){total+=m.contentDetails.itemCount; const el=document.getElementById(`count-${pl.id}`); if(el) el.textContent=m.contentDetails.itemCount;}} const b=document.getElementById('totalBadge'); if(b) b.textContent=`${total}+ videos`;})();
   </script>
 </body>
 </html>
