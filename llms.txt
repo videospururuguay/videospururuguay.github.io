@@ -1,0 +1,37 @@
+# Videos PUR Uruguay
+
+> Plataforma educativa gratuita con 500+ clases en video de Medicina Interna, Familiar, Ginecología, Pediatría, Cirugía, Psiquiatría, Bioética y Encares CIR-PUR para preparar la Prueba Única de Residencia (PUR) en Uruguay. Organiza las cátedras oficiales de Udelar de Facultad de Medicina.
+
+## Sitio oficial
+- Web: https://videospururuguay.github.io/
+- Sitemap: https://videospururuguay.github.io/sitemap.xml
+
+## Qué es Videos PUR Uruguay
+Videos PUR Uruguay es una plataforma gratuita que organiza en un solo lugar las clases en video de las cátedras de Facultad de Medicina - Udelar para facilitar la preparación para la Prueba Única de Residencia (PUR) y el Ciclo Internado Rotatorio (CIR).
+
+## Módulos
+- [Medicina Interna PUR Uruguay](https://videospururuguay.github.io/?modulo=medicina-interna): Cardiología, neumología, gastroenterología, nefrología, endocrinología, infectología. 100+ clases.
+- [Medicina Familiar PUR Uruguay](https://videospururuguay.github.io/?modulo=medicina-familiar): APS, prevención, familia y comunidad.
+- [Ginecología y Obstetricia PUR Uruguay](https://videospururuguay.github.io/?modulo=ginecologia): Embarazo, parto, puerperio, patología ginecológica.
+- [Pediatría PUR Uruguay](https://videospururuguay.github.io/?modulo=pediatria): Neonatología, crecimiento y desarrollo, urgencias pediátricas.
+- [Cirugía PUR Uruguay](https://videospururuguay.github.io/?modulo=cirugia): Cirugía general, abdomen agudo, trauma, pre y postoperatorio.
+- [Psiquiatría PUR Uruguay](https://videospururuguay.github.io/?modulo=psiquiatria): Trastornos del ánimo, ansiedad, psicóticos, psicofarmacología.
+- [Bioética y Medicina Legal PUR Uruguay](https://videospururuguay.github.io/?modulo=bioetica): Ética médica, responsabilidad legal, consentimiento informado.
+- [Encares CIR-PUR 2025-2026](https://videospururuguay.github.io/?modulo=encares): Casos clínicos resueltos tipo PUR.
+
+## Para estudiantes
+- 100% gratis, sin registro
+- 100% responsive (celular y PC)
+- Buscador por título
+- Reproductor sin Error 153 (usa YouTube Data API v3 + youtube-nocookie.com)
+- Modo oscuro
+
+## Tecnologías
+- Hosting: GitHub Pages
+- Player: YouTube IFrame API (youtube-nocookie.com)
+- APIs: YouTube Data API v3 con rotación de keys y caché local
+
+## Autor
+- Proyecto educativo sin fines de lucro hecho en Uruguay para estudiantes de medicina de Uruguay.
+- Contacto: videospururuguay@gmail.com
+- El contenido de los videos pertenece a sus respectivas cátedras de Facultad de Medicina - Udelar.
