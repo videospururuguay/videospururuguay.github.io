@@ -519,6 +519,32 @@
     const mod=params.get('modulo'); const plId=params.get('playlist');
     if(mod){ const found=PLAYLISTS.find(p=>p.slug===mod); if(found) currentPl=found.id; }
     if(plId) currentPl=plId;
+    // === SOPORTE ?q= PARA SEARCHACTION DE GOOGLE ===
+    (function(){
+      const qp = new URLSearchParams(location.search);
+      const q = qp.get('q');
+      if(q){
+        const searchInput = document.getElementById('search');
+        if(searchInput){ searchInput.value = q; }
+        // Intentar filtrar ahora y también cuando carguen los videos
+        const tryFilter = () => {
+          if(window.videos && window.videos.length){
+            if(typeof renderList === 'function') renderList(q);
+          } else {
+            setTimeout(tryFilter, 300);
+          }
+        };
+        tryFilter();
+        // Si el q parece un modulo, cambiar también a esa playlist
+        const modMatch = PLAYLISTS.find(p => 
+          p.name.toLowerCase().includes(q.toLowerCase()) || 
+          p.slug.toLowerCase().includes(q.toLowerCase())
+        );
+        if(modMatch && !qp.get('modulo')){
+          currentPl = modMatch.id;
+        }
+      }
+    })();
     (async()=>{let total=0; for(const pl of PLAYLISTS){const m=await fetchMeta(pl.id); if(m){total+=m.contentDetails.itemCount; const el=document.getElementById(`count-${pl.id}`); if(el) el.textContent=m.contentDetails.itemCount;}} const b=document.getElementById('totalBadge'); if(b) b.textContent=`${total}+ videos`;})();
   </script>
 
