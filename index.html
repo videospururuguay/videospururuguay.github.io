@@ -469,9 +469,10 @@
 
     // Keys ofuscadas - anti-bot GitHub
     const _k = [
-      ["QUl6YVN5QnZFMGZEWmpYZmFTZA==","cEI2OUk2R2RnOWpDNjFqNGV0Z3c="],
-      ["QUl6YVN5QlM3VUc1OGhBbVZsQg==","MFN1US1ycWc5TE5aajkxdTA3UG8="]
-    ];
+  ["QUl6YVN5QnZFMGZEWmpYZmFTZA==","cEI2OUk2R2RnOWpDNjFqNGV0Z3c="],
+  ["QUl6YVN5QlM3VUc1OGhBbVZsQg==","MFN1US1ycWc5TE5aajkxdTA3UG8="],
+  ["QUl6YVN5QVI5QWUtS3RHaWotLQ==","MHBNcW50QnFNc2hXR2FzYzJrdm8="]
+];
     const API_KEYS = _k.map(p => atob(p[0]) + atob(p[1]));
 
     let currentKeyIdx = parseInt(localStorage.getItem('vpur_key_idx') || '0');
