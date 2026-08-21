@@ -591,8 +591,13 @@
     }
     async function fetchDetails(ids){
       if(!ids.length) return [];
+      const ck = 'details_' + currentPl + '_' + ids.length;
+      const cached = getCache(ck);
+      if(cached) return cached;
       const chunks=[]; for(let i=0;i<ids.length;i+=50) chunks.push(ids.slice(i,i+50));
-      let all=[]; for(const ch of chunks){ const j=await ytFetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${ch.join(',')}`); all=all.concat(j.items||[]); } return all;
+      let all=[]; for(const ch of chunks){ const j=await ytFetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${ch.join(',')}`); all=all.concat(j.items||[]); }
+      setCache(ck, all);
+      return all;
     }
 
     async function loadPlaylist(pid){
