@@ -100,11 +100,11 @@
     .jakarta{font-family:'Plus Jakarta Sans',sans-serif;}
     body{background:var(--bg); color:var(--text); transition: background .25s, color .25s;}
     .sidebar{width:320px; background:var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); border-right:1px solid var(--border); height:100vh; position:fixed; left:0; top:0; z-index:40; display:flex; flex-direction:column; transition:transform .35s cubic-bezier(.32,.72,0,1), background .25s, border-color .25s;}
-    .pl-btn{display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:12px 12px; border-radius:16px; border:1px solid transparent; background:transparent; cursor:pointer; transition: all .22s ease;}
+    .pl-btn{display:flex; align-items:center; gap:10px; width:100%; text-align:left; padding:9px 9px; border-radius:16px; border:1px solid transparent; background:transparent; cursor:pointer; transition: all .22s ease;}
     .pl-btn:hover{background:var(--input-bg); border-color:var(--border); transform:translateY(-1px);}
     .pl-btn.active{background:#0f172a; color:white; border-color:#0f172a; box-shadow:0 10px 24px rgba(0,0,0,.2);}
     html.dark .pl-btn.active{background:#f1f5f9; color:#020617; border-color:#f1f5f9;}
-    .pl-icon-wrap{width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; background:color-mix(in srgb, var(--c) 12%, var(--card)); border:1px solid color-mix(in srgb, var(--c) 18%, transparent); flex-shrink:0; overflow:hidden; padding:0;}
+    .pl-icon-wrap{width:36px; height:36px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; background:color-mix(in srgb, var(--c) 12%, var(--card)); border:1px solid color-mix(in srgb, var(--c) 18%, transparent); flex-shrink:0; overflow:hidden; padding:0;}
     .pl-icon-wrap img{width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;}
     .pl-btn.active .pl-icon-wrap{background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.18);}
     html.dark .pl-btn.active .pl-icon-wrap{background:rgba(0,0,0,.08); border-color:rgba(0,0,0,.1);}
@@ -140,6 +140,17 @@
       .sidebar.open{transform:translateX(0);}
       .main{margin-left:0;}
     }
+    @media(min-width:1025px){
+      #legal-footer{margin-left:320px; width:calc(100% - 320px); box-sizing:border-box;}
+      #videoList{max-height:calc(100vh - 110px) !important; padding-right:4px;}
+      .v-card:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(15,23,42,.09);}
+      .pl-btn:hover{transform:translateY(-1.5px); box-shadow:0 4px 14px rgba(15,23,42,.05);}
+    }
+    @media(min-width:1920px){
+      .sidebar{width:340px;} .main{margin-left:340px;}
+      header.hidden.lg\:flex{left:340px !important;}
+      #legal-footer{margin-left:340px; width:calc(100% - 340px);}
+    }
     /* === DESKTOP FIXES - ORDENADOR === */
     @media(min-width:1025px){
       #legal-footer{
@@ -174,7 +185,7 @@
       }
       /* videoList ya no necesita max-h fijo tan chico */
       #videoList{
-        max-height:calc(100vh - 172px) !important;
+        max-height:calc(100vh - 110px) !important;
         padding-right:4px;
       }
       /* mejora hover en desktop */
@@ -240,27 +251,25 @@
     </div>
   </header>
   <aside class="sidebar" id="sidebar">
-    <div class="px-5 pt-6 pb-4 border-b border-[var(--border)]">
+    <div class="px-5 pt-6 pb-3 border-b border-[var(--border)]">
       <div class="flex items-center gap-3">
         <img src="logo.png" class="w-10 h-10 rounded-[12px] shadow-sm" alt="logo">
         <div><h1 class="jakarta font-extrabold text-[15px] leading-[0.9] tracking-tight">VIDEOS<br>PUR URUGUAY</h1></div>
       </div>
-      <div class="mt-5 relative">
+      <div class="mt-3.5 relative">
         <input id="moduleSearch" placeholder="Buscar..." class="w-full pl-9 pr-3 py-2.5 bg-[var(--input-bg)] rounded-xl text-[12px] font-medium outline-none focus:ring-2 focus:ring-slate-900/10 border border-transparent transition">
         <span class="absolute left-3 top-2.5 text-[var(--muted)] text-[12px]">🔍</span>
       </div>
     </div>
-    <div class="px-4 py-4">
-      <div class="rounded-[18px] p-4 text-white relative overflow-hidden" style="background: radial-gradient(120% 120% at 0% 0%, #14b8a6 0%, #0f172a 65%, #020617 100%);">
-        <div class="relative">
-          <div class="jakarta font-extrabold text-[17px] leading-[1] mt-1">Mirá.<br>Entendé.<br>Avanzá.</div>
-          <div class="mt-3 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] font-bold backdrop-blur" id="totalBadge">cargando...</div>
-        </div>
+    <div class="px-3.5 py-2.5">
+      <div class="rounded-[14px] px-3.5 py-2.5 text-white relative overflow-hidden flex items-center justify-between gap-2 min-h-[42px]" style="background: radial-gradient(120% 120% at 0% 0%, #14b8a6 0%, #0f172a 65%, #020617 100%);">
+        <div class="jakarta font-extrabold text-[12px] leading-none tracking-tight whitespace-nowrap">Mirá. Entendé. Avanzá.</div>
+        <div class="shrink-0 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] font-bold backdrop-blur" id="totalBadge">cargando...</div>
       </div>
     </div>
     <div class="flex-1 overflow-y-auto custom-scroll px-3 pb-4">
-      <div class="text-[10px] font-bold tracking-[0.14em] text-[var(--muted)] px-2 py-2">MATERIAS</div>
-      <div class="space-y-1.5" id="plList"></div>
+      <div class="text-[9px] font-bold tracking-[0.14em] text-[var(--muted)] px-2 py-1.5">MATERIAS</div>
+      <div class="space-y-1" id="plList"></div>
       <div class="mt-6 px-2">
         <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" rel="noopener" class="block rounded-[20px] border border-amber-500/20 bg-[#0a0a0a] overflow-hidden relative group/side hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,.4),0_0_40px_rgba(245,158,11,.15)] hover:border-amber-500/30 active:translate-y-0 active:scale-[0.98] transition-all duration-300">
           <div class="absolute inset-0 bg-gradient-to-br from-amber-950/40 via-[#0a0a0a] to-[#0a0a0a]"></div>
@@ -282,33 +291,33 @@
   <main class="main">
     <section class="relative overflow-hidden bg-[#0a1931]">
       <div class="absolute inset-0" style="background: radial-gradient(100% 140% at 15% 0%, rgba(20,184,166,.32) 0%, transparent 55%), linear-gradient(90deg, #0a1931 0%, #0f2848 45%, #0f6b6b 100%);"></div>
-      <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 pt-[72px] lg:pt-[84px] pb-8 lg:pb-0 flex flex-col lg:flex-row items-end lg:items-center gap-6">
-        <div class="flex-1 py-6 lg:py-16">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur text-white text-[11px] font-bold tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span> 100% GRATIS</div>
-          <h1 class="jakarta font-extrabold text-white text-[34px] lg:text-[52px] leading-[0.9] tracking-tight mt-4">VIDEOS PUR<br>URUGUAY</h1>
-          <p class="text-[18px] lg:text-[20px] font-semibold text-[#7dd3d0] mt-3 tracking-tight">Educación Médica en Video</p>
-          <button id="scrollToContent" class="mt-7 inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-slate-900 font-bold text-[13px] shadow-[0_8px_24px_rgba(0,0,0,.2)] hover:translate-y-[-1px] transition"><span class="w-7 h-7 rounded-full bg-teal-500 text-white flex items-center justify-center text-[11px]">▶</span> Comenzar a aprender</button>
+      <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 pt-[64px] lg:pt-[68px] pb-6 lg:pb-0 flex flex-col lg:flex-row items-end lg:items-center gap-5">
+        <div class="flex-1 py-4 lg:py-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur text-white text-[10px] lg:text-[11px] font-bold tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span> 100% GRATIS</div>
+          <h1 class="jakarta font-extrabold text-white text-[28px] lg:text-[40px] leading-[0.9] tracking-tight mt-3">VIDEOS PUR<br>URUGUAY</h1>
+          <p class="text-[15px] lg:text-[17px] font-semibold text-[#7dd3d0] mt-2.5 tracking-tight">Educación Médica en Video</p>
+          <button id="scrollToContent" class="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-slate-900 font-bold text-[12.5px] shadow-[0_8px_24px_rgba(0,0,0,.2)] hover:translate-y-[-1px] transition"><span class="w-6 h-6 rounded-full bg-teal-500 text-white flex items-center justify-center text-[10px]">▶</span> Comenzar a aprender</button>
         </div>
-        <div class="hidden lg:block w-[52%] self-stretch relative">
-          <img src="banner_cropped.webp" alt="Estudiantes" class="absolute bottom-0 right-0 w-full h-[92%] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,.35)]">
+        <div class="hidden lg:block w-[44%] self-stretch relative">
+          <img src="banner_cropped.webp" alt="Estudiantes" class="absolute bottom-0 right-0 w-full h-[86%] object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,.35)]">
         </div>
         <div class="lg:hidden -mx-6 -mb-8">
           <img src="banner.webp" alt="banner" class="w-full h-auto object-cover opacity-95">
         </div>
       </div>
     </section>
-    <section id="contenido" class="max-w-[1280px] mx-auto px-4 lg:px-8 pt-8 pb-24">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+    <section id="contenido" class="max-w-[1440px] mx-auto px-4 lg:px-10 pt-6 lg:pt-8 pb-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-7">
         <div class="flex items-center gap-3">
-          <div id="moduleInitial" class="w-9 h-9 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-extrabold text-[14px]">M</div>
+          <div id="moduleInitial" class="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-extrabold text-[15px]">M</div>
           <div>
-            <h2 id="currentTitle" class="jakarta font-extrabold text-[18px] leading-none tracking-tight">Cargando...</h2>
-            <p id="currentMeta" class="text-[11px] text-[var(--muted)] font-medium mt-1"></p>
+            <h2 id="currentTitle" class="jakarta font-extrabold text-[20px] lg:text-[22px] leading-none tracking-tight">Cargando...</h2>
+            <p id="currentMeta" class="text-[11px] lg:text-[12px] text-[var(--muted)] font-medium mt-1.5"></p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <div class="relative flex-1 lg:w-[280px]">
-            <input id="search" placeholder="Buscar video..." class="w-full pl-9 pr-3 py-2.5 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[12px] font-medium outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition">
+          <div class="relative flex-1 lg:w-[320px]">
+            <input id="search" placeholder="Buscar video..." class="w-full pl-9 pr-3 py-2.5 lg:py-3 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[12px] lg:text-[13px] font-medium outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition">
             <span class="absolute left-3 top-2.5 text-[var(--muted)] text-[12px]">🔍</span>
           </div>
           <a id="openYT" href="#" target="_blank" class="hidden lg:inline-flex px-3 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--input-bg)]">YouTube</a>
@@ -359,10 +368,10 @@
             <span class="text-[11px] font-bold tracking-widest text-[var(--muted)]" id="listCount">0 videos</span>
             <button id="nextBtn2" class="text-[11px] font-bold text-[var(--muted)] hover:text-[var(--text)]">Siguiente →</button>
           </div>
-          <div id="videoList" class="space-y-2 max-h-[68vh] lg:max-h-[calc(100vh-180px)] overflow-y-auto custom-scroll pr-1"></div>
+          <div id="videoList" class="space-y-2 max-h-[68vh] lg:max-h-[calc(100vh-110px)] overflow-y-auto custom-scroll pr-1"></div>
         </div>
       </div>
-      <section id="cafecito" class="mt-6 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-amber-500/30 transition-all duration-300">
+      <section id="cafecito" class="mt-4 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-amber-500/30 transition-all duration-300">
         <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" rel="noopener" class="block relative px-6 sm:px-8 py-8 sm:py-10 lg:py-11">
           <div class="absolute inset-0 bg-gradient-to-br from-amber-950/40 via-[#0a0a0a] to-[#0a0a0a]"></div>
           <div class="absolute inset-0 opacity-30" style="background: radial-gradient(50% 100% at 0% 0%, rgba(245,158,11,.35) 0%, transparent 70%)"></div>
@@ -384,13 +393,11 @@
       </section>
 
       <!-- BANNER TEMARIO PUR 2026 - Agregado debajo de cafecito -->
-      <section id="temario-pur-banner" class="mt-4 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-teal-500/30 transition-all duration-300">
-        <a href="https://temariopur.github.io/" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-5 sm:py-6 lg:py-[22px] min-h-[88px] sm:min-h-[96px] lg:min-h-[108px]" aria-label="Temario PUR Uruguay 2026 - Clic aquí">
-          <!-- fondo imagen sutil + overlay -->
+      <section id="temario-pur-banner" class="mt-3.5 rounded-[20px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-teal-500/30 transition-all duration-300">
+        <a href="https://temariopur.github.io/" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-4 sm:py-5 lg:py-[18px] min-h-[80px] sm:min-h-[86px] lg:min-h-[92px]" aria-label="Temario PUR Uruguay 2026 - Clic aquí">
           <img src="og-image.jpg" alt="" class="absolute inset-0 w-full h-full object-cover object-[center_35%] opacity-40 group-hover:opacity-50 group-hover:scale-[1.02] transition-all duration-500" loading="lazy" decoding="async">
           <div class="absolute inset-0 bg-gradient-to-r from-teal-950/80 via-[#0a0a0a]/90 to-[#0a0a0a]"></div>
           <div class="absolute inset-0 opacity-40" style="background: radial-gradient(60% 120% at 0% 50%, rgba(20,184,166,.35) 0%, transparent 70%)"></div>
-          
           <div class="relative flex items-center gap-4 min-w-0">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-black border border-white/20 flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,.5)] shrink-0 text-white font-black text-[11px] sm:text-[12px] tracking-[0.12em]">PUR</div>
             <div class="min-w-0">
@@ -399,7 +406,6 @@
               <div class="hidden sm:block text-[12px] text-zinc-400 mt-1 font-medium">Todo el temario organizado con playlists.</div>
             </div>
           </div>
-
           <span class="relative shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white text-slate-900 font-bold text-[12px] sm:text-[13px] shadow-[0_8px_20px_rgba(0,0,0,.25)] group-hover:translate-y-[-1px] group-hover:shadow-[0_10px_24px_rgba(0,0,0,.3)] transition-all">
             Clic aquí <span class="text-[14px]">→</span>
           </span>
@@ -408,12 +414,10 @@
       <!-- FIN BANNER -->
 
       <!-- BANNER ENCARESCIRPUR - Canal YouTube Encares CIR-PUR -->
-      <section id="encarescirpur-banner" class="mt-4 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-red-500/30 transition-all duration-300">
-        <a href="https://youtube.com/@encarescirpur" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-5 sm:py-6 lg:py-[22px] min-h-[88px] sm:min-h-[96px] lg:min-h-[108px]" aria-label="Canal YouTube Encares CIR-PUR">
-          <!-- fondo sutil -->
+      <section id="encarescirpur-banner" class="mt-3.5 rounded-[20px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-red-500/30 transition-all duration-300">
+        <a href="https://youtube.com/@encarescirpur" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-4 sm:py-5 lg:py-[18px] min-h-[80px] sm:min-h-[86px] lg:min-h-[92px]" aria-label="Canal YouTube Encares CIR-PUR">
           <div class="absolute inset-0 bg-gradient-to-r from-red-950/40 via-[#0a0a0a] to-[#0a0a0a]"></div>
           <div class="absolute inset-0 opacity-40" style="background: radial-gradient(60% 120% at 0% 50%, rgba(239,68,68,.35) 0%, transparent 70%)"></div>
-          
           <div class="relative flex items-center gap-4 min-w-0">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#FF0000] flex items-center justify-center shadow-[0_8px_20px_rgba(255,0,0,.35)] shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -424,7 +428,6 @@
               <div class="hidden sm:block text-[12px] text-zinc-400 mt-1 font-medium">Casos clínicos, razonamiento quirúrgico y perlas para la PUR.</div>
             </div>
           </div>
-
           <span class="relative shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white text-slate-900 font-bold text-[12px] sm:text-[13px] shadow-[0_8px_20px_rgba(0,0,0,.25)] group-hover:translate-y-[-1px] group-hover:shadow-[0_10px_24px_rgba(0,0,0,.3)] transition-all">
             Ver canal <span class="text-[14px]">→</span>
           </span>
@@ -432,7 +435,7 @@
       </section>
       <!-- FIN BANNER ENCARESCIRPUR -->
 
-      <footer class="mt-10 text-center text-[11px] text-[var(--muted)] font-medium"></footer>
+      <footer class="mt-4 text-center text-[11px] text-[var(--muted)] font-medium"></footer>
     </section>
   </main>
   <script>
@@ -813,7 +816,7 @@ const s2 = document.createElement('script'); s2.type='application/ld+json'; s2.t
 
 
 <!-- FOOTER LEGAL OBLIGATORIO ADSENSE - NO MODIFICA FUNCIONAMIENTO -->
-<footer id="legal-footer" style="text-align:center; padding:40px 20px 30px; font-size:13px; color:#64748b; border-top:1px solid var(--border); margin-top:40px;">
+<footer id="legal-footer" style="text-align:center; padding:18px 20px 18px; font-size:13px; color:#64748b; border-top:1px solid var(--border); margin-top:12px;">
   <div style="display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;">
     <a href="privacidad.html" style="color:inherit; text-decoration:underline;">Política de Privacidad</a>
     <a href="terminos.html" style="color:inherit; text-decoration:underline;">Términos y Aviso Legal</a>
