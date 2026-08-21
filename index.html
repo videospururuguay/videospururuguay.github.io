@@ -140,7 +140,15 @@
       .sidebar.open{transform:translateX(0);}
       .main{margin-left:0;}
     }
-  </style>
+  
+/* FIX: baja solo el badge 100% GRATIS en movil - no toca nada mas */
+@media (max-width: 768px){
+  main.main section:first-of-type div.flex-1 > div:first-child{
+    margin-top: 22px !important;
+  }
+}
+
+</style>
 </head>
 <body>
   <div class="lg:hidden fixed top-0 inset-x-0 z-30 bg-[var(--card)]/90 backdrop-blur-xl border-b border-[var(--border)] px-4 h-[56px] flex items-center justify-between">
