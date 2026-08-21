@@ -140,6 +140,70 @@
       .sidebar.open{transform:translateX(0);}
       .main{margin-left:0;}
     }
+    /* === DESKTOP FIXES - ORDENADOR === */
+    @media(min-width:1025px){
+      #legal-footer{
+        margin-left:320px;
+        width:calc(100% - 320px);
+        box-sizing:border-box;
+      }
+      .main{
+        /* evita estiramiento infinito en 2K/4K */
+      }
+      .main section#contenido,
+      .main > section.relative{
+        max-width:1440px;
+      }
+      #search{
+        font-size:13.5px !important;
+        padding-top:11px !important;
+        padding-bottom:11px !important;
+      }
+      .player-shell{
+        border-radius:22px;
+      }
+      .v-card{
+        padding:11px !important;
+      }
+      .v-thumb{
+        width:116px !important;
+        height:68px !important;
+      }
+      .v-title{
+        font-size:13.5px !important;
+      }
+      /* videoList ya no necesita max-h fijo tan chico */
+      #videoList{
+        max-height:calc(100vh - 172px) !important;
+        padding-right:4px;
+      }
+      /* mejora hover en desktop */
+      .v-card:hover{
+        transform:translateY(-3px);
+        box-shadow:0 12px 28px rgba(15,23,42,.09);
+      }
+      .pl-btn:hover{
+        transform:translateY(-1.5px);
+        box-shadow:0 4px 14px rgba(15,23,42,.05);
+      }
+    }
+    @media(min-width:1536px){
+      .main section#contenido,
+      .main section.relative .relative.max-w-\[1280px\]{
+        max-width:1480px !important;
+      }
+      .v-thumb{
+        width:124px !important;
+        height:72px !important;
+      }
+    }
+    @media(min-width:1920px){
+      .sidebar{width:340px;}
+      .main{margin-left:340px;}
+      header.hidden.lg\:flex{left:340px !important;}
+      #legal-footer{margin-left:340px; width:calc(100% - 340px);}
+    }
+
   
 /* FIX: baja solo el badge 100% GRATIS en movil - no toca nada mas */
 @media (max-width: 768px){
@@ -250,7 +314,7 @@
           <a id="openYT" href="#" target="_blank" class="hidden lg:inline-flex px-3 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--input-bg)]">YouTube</a>
         </div>
       </div>
-      <div class="grid grid-cols-1 xl:grid-cols-[1.7fr_.9fr] gap-6 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.7fr_.9fr] gap-6 items-start">
         <div>
           <div class="player-shell" id="playerWrap">
             <div id="player" class="w-full h-full"></div>
@@ -275,7 +339,7 @@
               <button id="nextBtn" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[12px] font-bold hover:opacity-90">Siguiente →</button>
             </div>
           </div>
-          <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" rel="noopener" class="xl:hidden mt-6 block rounded-[20px] border border-amber-500/20 bg-[#0a0a0a] overflow-hidden relative group/mob hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,.4),0_0_40px_rgba(245,158,11,.15)] hover:border-amber-500/30 active:translate-y-0 active:scale-[0.98] transition-all duration-300">
+          <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" rel="noopener" class="lg:hidden mt-6 block rounded-[20px] border border-amber-500/20 bg-[#0a0a0a] overflow-hidden relative group/mob hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,.4),0_0_40px_rgba(245,158,11,.15)] hover:border-amber-500/30 active:translate-y-0 active:scale-[0.98] transition-all duration-300">
             <div class="absolute inset-0 bg-gradient-to-br from-amber-950/40 via-[#0a0a0a] to-[#0a0a0a]"></div>
             <div class="absolute inset-0 opacity-30" style="background: radial-gradient(50% 100% at 0% 0%, rgba(245,158,11,.35) 0%, transparent 70%)"></div>
             <div class="relative px-5 py-5 flex items-center justify-between gap-4">
@@ -290,26 +354,26 @@
             </div>
           </a>
         </div>
-        <div class="xl:sticky xl:top-[72px]">
+        <div class="lg:sticky lg:top-[72px]">
           <div class="flex items-center justify-between mb-3">
             <span class="text-[11px] font-bold tracking-widest text-[var(--muted)]" id="listCount">0 videos</span>
             <button id="nextBtn2" class="text-[11px] font-bold text-[var(--muted)] hover:text-[var(--text)]">Siguiente →</button>
           </div>
-          <div id="videoList" class="space-y-2 max-h-[68vh] xl:max-h-[72vh] overflow-y-auto custom-scroll pr-1"></div>
+          <div id="videoList" class="space-y-2 max-h-[68vh] lg:max-h-[calc(100vh-180px)] overflow-y-auto custom-scroll pr-1"></div>
         </div>
       </div>
       <section id="cafecito" class="mt-6 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-amber-500/30 transition-all duration-300">
-        <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" rel="noopener" class="block relative px-6 sm:px-8 py-7 sm:py-8">
+        <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" rel="noopener" class="block relative px-6 sm:px-8 py-8 sm:py-10 lg:py-11">
           <div class="absolute inset-0 bg-gradient-to-br from-amber-950/40 via-[#0a0a0a] to-[#0a0a0a]"></div>
           <div class="absolute inset-0 opacity-30" style="background: radial-gradient(50% 100% at 0% 0%, rgba(245,158,11,.35) 0%, transparent 70%)"></div>
           <div class="relative flex flex-col sm:flex-row items-center justify-between gap-5">
             <div class="flex items-center gap-4 text-left">
-              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border border-amber-500/20 shadow-[0_8px_20px_rgba(245,158,11,.25)] shrink-0 bg-gradient-to-br from-teal-900 to-teal-700">
+              <div class="w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-2xl overflow-hidden border border-amber-500/20 shadow-[0_8px_20px_rgba(245,158,11,.25)] shrink-0 bg-gradient-to-br from-teal-900 to-teal-700">
                 <img src="thumbs/cafecito-profesional.webp" alt="Cafecito" class="w-full h-full object-cover">
               </div>
               <div>
-                <div class="jakarta font-extrabold text-white text-[18px] sm:text-[20px] leading-tight tracking-tight">¿Te sirvió para estudiar?</div>
-                <div class="text-[12px] sm:text-[13px] text-zinc-400 mt-1 font-medium">Apoyá el proyecto con un cafecito 🇺🇾</div>
+                <div class="jakarta font-extrabold text-white text-[19px] sm:text-[22px] lg:text-[24px] leading-tight tracking-tight">¿Te sirvió para estudiar?</div>
+                <div class="text-[13px] sm:text-[14px] text-zinc-400 mt-1.5 font-medium">Apoyá el proyecto con un cafecito 🇺🇾</div>
               </div>
             </div>
             <span class="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-slate-900 font-bold text-[13px] shadow-[0_8px_20px_rgba(0,0,0,.25)] group-hover:translate-y-[-1px] transition-all">
@@ -320,15 +384,23 @@
       </section>
 
       <!-- BANNER TEMARIO PUR 2026 - Agregado debajo de cafecito -->
-      <section id="temario-pur-banner" class="mt-6 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-teal-500/30 transition-all duration-300">
-        <a href="https://temariopur.github.io/" target="_blank" rel="noopener" class="block relative" aria-label="Temario PUR Uruguay 2026 - Clic aquí">
-          <img src="og-image.jpg" alt="Temario PUR Uruguay 2026 - 71 temas oficiales + planificador + playlists" 
-               class="w-full h-[170px] sm:h-[195px] lg:h-[225px] object-cover object-[center_35%] group-hover:scale-[1.015] transition-transform duration-500 ease-out"
-               loading="lazy" decoding="async">
-          <!-- overlay sutil -->
-          <span class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-60 group-hover:opacity-80 transition-opacity"></span>
-          <!-- boton clic aqui -->
-          <span class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-slate-900 font-bold text-[12px] sm:text-[13px] shadow-[0_8px_20px_rgba(0,0,0,.25)] group-hover:translate-y-[-1px] group-hover:shadow-[0_10px_24px_rgba(0,0,0,.3)] transition-all">
+      <section id="temario-pur-banner" class="mt-4 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-teal-500/30 transition-all duration-300">
+        <a href="https://temariopur.github.io/" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-5 sm:py-6 lg:py-[22px] min-h-[88px] sm:min-h-[96px] lg:min-h-[108px]" aria-label="Temario PUR Uruguay 2026 - Clic aquí">
+          <!-- fondo imagen sutil + overlay -->
+          <img src="og-image.jpg" alt="" class="absolute inset-0 w-full h-full object-cover object-[center_35%] opacity-40 group-hover:opacity-50 group-hover:scale-[1.02] transition-all duration-500" loading="lazy" decoding="async">
+          <div class="absolute inset-0 bg-gradient-to-r from-teal-950/80 via-[#0a0a0a]/90 to-[#0a0a0a]"></div>
+          <div class="absolute inset-0 opacity-40" style="background: radial-gradient(60% 120% at 0% 50%, rgba(20,184,166,.35) 0%, transparent 70%)"></div>
+          
+          <div class="relative flex items-center gap-4 min-w-0">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-600 flex items-center justify-center shadow-[0_8px_20px_rgba(20,184,166,.35)] shrink-0 text-white font-black text-[16px]">71</div>
+            <div class="min-w-0">
+              <div class="jakarta font-extrabold text-white text-[16px] sm:text-[18px] leading-[1.1] tracking-tight">TEMARIO PUR URUGUAY 2026</div>
+              <div class="text-[11px] sm:text-[12px] font-bold tracking-widest text-teal-200 mt-1">71 TEMAS OFICIALES + PLANIFICADOR</div>
+              <div class="hidden sm:block text-[12px] text-zinc-400 mt-1 font-medium">Todo el temario organizado con playlists.</div>
+            </div>
+          </div>
+
+          <span class="relative shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white text-slate-900 font-bold text-[12px] sm:text-[13px] shadow-[0_8px_20px_rgba(0,0,0,.25)] group-hover:translate-y-[-1px] group-hover:shadow-[0_10px_24px_rgba(0,0,0,.3)] transition-all">
             Clic aquí <span class="text-[14px]">→</span>
           </span>
         </a>
@@ -337,7 +409,7 @@
 
       <!-- BANNER ENCARESCIRPUR - Canal YouTube Encares CIR-PUR -->
       <section id="encarescirpur-banner" class="mt-4 rounded-[24px] border border-[var(--border)] bg-[#0a0a0a] overflow-hidden relative group hover:border-red-500/30 transition-all duration-300">
-        <a href="https://youtube.com/@encarescirpur" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-5 sm:py-6" aria-label="Canal YouTube Encares CIR-PUR">
+        <a href="https://youtube.com/@encarescirpur" target="_blank" rel="noopener" class="block relative flex items-center justify-between gap-4 px-5 sm:px-7 py-5 sm:py-6 lg:py-[22px] min-h-[88px] sm:min-h-[96px] lg:min-h-[108px]" aria-label="Canal YouTube Encares CIR-PUR">
           <!-- fondo sutil -->
           <div class="absolute inset-0 bg-gradient-to-r from-red-950/40 via-[#0a0a0a] to-[#0a0a0a]"></div>
           <div class="absolute inset-0 opacity-40" style="background: radial-gradient(60% 120% at 0% 50%, rgba(239,68,68,.35) 0%, transparent 70%)"></div>
