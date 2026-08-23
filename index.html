@@ -454,12 +454,20 @@
     // --- CACHE + 2 KEYS ---
     const CACHE_HOURS = 12;
     const CACHE_MS = CACHE_HOURS * 60 * 60 * 1000;
+    const CACHE_MS_6H = 6 * 60 * 60 * 1000;
+    const PLAYLIST_6H_ID = 'PLStAa4bln_ls';
+    function getCacheMsForKey(key){
+      // Solo la nueva seccion Encares CIR-PUR 2026-2027 tiene cache de 6 horas
+      if(key && key.includes(PLAYLIST_6H_ID)) return CACHE_MS_6H;
+      return CACHE_MS;
+    }
     function getCache(key){
       try{
         const raw = localStorage.getItem('vpur_cache_' + key);
         if(!raw) return null;
         const obj = JSON.parse(raw);
-        if(Date.now() - obj.t > CACHE_MS){ localStorage.removeItem('vpur_cache_' + key); return null; }
+        const ttl = getCacheMsForKey(key);
+        if(Date.now() - obj.t > ttl){ localStorage.removeItem('vpur_cache_' + key); return null; }
         return obj.d;
       }catch{ return null; }
     }
@@ -516,7 +524,8 @@
       {name: 'Cirugía', id: 'PLlowrdZNq7BqcGg6OyZPRCCy5JsJaAv81', icon: '🩺', color: '#f59e0b', slug: 'cirugia', thumb: 'thumbs/cirugia.webp'},
       {name: 'Psiquiatría', id: 'PLlowrdZNq7BowXZS5riW-a9GONXKwZW_0', icon: '🧠', color: '#6366f1', slug: 'psiquiatria', thumb: 'thumbs/psiquiatria.webp'},
       {name: 'Bioética y Medicina Legal', id: 'PLlowrdZNq7Boo_mK9hlyHqBhKQFgMhHGo', icon: '⚖️', color: '#10b981', slug: 'bioetica', thumb: 'thumbs/bioetica-y-medicina-legal.webp'},
-      {name: 'Encares CIR-PUR 2025-2026', id: 'PLpH8Nr6hu9eNdWgmU91xJB-3tRFfnrwUi', icon: '📋', color: '#06b6d4', slug: 'encares', thumb: 'thumbs/encares-cir-pur-2025-2026.webp'}
+      {name: 'Encares CIR-PUR 2025-2026', id: 'PLpH8Nr6hu9eNdWgmU91xJB-3tRFfnrwUi', icon: '📋', color: '#06b6d4', slug: 'encares', thumb: 'thumbs/encares-cir-pur-2025-2026.webp'},
+      {name: 'Encares CIR-PUR 2026-2027', id: 'PLStAa4bln_ls', icon: '🩺', color: '#06b6d4', slug: 'encares-cir-pur-2026-2027', thumb: 'thumbs/encares-cir-pur-2026-2027.webp', cacheHours: 6}
     ];
 
     let currentPl = PLAYLISTS[0].id;
