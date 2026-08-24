@@ -223,6 +223,7 @@
   }
 }
 
+<style>.badge-nota{background:#00c853;color:white;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:4px;} .nota-titulo{color:#00a344;font-weight:800;font-size:13px;margin-bottom:2px;}</style>
 </style>
 </head>
 <body>
@@ -528,7 +529,94 @@
       {name: 'Encares CIR-PUR 2026-2027', id: 'PLStAa4bln_ls', icon: '🩺', color: '#06b6d4', slug: 'encares-cir-pur-2026-2027', thumb: 'thumbs/encares-cir-pur-2026-2027.webp', cacheHours: 6}
     ];
 
-    let currentPl = PLAYLISTS[0].id;
+    const MIS_NOTAS = {
+  "7_gQyf48dCk": "Apendicitis Aguda",
+  "gV7ymmERYgo": "Patología Benigna Perianal",
+  "d2VBjgW1-6g": "Ulcera Gastroduodenal y Sus Complicaciones",
+  "0-LelIYGVCk": "Hernias y Eventraciones",
+  "Lz509ZBVYLQ": "Tumores Periampulares",
+  "N__UOh_FsV8": "Cáncer de Colón",
+  "NGdPF6rjdj8": "Cáncer de Mama",
+  "6MHjqRNMPBQ": "Enfermedad Diverticular y Sus Complicaciones",
+  "SWIlohyAh_k": "Cáncer Gástrico",
+  "D_Rj0M0MXIw": "Patología Benigna de Mama",
+  "g8hdp0WDSfI": "Oclusión Intestinal",
+  "YHtVmOHGOqA": "Disfagia. Cáncer de Esófago",
+  "EmC2M2mKdpI": "Colecistitis Aguda",
+  "iFt1m4NLaHs": "Pancreatitis Aguda",
+  "GSSXU-oNASE": "Colangitis Aguda",
+  "s--VCTnn3Ko": "Cáncer de Toroides",
+  "i2EPWFMzSrs": "Prevención Cáncer Genito-Mamario",
+  "irMN7aKbmJo": "Metrorragias de la Primera Mitad del Embarazo",
+  "KSLw2jP7ySQ": "Enfermedades de Transmisión Sexual e Infecciones Vaginales",
+  "1wbfLINIQfs": "Asistencia Inicial del Recién Nacido Sano a Término",
+  "s5zhsxaPFb0": "Metrorragias No Gravidicas",
+  "xRkJFtT1LkM": "Abordaje de la Violencia Basada en Género",
+  "QVMSb2cvE04": "Sepsis Obstetricia",
+  "ExUJyGqu3Ak": "Control y Asistencia del Trabajo de Parto",
+  "kPzTKGjqQgE": "Cuadro Agudo de Abdomen Ginecologíco",
+  "le6Ye0dgsfM": "Hemorragias Gravidicas del Segundo y Tercer Trimestre",
+  "aMsnWQDNjK4": "Enfermedad Inflamatoria Pelvica",
+  "pxnrcMofrdw": "Rotura Prematura de Membranas Ovulares",
+  "WzoCl0YrMZ4": "Resucitacion Neonatal",
+  "iJP0sv22OUY": "Control de Embarazo",
+  "fHKGpkaaNrc": "Hemorragia Puerperal (hpp)",
+  "G2d-0nZzQHA": "Anticoncepcion",
+  "Dy0NUSrnZeo": "Infección Por VIH",
+  "J1kQhJ9f-Q8": "Enfermedad Tromboembolica Venosa (etev) Y Tromboembolismo Pulmonar (tep)",
+  "xo2U5fVFgjM": "Neumonia Aguda Comunitaria",
+  "xGHrdhKSJvE": "Fibrilacion Auricular",
+  "DHbUiaAWY7s": "Infecciones Respiratorias en el Paciente VIH",
+  "tgMRYK7714E": "Diabetes Complicaciones Crónicas",
+  "Vl9ZRQcr6eY": "Accidente Cerebro Vascular (acv) Hemorragico",
+  "u0nt15ZkQH0": "Insuficiencia Cardíaca",
+  "MpfYWuXKnQ4": "Manifestaciones Neurológicas en Infección Por VIH",
+  "H3cXEEe6oWs": "Meningo-Encefalitis",
+  "ljaMU-4Pfu8": "Enfermedad Hepática Aguda",
+  "3y5zmmFKsw0": "Enfermedad Renal Crónica",
+  "VY15Xsxtjis": "Tuberculosis",
+  "pMMJeaTTINA": "Accidente Cerebro Vascular (acv) Isquemico",
+  "2X8m-E35YiI": "Bronquiolitis Aguda",
+  "PMnlbSqv80k": "Fiebre Sin Foco",
+  "BiDmQsEnCmY": "Control de Salud. Crecimiento y Desarrollo",
+  "tVRpkCy4_IE": "Convulsión Febril",
+  "JZtr_dDYwqg": "Infecciones de Piel y Tejido Blando en Pediatría",
+  "sW-WM-KGWvM": "Malnutrición",
+  "kE5eHn73NFc": "Gastroenteritis Aguda",
+  "gDI8HSVgsjQ": "Exantemas Febriles",
+  "x0FD6Q0fRZU": "Infección Urinaria",
+  "weEuvlJk5Cs": "Neumonia en Pediatría",
+  "Xll4TYWxF8s": "Tos Consulva",
+  "LYKSwf6OtYg": "Tuberculosis en Pediatría",
+  "lt3y-dl6-YA": "Meningitis",
+  "-o2SgON-bLw": "Enfermedad Por Reflujo Gastroesofagico y Dispepsia",
+  "Ssrw0zoHbxs": "Lumbalgia",
+  "AUD59TrpFh0": "Diabetes en el Primer Nivel de Atención",
+  "NQKCUpv728o": "Diarrea en Adultos PNA",
+  "PODRWlt6PCE": "Constipacion y Estreñimiento",
+  "i_g-fgjV7s0": "Síndromes Coronarios Cronicos PNA",
+  "wDgyGMjEWQc": "Tabaquismo",
+  "b85H65w-8Lw": "Violencia",
+  "1jhnuGaWYZ8": "Cefaleas",
+  "S6Cgl5vPzHY": "Patologías Oftalmicas Frecuentes en el Primer Nivel de Atención",
+  "SNKlik7dR0I": "Abordaje de Las Infecciones de Transmisión Sexual en el PNA",
+  "SKQtLiJHlP8": "Hombro Doloroso U Omalgia",
+  "V8qQFg2rBC0": "Trastorno de Ansiedad",
+  "Jk6kfMPmgNQ": "Depresión",
+  "JhVBqq_30es": "Trastorno Bipolar",
+  "XkltTuwECC8": "Trastornos Psicóticos Crónicos",
+  "iUP2yIOYGV0": "Síndrome Confusional",
+  "Eq0sMjpJstc": "Trastornos Relacionados Con Sustancias",
+  "JrVMAKyNbtk": "Confusión Mental",
+  "luKZ7OMzp2Q": "Confidencialidad",
+  "ydho6FZ4Tqs": "Toma de Decisiones en la Relación Clínica",
+  "nTRX-mRv_kU": "Consentimiento Informado",
+  "b65z68PVHoY": "Certificado de Defunción",
+};
+
+// === PATCH NOTAS ===
+
+let currentPl = PLAYLISTS[0].id;
     let videos = [];
     let currentIdx = 0;
     let player = null;
@@ -850,6 +938,52 @@ if ('serviceWorker' in navigator) {
       .catch(e => console.log('SW error', e));
   });
 }
+</script>
+
+
+<script>
+(function(){
+  function applyNotas(){
+    if(!window.videos) return;
+    const list=document.getElementById('videoList');
+    if(!list) return;
+    for(let i=0;i<list.children.length && i<window.videos.length;i++){
+      const v=window.videos[i];
+      const nota=MIS_NOTAS[v.id];
+      if(nota){
+        const el=list.children[i];
+        if(!el.querySelector('.badge-nota')){
+          const b=document.createElement('div');
+          b.className='badge-nota'; b.textContent=nota;
+          el.prepend(b);
+        }
+        el.setAttribute('data-nota',nota.toLowerCase());
+      }
+    }
+    const cur=window.videos[window.currentIdx];
+    if(cur && MIS_NOTAS[cur.id]){
+      const vt=document.getElementById('videoTitle');
+      if(vt && !vt.querySelector('.nota-titulo')){
+        const nt=document.createElement('div');
+        nt.className='nota-titulo'; nt.textContent=MIS_NOTAS[cur.id];
+        vt.prepend(nt);
+      }
+    }
+  }
+  const s=document.getElementById('search');
+  if(s){
+    s.addEventListener('input',e=>{
+      const q=e.target.value.toLowerCase();
+      document.querySelectorAll('#videoList > *').forEach(el=>{
+        if(!q){el.style.display='';return;}
+        const txt=(el.textContent||'').toLowerCase();
+        const nota=(el.getAttribute('data-nota')||'').toLowerCase();
+        el.style.display=(txt.includes(q)||nota.includes(q))?'':'none';
+      });
+    });
+  }
+  setInterval(applyNotas,800);
+})();
 </script>
 
 </body>
