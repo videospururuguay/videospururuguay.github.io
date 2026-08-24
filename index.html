@@ -726,24 +726,30 @@ let currentPl = PLAYLISTS[0].id;
     }
 
     function renderList(filter){
-      const list=document.getElementById('videoList'); const f=filter.toLowerCase();
-      const filtered=videos.filter(v=> v.title.toLowerCase().includes(f));
+      const list=document.getElementById('videoList'); const f=(filter||'').toLowerCase();
+      const filtered=videos.filter(v=> {
+        const nota = (MIS_NOTAS[v.id]||'').toLowerCase();
+        return v.title.toLowerCase().includes(f) || nota.includes(f);
+      });
       list.innerHTML='';
       if(!filtered.length){ list.innerHTML='<div class="p-6 text-center text-[12px] text-[var(--muted)]">No encontré videos</div>'; return; }
       filtered.forEach(v=>{
         const idx=videos.indexOf(v);
+        const nota = MIS_NOTAS[v.id] || '';
         const div=document.createElement('div');
         div.className=`v-card ${idx===currentIdx?'active':''}`;
-        div.innerHTML=`<img src="${v.thumb}" class="v-thumb" loading="lazy"><div class="flex-1 min-w-0"><div class="v-title">${v.title}</div><div class="v-meta">▶ Video ${idx+1}</div></div>`;
+        div.innerHTML=`<img src="${v.thumb}" class="v-thumb" loading="lazy"><div class="flex-1 min-w-0">${nota ? `<div class="badge-nota">${nota}</div>` : ''}<div class="v-title">${v.title}</div><div class="v-meta">▶ Video ${idx+1}${nota ? ' · '+nota : ''}</div></div>`;
         div.onclick=()=>play(idx);
         list.appendChild(div);
       });
+      document.getElementById('listCount').textContent = filtered.length + ' videos' + (f ? ' · filtrados' : '');
     }
 
     function play(idx){
       if(!videos[idx]) return;
       currentIdx=idx; const v=videos[idx];
-      document.getElementById('videoTitle').textContent=v.title;
+      const notaActual = MIS_NOTAS[v.id] || '';
+      document.getElementById('videoTitle').innerHTML = (notaActual ? `<div class="nota-titulo">${notaActual}</div>` : '') + v.title;
       document.getElementById('videoDesc').textContent=v.desc.slice(0,220) || '';
       document.getElementById('fallback').classList.add('hidden'); document.getElementById('fallback').classList.remove('flex');
       if(player && player.loadVideoById) player.loadVideoById({videoId:v.id});
@@ -982,7 +988,7 @@ if ('serviceWorker' in navigator) {
       });
     });
   }
-  setInterval(applyNotas,800);
+  // setInterval removido - ahora renderList ya incluye nota
 })();
 </script>
 
