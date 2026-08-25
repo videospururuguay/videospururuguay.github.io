@@ -477,44 +477,22 @@
     }
 
     // Keys ofuscadas - anti-bot GitHub
-    const _k = [
-  ["QUl6YVN5QnZFMGZEWmpYZmFTZA==","cEI2OUk2R2RnOWpDNjFqNGV0Z3c="],
-  ["QUl6YVN5QlM3VUc1OGhBbVZsQg==","MFN1US1ycWc5TE5aajkxdTA3UG8="],
-  ["QUl6YVN5QVI5QWUtS3RHaWotLQ==","MHBNcW50QnFNc2hXR2FzYzJrdm8="]
-];
-    const API_KEYS = _k.map(p => atob(p[0]) + atob(p[1]));
-
-    let currentKeyIdx = parseInt(localStorage.getItem('vpur_key_idx') || '0');
-    if(isNaN(currentKeyIdx) || currentKeyIdx >= API_KEYS.length) currentKeyIdx = 0;
+    const WORKER_YT_URL = "https://pur-yt.miguealvesfmed.workers.dev/youtube";
 
     async function ytFetch(urlWithoutKey){
-      // intenta con todas las keys
-      for(let attempt = 0; attempt < API_KEYS.length; attempt++){
-        const key = API_KEYS[currentKeyIdx];
-        const url = urlWithoutKey + (urlWithoutKey.includes('?') ? '&' : '?') + 'key=' + key;
-        try{
-          const r = await fetch(url);
-          const j = await r.json();
-          if(j.error){
-            const reason = j.error.errors?.[0]?.reason || '';
-            const msg = j.error.message || '';
-            if(reason === 'quotaExceeded' || reason === 'rateLimitExceeded' || msg.toLowerCase().includes('quota')){
-              console.warn(`Key ${currentKeyIdx} sin cuota, rotando...`);
-              currentKeyIdx = (currentKeyIdx + 1) % API_KEYS.length;
-              localStorage.setItem('vpur_key_idx', currentKeyIdx);
-              continue; // prueba siguiente key
-            }
-            return j; // otro error, lo devolvemos
-          }
-          return j; // ok
-        }catch(e){
-          console.warn(`Error con key ${currentKeyIdx}`, e);
-          currentKeyIdx = (currentKeyIdx + 1) % API_KEYS.length;
-          localStorage.setItem('vpur_key_idx', currentKeyIdx);
-          continue;
+      // Misma lógica de antes pero ahora via Worker seguro - sin keys en el código
+      try{
+        const workerUrl = WORKER_YT_URL + "?url=" + encodeURIComponent(urlWithoutKey);
+        const r = await fetch(workerUrl);
+        const j = await r.json();
+        if(j.error){
+          console.warn("YouTube API error:", j.error);
         }
+        return j;
+      }catch(e){
+        console.error("Error en Worker YouTube", e);
+        throw e;
       }
-      throw new Error('Todas las API keys sin cuota');
     }
 
     const PLAYLISTS = [
