@@ -310,7 +310,7 @@
     <section id="contenido" class="max-w-[1440px] mx-auto px-4 lg:px-10 pt-6 lg:pt-8 pb-6">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-7">
         <div class="flex items-center gap-3">
-          <div id="moduleInitial" class="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-extrabold text-[15px]">M</div>
+          <div id="moduleInitial" class="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-slate-900 dark:bg-white overflow-hidden flex items-center justify-center font-extrabold text-[15px]"><img id="moduleThumb" src="thumbs/medicina-interna.webp" alt="" class="w-full h-full object-cover"></div>
           <div>
             <h2 id="currentTitle" class="jakarta font-extrabold text-[20px] lg:text-[22px] leading-none tracking-tight">Cargando...</h2>
             <p id="currentMeta" class="text-[11px] lg:text-[12px] text-[var(--muted)] font-medium mt-1.5"></p>
@@ -702,7 +702,9 @@ let currentPl = PLAYLISTS[0].id;
       currentPl=pid;
       const pl=PLAYLISTS.find(p=>p.id===pid);
       document.getElementById('currentTitle').textContent=pl?.name||'';
-      document.getElementById('moduleInitial').textContent=pl?.name?.[0]||'M';
+      const _mi = document.getElementById('moduleInitial');
+      const _mt = document.getElementById('moduleThumb');
+      if(_mt && pl?.thumb){ _mt.src = pl.thumb; _mt.alt = pl.name; } else if(_mi){ _mi.innerHTML = `<img src="${pl.thumb}" alt="${pl.name}" class="w-full h-full object-cover">`; }
       document.getElementById('openYT').href=`https://www.youtube.com/playlist?list=${pid}`;
       document.querySelectorAll('.chip').forEach(c=>{c.classList.toggle('active', c.dataset.pl===pid);});
       document.querySelectorAll('.pl-btn').forEach(b=>{b.classList.toggle('active', b.dataset.pl===pid);});
