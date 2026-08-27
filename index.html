@@ -223,7 +223,26 @@
   }
 }
 
-<style>.badge-nota{background:#00c853;color:white;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:4px;} .nota-titulo{color:#00a344;font-weight:800;font-size:13px;margin-bottom:2px;}</style>
+<style>.badge-nota{background:#00c853;color:white;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:4px;} .nota-titulo{color:#00a344;font-weight:800;font-size:13px;margin-bottom:2px;}
+
+/* FIX ZOOM PROGRESIVO - te gusta 75% pero sin romper pantallas grandes */
+@media (min-width: 1025px) and (max-width: 1440px){
+  html{ zoom: 0.75; }
+  @supports not (zoom: 0.75){
+    body{ transform: scale(0.75); transform-origin: top left; width: 133.333333%; }
+  }
+}
+@media (min-width: 1441px) and (max-width: 1920px){
+  html{ zoom: 0.85; }
+  @supports not (zoom: 0.85){
+    body{ transform: scale(0.85); transform-origin: top left; width: 117.647058%; }
+  }
+}
+@media (min-width: 1921px){
+  html{ zoom: 1; }
+}
+
+</style>
 </style>
 </head>
 <body>
