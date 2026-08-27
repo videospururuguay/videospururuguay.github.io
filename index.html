@@ -98,8 +98,8 @@
     html.dark{--bg:#020617; --card:#0f172a; --border:#1e293b; --text:#f1f5f9; --muted:#94a3b8; --sidebar-bg:rgba(15,23,42,0.96); --input-bg:#1e293b;}
     *{font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
     .jakarta{font-family:'Plus Jakarta Sans',sans-serif;}
-    body{background:var(--bg); color:var(--text); transition: background .25s, color .25s;}
-    .sidebar{width:320px; background:var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); border-right:1px solid var(--border); height:100vh; position:fixed; left:0; top:0; z-index:40; display:flex; flex-direction:column; transition:transform .35s cubic-bezier(.32,.72,0,1), background .25s, border-color .25s;}
+    body{background:var(--bg); color:var(--text); transition: background .25s, color .25s; overflow-x:hidden;}
+    .sidebar{width:320px; background:var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); border-right:1px solid var(--border); height:100vh; height:100dvh; position:fixed; left:0; top:0; z-index:40; display:flex; flex-direction:column; transition:transform .35s cubic-bezier(.32,.72,0,1), background .25s, border-color .25s;}
     .pl-btn{display:flex; align-items:center; gap:10px; width:100%; text-align:left; padding:9px 9px; border-radius:16px; border:1px solid transparent; background:transparent; cursor:pointer; transition: all .22s ease;}
     .pl-btn:hover{background:var(--input-bg); border-color:var(--border); transform:translateY(-1px);}
     .pl-btn.active{background:#0f172a; color:white; border-color:#0f172a; box-shadow:0 10px 24px rgba(0,0,0,.2);}
@@ -135,95 +135,107 @@
     .custom-scroll::-webkit-scrollbar{width:5px;}
     .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1; border-radius:10px;}
     html.dark .custom-scroll::-webkit-scrollbar-thumb{background:#334155;}
+
+    /* === MOBILE PERFECTO - NO TOCAR === */
     @media(max-width:1024px){
       .sidebar{transform:translateX(-100%); width:86%; max-width:360px; box-shadow:0 0 80px rgba(0,0,0,.2);}
       .sidebar.open{transform:translateX(0);}
-      .main{margin-left:0;}
+      .main{margin-left:0 !important;}
+      #legal-footer{margin-left:0 !important; width:100% !important;}
     }
+
+    /* === FIX DESKTOP COMPUTADORAS - ESTE ES EL QUE IMPORTA === */
     @media(min-width:1025px){
-      #legal-footer{margin-left:320px; width:calc(100% - 320px); box-sizing:border-box;}
-      #videoList{max-height:calc(100vh - 110px) !important; padding-right:4px;}
-      .v-card:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(15,23,42,.09);}
-      .pl-btn:hover{transform:translateY(-1.5px); box-shadow:0 4px 14px rgba(15,23,42,.05);}
-    }
-    @media(min-width:1920px){
-      .sidebar{width:340px;} .main{margin-left:340px;}
-      header.hidden.lg\:flex{left:340px !important;}
-      #legal-footer{margin-left:340px; width:calc(100% - 340px);}
-    }
-    /* === DESKTOP FIXES - ORDENADOR === */
-    @media(min-width:1025px){
+      /* Sidebar siempre visible, sin animación rara */
+      .sidebar{transform:translateX(0) !important; width:320px;}
+      .main{margin-left:320px; width:calc(100% - 320px);}
+
+      /* Header arriba alineado al main, no a toda la pantalla */
+      header.hidden.lg\:flex{
+        left:320px !important;
+        width:calc(100% - 320px) !important;
+        right:auto !important;
+      }
+
+      /* Footer alineado */
       #legal-footer{
-        margin-left:320px;
-        width:calc(100% - 320px);
+        margin-left:320px !important;
+        width:calc(100% - 320px) !important;
         box-sizing:border-box;
       }
-      .main{
-        /* evita estiramiento infinito en 2K/4K */
-      }
+
+      /* Contenido centralizado, no estirado a infinito */
+      .main > section.relative,
       .main section#contenido,
-      .main > section.relative{
-        max-width:1440px;
+      .main > div.max-w-\[1280px\],
+      .main .max-w-\[1280px\]{
+        max-width:1280px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
       }
-      #search{
-        font-size:13.5px !important;
-        padding-top:11px !important;
-        padding-bottom:11px !important;
-      }
+
+      /* Player - centrado, tamaño ideal desktop */
       .player-shell{
-        border-radius:22px;
+        border-radius:20px;
+        max-width:900px;
+        margin-left:auto;
+        margin-right:auto;
       }
-      .v-card{
-        padding:11px !important;
-      }
-      .v-thumb{
-        width:116px !important;
-        height:68px !important;
-      }
-      .v-title{
-        font-size:13.5px !important;
-      }
-      /* videoList ya no necesita max-h fijo tan chico */
+
+      /* Lista de videos - SIN max-height fijo que genera doble scroll */
       #videoList{
-        max-height:calc(100vh - 110px) !important;
-        padding-right:4px;
+        max-height:none !important;
+        height:auto !important;
+        overflow:visible !important;
+        padding-right:0 !important;
+        display:grid !important;
+        grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+        gap:12px !important;
       }
-      /* mejora hover en desktop */
-      .v-card:hover{
-        transform:translateY(-3px);
-        box-shadow:0 12px 28px rgba(15,23,42,.09);
+
+      /* Cards más cómodas en desktop */
+      .v-card{padding:10px !important;}
+      .v-thumb{width:112px !important; height:64px !important;}
+      .v-title{font-size:13px !important; -webkit-line-clamp:2;}
+
+      /* Buscador del sidebar */
+      #moduleSearch, #search{
+        font-size:13px !important;
+        padding-top:10px !important;
+        padding-bottom:10px !important;
       }
-      .pl-btn:hover{
-        transform:translateY(-1.5px);
-        box-shadow:0 4px 14px rgba(15,23,42,.05);
-      }
+
+      /* Hover suave */
+      .v-card:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(15,23,42,.08);}
+      .pl-btn:hover{transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,23,42,.06);}
     }
-    @media(min-width:1536px){
-      .main section#contenido,
-      .main section.relative .relative.max-w-\[1280px\]{
-        max-width:1480px !important;
-      }
-      .v-thumb{
-        width:124px !important;
-        height:72px !important;
-      }
+
+    /* Large desktop - 1440p */
+    @media(min-width:1440px){
+      #videoList{grid-template-columns: repeat(2, minmax(0,1fr)) !important; gap:14px !important;}
+      .player-shell{max-width:960px;}
+      .main > section.relative .relative.max-w-\[1280px\]{max-width:1280px !important;}
     }
+
+    /* Ultrawide - evita que se vea gigante */
     @media(min-width:1920px){
       .sidebar{width:340px;}
-      .main{margin-left:340px;}
-      header.hidden.lg\:flex{left:340px !important;}
-      #legal-footer{margin-left:340px; width:calc(100% - 340px);}
+      .main{margin-left:340px; width:calc(100% - 340px);}
+      header.hidden.lg\:flex{left:340px !important; width:calc(100% - 340px) !important;}
+      #legal-footer{margin-left:340px !important; width:calc(100% - 340px) !important;}
+      .player-shell{max-width:1020px;}
+      .v-thumb{width:120px !important; height:70px !important;}
     }
 
-  
-/* FIX: baja solo el badge 100% GRATIS en movil - no toca nada mas */
-@media (max-width: 768px){
-  main.main section:first-of-type div.flex-1 > div:first-child{
-    margin-top: 34px !important;
-  }
-}
-
-<style>.badge-nota{background:#00c853;color:white;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:4px;} .nota-titulo{color:#00a344;font-weight:800;font-size:13px;margin-bottom:2px;}</style>
+    /* Fix badge GRATIS solo mobile - no toca desktop */
+    @media (max-width: 768px){
+      main.main section:first-of-type div.flex-1 > div:first-child{
+        margin-top: 34px !important;
+      }
+    }
+    .badge-nota{background:#00c853;color:white;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:4px;}
+    .nota-titulo{color:#00a344;font-weight:800;font-size:13px;margin-bottom:2px;}
+</style>
 </style>
 </head>
 <body>
