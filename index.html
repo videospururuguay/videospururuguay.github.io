@@ -750,12 +750,16 @@ let currentPl = PLAYLISTS[0].id;
       return all;
     }
 
-    async function loadPlaylist(pid){
+    async function loadPlaylist(pid, opts={}){
+      const clearVideo = opts.clearVideo || false;
       currentPl=pid;
       // guarda la playlist actual en la URL para que el compartir funcione siempre
       try{
         const u0 = new URL(location.href);
         u0.searchParams.set('playlist', pid);
+        if(clearVideo){
+          u0.searchParams.delete('v');
+        }
         // si venía con modulo, lo mantenemos también
         history.replaceState(null, '', u0.toString());
       }catch(e){}
@@ -783,7 +787,7 @@ let currentPl = PLAYLISTS[0].id;
       document.getElementById('listCount').textContent=`${videos.length} videos`;
       renderList('');
       if(videos.length){
-        const vp = new URLSearchParams(location.search).get('v');
+        const vp = clearVideo ? null : new URLSearchParams(location.search).get('v');
         if(vp){
           const idx = videos.findIndex(x=>x.id===vp);
           if(idx>=0){
@@ -797,8 +801,8 @@ let currentPl = PLAYLISTS[0].id;
                   const items = await fetchItems(pl.id);
                   const found = items.find(it=>it.snippet?.resourceId?.videoId===vp);
                   if(found){
-                    // cambia a esa playlist y reproduce
-                    await loadPlaylist(pl.id);
+                    // cambia a esa playlist y reproduce - sin limpiar v para no romper loop
+                    await loadPlaylist(pl.id, {clearVideo:false});
                     const newIdx = videos.findIndex(x=>x.id===vp);
                     if(newIdx>=0) play(newIdx, {updateUrl:false});
                     return;
@@ -860,8 +864,8 @@ let currentPl = PLAYLISTS[0].id;
       }
     }
 
-    document.getElementById('plList').addEventListener('click', (e)=>{ const btn = e.target.closest('.pl-btn'); if(!btn) return; loadPlaylist(btn.dataset.pl); });
-    document.getElementById('mobileChips').addEventListener('click', (e)=>{ const chip = e.target.closest('.chip'); if(!chip) return; loadPlaylist(chip.dataset.pl); });
+    document.getElementById('plList').addEventListener('click', (e)=>{ const btn = e.target.closest('.pl-btn'); if(!btn) return; loadPlaylist(btn.dataset.pl, {clearVideo:true}); });
+    document.getElementById('mobileChips').addEventListener('click', (e)=>{ const chip = e.target.closest('.chip'); if(!chip) return; loadPlaylist(chip.dataset.pl, {clearVideo:true}); });
     document.getElementById('search').addEventListener('input', e=> renderList(e.target.value));
     document.getElementById('nextBtn').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
     document.getElementById('nextBtn2').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
