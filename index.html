@@ -262,6 +262,71 @@
     <div class="chips" id="mobileChips"></div>
   </div>
   <div id="overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+<!-- MODAL COMPARTIR MEJORADO -->
+<div id="shareBackdrop" class="share-backdrop" aria-hidden="true">
+  <div id="shareModal" class="share-modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+    <div class="share-handle"></div>
+    <div class="px-6 pt-4 pb-2 flex items-start justify-between gap-4">
+      <div class="flex-1 min-w-0">
+        <h3 id="shareModalTitle" class="jakarta font-extrabold text-[18px] leading-tight tracking-tight">Compartir</h3>
+        <p class="text-[12px] text-[var(--muted)] mt-1 font-medium">Compartí esta clase con tus compañeros</p>
+      </div>
+      <button id="shareClose" class="w-9 h-9 rounded-full bg-[var(--input-bg)] hover:bg-[var(--border)] flex items-center justify-center text-[16px] transition shrink-0" aria-label="Cerrar">✕</button>
+    </div>
+
+    <div class="px-6 py-4">
+      <div id="sharePreview" class="flex gap-3 p-3 rounded-[16px] bg-[var(--input-bg)] border border-[var(--border)]/60">
+        <img id="shareThumb" src="" alt="" class="w-[64px] h-[64px] rounded-[12px] object-cover bg-black/10 hidden md:block">
+        <div class="flex-1 min-w-0">
+          <div id="shareNotaBadge" class="hidden inline-flex items-center px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 text-[10px] font-bold tracking-wide mb-1.5">NOTA</div>
+          <div id="shareTitle" class="font-bold text-[13px] leading-[1.3] line-clamp-2">Título del video</div>
+          <div id="shareUrlPreview" class="text-[11px] text-[var(--muted)] mt-1 truncate">videospururuguay.github.io</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-6 pb-2">
+      <div class="grid grid-cols-4 gap-2.5">
+        <button class="share-option" data-share="whatsapp">
+          <div class="share-option-icon bg-[#25D366] text-white">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.05 4.94A9.91 9.91 0 0 0 12.03 2C6.52 2 2.04 6.48 2.04 11.99c0 1.76.46 3.48 1.33 4.92L2.05 22l5.26-1.38a9.87 9.87 0 0 0 4.72 1.2h.01c5.51 0 9.99-4.48 9.99-9.99a9.88 9.88 0 0 0-2.98-7.05l-.01-.84ZM12.04 20.17a8.07 8.07 0 0 1-4.11-1.12l-.29-.17-3.12.82.83-3.04-.19-.31a8.11 8.11 0 0 1-1.25-4.35c0-4.49 3.65-8.14 8.14-8.14 2.17 0 4.21.85 5.75 2.39a8.08 8.08 0 0 1 2.39 5.75c0 4.49-3.65 8.14-8.15 8.14Zm4.46-6.09c-.24-.12-1.43-.71-1.66-.79-.22-.08-.39-.12-.56.12-.17.24-.64.79-.79.95-.14.17-.29.19-.53.07-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.42-1.34-1.66-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.42h-.48c-.17 0-.43.06-.66.3-.22.24-.86.84-.86 2.05s.88 2.38 1 2.55c.12.16 1.73 2.65 4.2 3.71.59.25 1.05.4 1.4.51.59.19 1.12.16 1.54.1.47-.07 1.43-.59 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+          </div>
+          <span class="text-[11px] font-bold leading-tight">WhatsApp</span>
+        </button>
+        <button class="share-option" data-share="telegram">
+          <div class="share-option-icon bg-[#26A5E4] text-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm5.62 7.02-2.04 9.65c-.15.66-.56.82-1.13.51l-3.12-2.3-1.51 1.45c-.17.17-.31.31-.63.31l.22-3.2 5.82-5.26c.25-.22-.06-.35-.39-.13l-7.2 4.53-3.1-.97c-.67-.21-.69-.67.14-.99l12.11-4.67c.56-.2 1.05.13.83.99Z"/></svg>
+          </div>
+          <span class="text-[11px] font-bold leading-tight">Telegram</span>
+        </button>
+        <button class="share-option" data-share="copy">
+          <div class="share-option-icon bg-slate-900 dark:bg-white text-white dark:text-slate-900">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v3"/></svg>
+          </div>
+          <span class="text-[11px] font-bold leading-tight">Copiar link</span>
+        </button>
+        <button class="share-option" data-share="native" id="shareNativeOption">
+          <div class="share-option-icon bg-[var(--card)] border border-[var(--border)]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5 15.4 17.5"/><path d="M15.4 6.5 8.6 10.5"/></svg>
+          </div>
+          <span class="text-[11px] font-bold leading-tight">Más...</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-6 py-4 mt-1">
+      <div class="flex items-center gap-2 p-1.5 rounded-full bg-[var(--input-bg)] border border-[var(--border)]">
+        <div class="w-8 h-8 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center shrink-0 text-[14px]">🔗</div>
+        <input id="shareUrlInput" readonly class="flex-1 min-w-0 bg-transparent outline-none text-[12px] font-medium truncate px-1" value="https://videospururuguay.github.io/">
+        <button id="shareCopyInline" class="shrink-0 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[12px] font-bold hover:opacity-90 active:scale-[0.98] transition">Copiar</button>
+      </div>
+      <p class="text-[11px] text-[var(--muted)] text-center mt-3 font-medium">El link abre directamente este video y materia</p>
+    </div>
+
+    <div class="h-[max(16px,env(safe-area-inset-bottom))]"></div>
+  </div>
+</div>
+<div id="shareToast" class="share-toast"><span>✓</span> <span id="shareToastText">¡Link copiado!</span></div>
   <header class="hidden lg:flex fixed top-0 left-[320px] right-0 z-20 h-[56px] bg-[var(--card)]/80 backdrop-blur-xl border-b border-[var(--border)] items-center justify-between px-8">
     <div class="flex items-center gap-2">
       <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
@@ -895,18 +960,14 @@ let currentPl = PLAYLISTS[0].id;
     document.getElementById('nextBtn2').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
     document.getElementById('prevBtn').addEventListener('click', ()=> play((currentIdx-1+videos.length)%videos.length));
     document.getElementById('fallbackNext').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
-    // === NUEVO SISTEMA COMPARTIR MEJORADO ===
-    const shareBackdrop = document.getElementById('shareBackdrop');
-    const shareModal = document.getElementById('shareModal');
-    const shareClose = document.getElementById('shareClose');
-    const shareToast = document.getElementById('shareToast');
-    const shareToastText = document.getElementById('shareToastText');
-
+        // === NUEVO SISTEMA COMPARTIR MEJORADO - ROBUSTO ===
     function getShareData(){
-      const v = (window.videos && window.videos[window.currentIdx]) ? window.videos[window.currentIdx] : null;
+      const v = (window.videos && typeof window.currentIdx !== 'undefined' && window.videos[window.currentIdx]) ? window.videos[window.currentIdx] : null;
       const shareUrl = new URL(location.href);
-      try{ shareUrl.searchParams.set('playlist', window.currentPl || ''); }catch(e){}
-      if(v) shareUrl.searchParams.set('v', v.id);
+      try{ 
+        if(window.currentPl) shareUrl.searchParams.set('playlist', window.currentPl); 
+      }catch(e){}
+      if(v && v.id) shareUrl.searchParams.set('v', v.id);
       shareUrl.searchParams.delete('q');
       const urlStr = shareUrl.toString();
       let nota = null;
@@ -918,7 +979,10 @@ let currentPl = PLAYLISTS[0].id;
       }catch(e){}
       const titulo = v ? v.title : document.title;
       const tituloParaCompartir = nota ? `${nota} - ${titulo}` : titulo;
-      const textoParaCompartir = nota ? `${nota}\n${titulo}\n${urlStr}` : `${titulo}\n${urlStr}`;
+      const textoParaCompartir = nota ? `${nota}
+${titulo}
+${urlStr}` : `${titulo}
+${urlStr}`;
       return { v, urlStr, shareUrl, nota, titulo, tituloParaCompartir, textoParaCompartir };
     }
 
@@ -933,38 +997,43 @@ let currentPl = PLAYLISTS[0].id;
       if(urlInput) urlInput.value = urlStr;
       if(urlPreview) urlPreview.textContent = urlStr.replace(/^https?:\/\//,'').slice(0,60);
       if(thumbEl){
-        if(v && v.thumb){ thumbEl.src = v.thumb; thumbEl.classList.remove('hidden'); }
+        if(v && v.thumb){ thumbEl.src = v.thumb; thumbEl.classList.remove('hidden'); thumbEl.style.display='block'; }
         else { thumbEl.classList.add('hidden'); }
       }
       if(notaBadge){
-        if(nota){ notaBadge.textContent = nota; notaBadge.classList.remove('hidden'); }
+        if(nota){ notaBadge.textContent = nota; notaBadge.classList.remove('hidden'); notaBadge.style.display='inline-flex'; }
         else { notaBadge.classList.add('hidden'); }
       }
       const nativeOpt = document.getElementById('shareNativeOption');
       if(nativeOpt){
-        if(navigator.share) nativeOpt.style.display = '';
-        else nativeOpt.style.display = 'none';
+        nativeOpt.style.display = (navigator.share ? '' : 'none');
       }
     }
 
     function openShareModal(){
+      const backdrop = document.getElementById('shareBackdrop');
+      if(!backdrop){ console.warn('shareBackdrop no encontrado'); return; }
       updateShareModal();
-      shareBackdrop.classList.add('open');
-      shareBackdrop.setAttribute('aria-hidden','false');
+      backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
       try{ gtag('event','share_open',{method:'modal'}); }catch(e){}
     }
     function closeShareModal(){
-      shareBackdrop.classList.remove('open');
-      shareBackdrop.setAttribute('aria-hidden','true');
+      const backdrop = document.getElementById('shareBackdrop');
+      if(!backdrop) return;
+      backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden','true');
       document.body.style.overflow = '';
     }
     function showToast(msg){
-      if(!shareToast) return;
-      shareToastText.textContent = msg;
-      shareToast.classList.add('show');
+      const toast = document.getElementById('shareToast');
+      const toastText = document.getElementById('shareToastText');
+      if(!toast) return;
+      if(toastText) toastText.textContent = msg;
+      toast.classList.add('show');
       clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(()=> shareToast.classList.remove('show'), 2400);
+      window._toastTimer = setTimeout(()=> toast.classList.remove('show'), 2400);
     }
     async function copyText(text){
       try{
@@ -982,99 +1051,117 @@ let currentPl = PLAYLISTS[0].id;
       }
     }
 
-    document.getElementById('shareBtn').addEventListener('click', (e)=>{
-      e.preventDefault();
-      openShareModal();
-    });
-    if(shareClose) shareClose.addEventListener('click', closeShareModal);
-    if(shareBackdrop) shareBackdrop.addEventListener('click', (e)=>{
-      if(e.target === shareBackdrop) closeShareModal();
-    });
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape' && shareBackdrop.classList.contains('open')) closeShareModal();
-    });
-
-    // opciones de compartir
-    document.querySelectorAll('[data-share]').forEach(btn=>{
-      btn.addEventListener('click', async ()=>{
-        const { urlStr, tituloParaCompartir, textoParaCompartir, titulo, nota } = getShareData();
-        const type = btn.getAttribute('data-share');
-        if(type === 'whatsapp'){
-          const waText = encodeURIComponent(textoParaCompartir);
-          window.open(`https://wa.me/?text=${waText}`, '_blank', 'noopener');
-          showToast('Abriendo WhatsApp');
-          try{ gtag('event','share',{method:'whatsapp'});}catch(e){}
-        }else if(type === 'telegram'){
-          const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(urlStr)}&text=${encodeURIComponent(tituloParaCompartir)}`;
-          window.open(tgUrl, '_blank', 'noopener');
-          showToast('Abriendo Telegram');
-          try{ gtag('event','share',{method:'telegram'});}catch(e){}
-        }else if(type === 'copy'){
-          const ok = await copyText(textoParaCompartir);
-          showToast(ok ? '¡Link copiado!' : 'No se pudo copiar');
-          btn.animate([{transform:'scale(1)'},{transform:'scale(0.95)'},{transform:'scale(1)'}],{duration:250});
-          try{ gtag('event','share',{method:'copy'});}catch(e){}
-        }else if(type === 'native'){
-          try{
-            if(navigator.share){
-              await navigator.share({title: tituloParaCompartir, text: nota || titulo, url: urlStr});
-              showToast('¡Compartido!');
-            }
-          }catch(e){
-            if(e && e.name !== 'AbortError'){
-              const ok = await copyText(textoParaCompartir);
-              showToast(ok ? '¡Link copiado!' : 'No se pudo compartir');
-            }
-          }
-          try{ gtag('event','share',{method:'native'});}catch(e){}
+    // Esperar DOM y luego bindear
+    function initShare(){
+      const shareBtn = document.getElementById('shareBtn');
+      const shareBackdrop = document.getElementById('shareBackdrop');
+      const shareModal = document.getElementById('shareModal');
+      const shareClose = document.getElementById('shareClose');
+      if(!shareBtn || !shareBackdrop){ 
+        // reintentar en 300ms si aún no existe (por si el HTML está después)
+        setTimeout(initShare, 300);
+        return;
+      }
+      shareBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        openShareModal();
+      });
+      if(shareClose) shareClose.addEventListener('click', closeShareModal);
+      shareBackdrop.addEventListener('click', (e)=>{
+        if(e.target === shareBackdrop) closeShareModal();
+      });
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          const bd = document.getElementById('shareBackdrop');
+          if(bd && bd.classList.contains('open')) closeShareModal();
         }
       });
-    });
-
-    const copyInlineBtn = document.getElementById('shareCopyInline');
-    const urlInput = document.getElementById('shareUrlInput');
-    if(copyInlineBtn && urlInput){
-      const doCopyInline = async ()=>{
-        const { textoParaCompartir } = getShareData();
-        const ok = await copyText(textoParaCompartir);
-        if(ok){
-          const old = copyInlineBtn.textContent;
-          copyInlineBtn.textContent = '¡Copiado!';
-          copyInlineBtn.classList.add('!bg-emerald-600');
-          showToast('¡Link copiado al portapapeles!');
-          setTimeout(()=>{ copyInlineBtn.textContent = old; copyInlineBtn.classList.remove('!bg-emerald-600'); }, 1500);
-        }
-      };
-      copyInlineBtn.addEventListener('click', doCopyInline);
-      urlInput.addEventListener('click', ()=> urlInput.select());
-      urlInput.addEventListener('focus', ()=> urlInput.select());
+      document.querySelectorAll('[data-share]').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+          const { urlStr, tituloParaCompartir, textoParaCompartir, titulo, nota } = getShareData();
+          const type = btn.getAttribute('data-share');
+          if(type === 'whatsapp'){
+            const waText = encodeURIComponent(textoParaCompartir);
+            window.open(`https://wa.me/?text=${waText}`, '_blank', 'noopener');
+            showToast('Abriendo WhatsApp');
+            try{ gtag('event','share',{method:'whatsapp'});}catch(e){}
+          }else if(type === 'telegram'){
+            const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(urlStr)}&text=${encodeURIComponent(tituloParaCompartir)}`;
+            window.open(tgUrl, '_blank', 'noopener');
+            showToast('Abriendo Telegram');
+            try{ gtag('event','share',{method:'telegram'});}catch(e){}
+          }else if(type === 'copy'){
+            const ok = await copyText(textoParaCompartir);
+            showToast(ok ? '¡Link copiado!' : 'No se pudo copiar');
+            btn.animate([{transform:'scale(1)'},{transform:'scale(0.95)'},{transform:'scale(1)'}],{duration:250});
+            try{ gtag('event','share',{method:'copy'});}catch(e){}
+          }else if(type === 'native'){
+            try{
+              if(navigator.share){
+                await navigator.share({title: tituloParaCompartir, text: nota || titulo, url: urlStr});
+                showToast('¡Compartido!');
+              }
+            }catch(e){
+              if(e && e.name !== 'AbortError'){
+                const ok = await copyText(textoParaCompartir);
+                showToast(ok ? '¡Link copiado!' : 'No se pudo compartir');
+              }
+            }
+            try{ gtag('event','share',{method:'native'});}catch(e){}
+          }
+        });
+      });
+      const copyInlineBtn = document.getElementById('shareCopyInline');
+      const urlInput = document.getElementById('shareUrlInput');
+      if(copyInlineBtn && urlInput){
+        const doCopyInline = async ()=>{
+          const { textoParaCompartir } = getShareData();
+          const ok = await copyText(textoParaCompartir);
+          if(ok){
+            const old = copyInlineBtn.textContent;
+            copyInlineBtn.textContent = '¡Copiado!';
+            copyInlineBtn.classList.add('!bg-emerald-600');
+            showToast('¡Link copiado al portapapeles!');
+            setTimeout(()=>{ copyInlineBtn.textContent = old; copyInlineBtn.classList.remove('!bg-emerald-600'); }, 1500);
+          }
+        };
+        copyInlineBtn.addEventListener('click', doCopyInline);
+        urlInput.addEventListener('click', ()=> urlInput.select());
+        urlInput.addEventListener('focus', ()=> urlInput.select());
+      }
+      // gesto swipe down para cerrar en móvil
+      if(shareModal){
+        let startY = 0, currentY = 0, dragging = false;
+        shareModal.addEventListener('touchstart', (e)=>{
+          if(window.innerWidth >= 768) return;
+          startY = e.touches[0].clientY;
+          dragging = true;
+          shareModal.style.transition = 'none';
+        }, {passive:true});
+        shareModal.addEventListener('touchmove', (e)=>{
+          if(!dragging) return;
+          currentY = e.touches[0].clientY - startY;
+          if(currentY < 0) currentY = 0;
+          shareModal.style.transform = `translateY(${currentY}px)`;
+        }, {passive:true});
+        shareModal.addEventListener('touchend', ()=>{
+          if(!dragging) return;
+          dragging = false;
+          shareModal.style.transition = '';
+          shareModal.style.transform = '';
+          if(currentY > 100) closeShareModal();
+          currentY = 0;
+        });
+      }
     }
 
-    // gesto swipe down para cerrar en móvil
-    (function(){
-      if(!shareModal) return;
-      let startY = 0, currentY = 0, dragging = false;
-      shareModal.addEventListener('touchstart', (e)=>{
-        if(window.innerWidth >= 768) return;
-        startY = e.touches[0].clientY;
-        dragging = true;
-        shareModal.style.transition = 'none';
-      }, {passive:true});
-      shareModal.addEventListener('touchmove', (e)=>{
-        if(!dragging) return;
-        currentY = e.touches[0].clientY - startY;
-        if(currentY < 0) currentY = 0;
-        shareModal.style.transform = `translateY(${currentY}px)`;
-      }, {passive:true});
-      shareModal.addEventListener('touchend', ()=>{
-        if(!dragging) return;
-        dragging = false;
-        shareModal.style.transition = '';
-        shareModal.style.transform = '';
-        if(currentY > 100) closeShareModal();
-        currentY = 0;
-      });
-    })();
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', initShare);
+    }else{
+      initShare();
+    }
+    
+    // fin nuevo compartir
     
     document.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') play((currentIdx+1)%videos.length); if(e.key==='ArrowLeft') play((currentIdx-1+videos.length)%videos.length); });
 
@@ -1235,71 +1322,7 @@ const s2 = document.createElement('script'); s2.type='application/ld+json'; s2.t
 
 <!-- FOOTER LEGAL OBLIGATORIO ADSENSE - NO MODIFICA FUNCIONAMIENTO -->
 
-<!-- MODAL COMPARTIR MEJORADO -->
-<div id="shareBackdrop" class="share-backdrop" aria-hidden="true">
-  <div id="shareModal" class="share-modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
-    <div class="share-handle"></div>
-    <div class="px-6 pt-4 pb-2 flex items-start justify-between gap-4">
-      <div class="flex-1 min-w-0">
-        <h3 id="shareModalTitle" class="jakarta font-extrabold text-[18px] leading-tight tracking-tight">Compartir</h3>
-        <p class="text-[12px] text-[var(--muted)] mt-1 font-medium">Compartí esta clase con tus compañeros</p>
-      </div>
-      <button id="shareClose" class="w-9 h-9 rounded-full bg-[var(--input-bg)] hover:bg-[var(--border)] flex items-center justify-center text-[16px] transition shrink-0" aria-label="Cerrar">✕</button>
-    </div>
 
-    <div class="px-6 py-4">
-      <div id="sharePreview" class="flex gap-3 p-3 rounded-[16px] bg-[var(--input-bg)] border border-[var(--border)]/60">
-        <img id="shareThumb" src="" alt="" class="w-[64px] h-[64px] rounded-[12px] object-cover bg-black/10 hidden md:block">
-        <div class="flex-1 min-w-0">
-          <div id="shareNotaBadge" class="hidden inline-flex items-center px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 text-[10px] font-bold tracking-wide mb-1.5">NOTA</div>
-          <div id="shareTitle" class="font-bold text-[13px] leading-[1.3] line-clamp-2">Título del video</div>
-          <div id="shareUrlPreview" class="text-[11px] text-[var(--muted)] mt-1 truncate">videospururuguay.github.io</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="px-6 pb-2">
-      <div class="grid grid-cols-4 gap-2.5">
-        <button class="share-option" data-share="whatsapp">
-          <div class="share-option-icon bg-[#25D366] text-white">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.05 4.94A9.91 9.91 0 0 0 12.03 2C6.52 2 2.04 6.48 2.04 11.99c0 1.76.46 3.48 1.33 4.92L2.05 22l5.26-1.38a9.87 9.87 0 0 0 4.72 1.2h.01c5.51 0 9.99-4.48 9.99-9.99a9.88 9.88 0 0 0-2.98-7.05l-.01-.84ZM12.04 20.17a8.07 8.07 0 0 1-4.11-1.12l-.29-.17-3.12.82.83-3.04-.19-.31a8.11 8.11 0 0 1-1.25-4.35c0-4.49 3.65-8.14 8.14-8.14 2.17 0 4.21.85 5.75 2.39a8.08 8.08 0 0 1 2.39 5.75c0 4.49-3.65 8.14-8.15 8.14Zm4.46-6.09c-.24-.12-1.43-.71-1.66-.79-.22-.08-.39-.12-.56.12-.17.24-.64.79-.79.95-.14.17-.29.19-.53.07-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.42-1.34-1.66-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.42h-.48c-.17 0-.43.06-.66.3-.22.24-.86.84-.86 2.05s.88 2.38 1 2.55c.12.16 1.73 2.65 4.2 3.71.59.25 1.05.4 1.4.51.59.19 1.12.16 1.54.1.47-.07 1.43-.59 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
-          </div>
-          <span class="text-[11px] font-bold leading-tight">WhatsApp</span>
-        </button>
-        <button class="share-option" data-share="telegram">
-          <div class="share-option-icon bg-[#26A5E4] text-white">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm5.62 7.02-2.04 9.65c-.15.66-.56.82-1.13.51l-3.12-2.3-1.51 1.45c-.17.17-.31.31-.63.31l.22-3.2 5.82-5.26c.25-.22-.06-.35-.39-.13l-7.2 4.53-3.1-.97c-.67-.21-.69-.67.14-.99l12.11-4.67c.56-.2 1.05.13.83.99Z"/></svg>
-          </div>
-          <span class="text-[11px] font-bold leading-tight">Telegram</span>
-        </button>
-        <button class="share-option" data-share="copy">
-          <div class="share-option-icon bg-slate-900 dark:bg-white text-white dark:text-slate-900">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v3"/></svg>
-          </div>
-          <span class="text-[11px] font-bold leading-tight">Copiar link</span>
-        </button>
-        <button class="share-option" data-share="native" id="shareNativeOption">
-          <div class="share-option-icon bg-[var(--card)] border border-[var(--border)]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5 15.4 17.5"/><path d="M15.4 6.5 8.6 10.5"/></svg>
-          </div>
-          <span class="text-[11px] font-bold leading-tight">Más...</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="px-6 py-4 mt-1">
-      <div class="flex items-center gap-2 p-1.5 rounded-full bg-[var(--input-bg)] border border-[var(--border)]">
-        <div class="w-8 h-8 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center shrink-0 text-[14px]">🔗</div>
-        <input id="shareUrlInput" readonly class="flex-1 min-w-0 bg-transparent outline-none text-[12px] font-medium truncate px-1" value="https://videospururuguay.github.io/">
-        <button id="shareCopyInline" class="shrink-0 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[12px] font-bold hover:opacity-90 active:scale-[0.98] transition">Copiar</button>
-      </div>
-      <p class="text-[11px] text-[var(--muted)] text-center mt-3 font-medium">El link abre directamente este video y materia</p>
-    </div>
-
-    <div class="h-[max(16px,env(safe-area-inset-bottom))]"></div>
-  </div>
-</div>
-<div id="shareToast" class="share-toast"><span>✓</span> <span id="shareToastText">¡Link copiado!</span></div>
 
 <footer id="legal-footer" style="text-align:center; padding:18px 20px 18px; font-size:13px; color:#64748b; border-top:1px solid var(--border); margin-top:12px;">
   <div style="display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;">
