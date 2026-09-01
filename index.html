@@ -775,7 +775,16 @@ let currentPl = PLAYLISTS[0].id;
       videos=embeddable.map(it=>({id:it.snippet.resourceId.videoId, title:it.snippet.title, thumb:it.snippet.thumbnails?.medium?.url||it.snippet.thumbnails?.high?.url||'', desc:it.snippet.description||''}));
       document.getElementById('listCount').textContent=`${videos.length} videos`;
       renderList('');
-      if(videos.length) play(0);
+      if(videos.length){
+        const vp = new URLSearchParams(location.search).get('v');
+        if(vp){
+          const idx = videos.findIndex(x=>x.id===vp);
+          if(idx>=0) play(idx, {updateUrl:false});
+          else play(0);
+        }else{
+          play(0);
+        }
+      }
       let total=0; document.querySelectorAll('.pl-count').forEach(el=>{ const n=parseInt(el.textContent); if(!isNaN(n)) total+=n; }); if(total) document.getElementById('totalBadge').textContent=`${total}+ videos`;
     }
 
@@ -799,7 +808,7 @@ let currentPl = PLAYLISTS[0].id;
       document.getElementById('listCount').textContent = filtered.length + ' videos' + (f ? ' · filtrados' : '');
     }
 
-    function play(idx){
+    function play(idx, {updateUrl=true}={}){
       if(!videos[idx]) return;
       currentIdx=idx; const v=videos[idx];
       const notaActual = MIS_NOTAS[v.id] || '';
@@ -811,6 +820,14 @@ let currentPl = PLAYLISTS[0].id;
       document.getElementById('fallbackLink').href=`https://www.youtube.com/watch?v=${v.id}`;
       sidebarEl.classList.remove('open'); overlay.classList.add('hidden');
       renderList(document.getElementById('search').value);
+      if(updateUrl){
+        try{
+          const u = new URL(location.href);
+          u.searchParams.set('v', v.id);
+          // mantiene modulo/playlist que ya está en la URL
+          history.replaceState(null, '', u.toString());
+        }catch(e){}
+      }
     }
 
     document.getElementById('plList').addEventListener('click', (e)=>{ const btn = e.target.closest('.pl-btn'); if(!btn) return; loadPlaylist(btn.dataset.pl); });
@@ -820,7 +837,22 @@ let currentPl = PLAYLISTS[0].id;
     document.getElementById('nextBtn2').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
     document.getElementById('prevBtn').addEventListener('click', ()=> play((currentIdx-1+videos.length)%videos.length));
     document.getElementById('fallbackNext').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
-    document.getElementById('shareBtn').addEventListener('click', ()=>{const v=videos[currentIdx]; const url=v?`https://www.youtube.com/watch?v=${v.id}`:location.href; navigator.clipboard.writeText(url); const btn=document.getElementById('shareBtn'); const old=btn.textContent; btn.textContent='¡Copiado!'; setTimeout(()=>btn.textContent=old,1200);});
+    document.getElementById('shareBtn').addEventListener('click', async ()=>{
+      const v=videos[currentIdx];
+      const shareUrl = new URL(location.href);
+      if(v) shareUrl.searchParams.set('v', v.id);
+      const urlStr = shareUrl.toString();
+      try{
+        if(navigator.share){
+          await navigator.share({title: v ? v.title : document.title, text: v ? v.title : '', url: urlStr});
+        }else{
+          await navigator.clipboard.writeText(urlStr);
+        }
+      }catch(e){
+        try{ await navigator.clipboard.writeText(urlStr); }catch(err){}
+      }
+      const btn=document.getElementById('shareBtn'); const old=btn.textContent; btn.textContent='¡Copiado!'; setTimeout(()=>btn.textContent=old,1500);
+    });
     document.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') play((currentIdx+1)%videos.length); if(e.key==='ArrowLeft') play((currentIdx-1+videos.length)%videos.length); });
 
     const params=new URLSearchParams(location.search);
