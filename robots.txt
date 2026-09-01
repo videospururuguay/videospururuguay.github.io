@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# No indexar búsquedas internas
+Disallow: /*?q=*
+Disallow: /*&q=*
+
 Sitemap: https://videospururuguay.github.io/sitemap.xml
