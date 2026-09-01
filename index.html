@@ -879,14 +879,18 @@ let currentPl = PLAYLISTS[0].id;
       // limpia q si quedó de búsqueda de Google
       shareUrl.searchParams.delete('q');
       const urlStr = shareUrl.toString();
+      // si tiene nota, comparte con el nombre de la nota
+      const nota = v ? (window.MIS_NOTAS ? window.MIS_NOTAS[v.id] : null) || (typeof MIS_NOTAS !== 'undefined' ? MIS_NOTAS[v.id] : null) : null;
+      const tituloParaCompartir = nota ? `${nota} - ${v.title}` : (v ? v.title : document.title);
+      const textoParaCompartir = nota ? `${nota}\n${v.title}\n${urlStr}` : `${v ? v.title : ''}\n${urlStr}`;
       try{
         if(navigator.share){
-          await navigator.share({title: v ? v.title : document.title, text: v ? v.title : '', url: urlStr});
+          await navigator.share({title: tituloParaCompartir, text: nota ? nota : (v ? v.title : ''), url: urlStr});
         }else{
-          await navigator.clipboard.writeText(urlStr);
+          await navigator.clipboard.writeText(textoParaCompartir);
         }
       }catch(e){
-        try{ await navigator.clipboard.writeText(urlStr); }catch(err){}
+        try{ await navigator.clipboard.writeText(textoParaCompartir); }catch(err){}
       }
       const btn=document.getElementById('shareBtn'); const old=btn.textContent; btn.textContent='¡Copiado!'; setTimeout(()=>btn.textContent=old,1500);
     });
