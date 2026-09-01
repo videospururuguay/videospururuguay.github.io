@@ -752,6 +752,13 @@ let currentPl = PLAYLISTS[0].id;
 
     async function loadPlaylist(pid){
       currentPl=pid;
+      // guarda la playlist actual en la URL para que el compartir funcione siempre
+      try{
+        const u0 = new URL(location.href);
+        u0.searchParams.set('playlist', pid);
+        // si venía con modulo, lo mantenemos también
+        history.replaceState(null, '', u0.toString());
+      }catch(e){}
       const pl=PLAYLISTS.find(p=>p.id===pid);
       document.getElementById('currentTitle').textContent=pl?.name||'';
       const _mi = document.getElementById('moduleInitial');
@@ -779,8 +786,30 @@ let currentPl = PLAYLISTS[0].id;
         const vp = new URLSearchParams(location.search).get('v');
         if(vp){
           const idx = videos.findIndex(x=>x.id===vp);
-          if(idx>=0) play(idx, {updateUrl:false});
-          else play(0);
+          if(idx>=0){
+            play(idx, {updateUrl:false});
+          }else{
+            // el video no está en esta playlist, busca en las demás
+            (async()=>{
+              for(const pl of PLAYLISTS){
+                if(pl.id===currentPl) continue;
+                try{
+                  const items = await fetchItems(pl.id);
+                  const found = items.find(it=>it.snippet?.resourceId?.videoId===vp);
+                  if(found){
+                    // cambia a esa playlist y reproduce
+                    await loadPlaylist(pl.id);
+                    const newIdx = videos.findIndex(x=>x.id===vp);
+                    if(newIdx>=0) play(newIdx, {updateUrl:false});
+                    return;
+                  }
+                }catch(e){}
+              }
+              // si no se encontró en ninguna, reproduce el primero
+              play(0);
+            })();
+            return;
+          }
         }else{
           play(0);
         }
@@ -823,8 +852,9 @@ let currentPl = PLAYLISTS[0].id;
       if(updateUrl){
         try{
           const u = new URL(location.href);
+          u.searchParams.set('playlist', currentPl);
           u.searchParams.set('v', v.id);
-          // mantiene modulo/playlist que ya está en la URL
+          u.searchParams.delete('q');
           history.replaceState(null, '', u.toString());
         }catch(e){}
       }
@@ -840,7 +870,10 @@ let currentPl = PLAYLISTS[0].id;
     document.getElementById('shareBtn').addEventListener('click', async ()=>{
       const v=videos[currentIdx];
       const shareUrl = new URL(location.href);
+      shareUrl.searchParams.set('playlist', currentPl);
       if(v) shareUrl.searchParams.set('v', v.id);
+      // limpia q si quedó de búsqueda de Google
+      shareUrl.searchParams.delete('q');
       const urlStr = shareUrl.toString();
       try{
         if(navigator.share){
