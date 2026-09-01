@@ -961,29 +961,57 @@ let currentPl = PLAYLISTS[0].id;
     document.getElementById('prevBtn').addEventListener('click', ()=> play((currentIdx-1+videos.length)%videos.length));
     document.getElementById('fallbackNext').addEventListener('click', ()=> play((currentIdx+1)%videos.length));
         // === NUEVO SISTEMA COMPARTIR MEJORADO - ROBUSTO ===
-    function getShareData(){
-      const v = (window.videos && typeof window.currentIdx !== 'undefined' && window.videos[window.currentIdx]) ? window.videos[window.currentIdx] : null;
+        function getShareData(){
+      // obtener indice actual - currentIdx es let en el closure principal
+      let idx = 0;
+      try{
+        if(typeof currentIdx !== 'undefined') idx = currentIdx;
+        else if(typeof window.currentIdx !== 'undefined') idx = window.currentIdx;
+      }catch(e){}
+      let pls = null;
+      try{
+        if(typeof currentPl !== 'undefined') pls = currentPl;
+        else if(typeof window.currentPl !== 'undefined') pls = window.currentPl;
+      }catch(e){}
+
+      let v = null;
+      try{
+        if(typeof videos !== 'undefined' && videos && videos[idx]) v = videos[idx];
+        else if(window.videos && window.videos[idx]) v = window.videos[idx];
+      }catch(e){}
+
       const shareUrl = new URL(location.href);
       try{ 
-        if(window.currentPl) shareUrl.searchParams.set('playlist', window.currentPl); 
+        if(pls) shareUrl.searchParams.set('playlist', pls); 
       }catch(e){}
       if(v && v.id) shareUrl.searchParams.set('v', v.id);
       shareUrl.searchParams.delete('q');
       const urlStr = shareUrl.toString();
+
       let nota = null;
       try{
-        if(v){
-          if(window.MIS_NOTAS && window.MIS_NOTAS[v.id]) nota = window.MIS_NOTAS[v.id];
-          else if(typeof MIS_NOTAS !== 'undefined' && MIS_NOTAS[v.id]) nota = MIS_NOTAS[v.id];
+        if(v && v.id){
+          if(typeof MIS_NOTAS !== 'undefined' && MIS_NOTAS[v.id]) nota = MIS_NOTAS[v.id];
+          else if(window.MIS_NOTAS && window.MIS_NOTAS[v.id]) nota = window.MIS_NOTAS[v.id];
+          else if(window.MIS_NOTAS === undefined && typeof window !== 'undefined' && window.MIS_NOTAS === undefined){
+            // fallback: buscar en global scope via eval seguro
+          }
         }
       }catch(e){}
-      const titulo = v ? v.title : document.title;
-      const tituloParaCompartir = nota ? `${nota} - ${titulo}` : titulo;
-      const textoParaCompartir = nota ? `${nota}
-${titulo}
-${urlStr}` : `${titulo}
+
+      // titulo real del video
+      const tituloReal = v ? (v.title || '') : '';
+      // si tiene nota, la nota es lo principal
+      const titulo = tituloReal || document.title;
+      const tituloParaCompartir = nota ? (tituloReal ? `${nota} - ${tituloReal}` : nota) : titulo;
+      // texto que se manda por WhatsApp/Telegram/Copy - ahora siempre con nombre
+      const textoParaCompartir = nota 
+        ? `${nota}${tituloReal ? ' - ' + tituloReal : ''}
+${urlStr}` 
+        : `${titulo}
 ${urlStr}`;
-      return { v, urlStr, shareUrl, nota, titulo, tituloParaCompartir, textoParaCompartir };
+
+      return { v, idx, urlStr, shareUrl, nota, titulo: tituloReal || titulo, tituloReal, tituloParaCompartir, textoParaCompartir, playlist: pls };
     }
 
     function updateShareModal(){
