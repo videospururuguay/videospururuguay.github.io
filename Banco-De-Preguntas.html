@@ -73,17 +73,17 @@
 <body>
   <!-- HEADER con mismo logo que index principal + MODO OSCURO -->
   <header class="header">
-    <div class="max-w-5xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
-      <a href="index.html" class="logo-box">
-        <img src="logo.png" alt="Logo Videos PUR Uruguay" onerror="this.src='https://videospururuguay.github.io/logo.png'; this.onerror=null;">
-        <div>
-          <div class="jakarta font-extrabold text-[15px] leading-none tracking-tight text-[var(--text)]">Videos PUR Uruguay</div>
-          <div class="text-[12px] text-[var(--muted)] font-medium -mt-0.5">Clases para Residencia Médica</div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
+      <a href="index.html" class="logo-box flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+        <img src="logo.png" alt="Logo Videos PUR Uruguay" class="w-9 h-9 sm:w-11 sm:h-11 rounded-[12px] shrink-0" onerror="this.src='https://videospururuguay.github.io/logo.png'; this.onerror=null;">
+        <div class="min-w-0 leading-none">
+          <div class="jakarta font-extrabold text-[13px] sm:text-[15px] leading-[1.1] tracking-tight text-[var(--text)] truncate">Videos PUR Uruguay</div>
+          <div class="text-[10px] sm:text-[12px] text-[var(--muted)] font-medium leading-none mt-[2px] truncate hidden xs:block">Clases para Residencia Médica</div>
         </div>
       </a>
-      <div class="flex items-center gap-2">
-        <button id="darkToggle" class="w-9 h-9 rounded-xl bg-[var(--input-bg)] border border-[var(--border)] flex items-center justify-center text-[14px] hover:scale-105 transition">🌙</button>
-        <a href="index.html" class="inline-flex items-center gap-2 text-[13px] font-semibold text-[var(--text)] border border-[var(--border)] px-4 py-2 rounded-full hover:bg-[var(--input-bg)] transition">← Volver a videos</a>
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button id="darkToggle" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full sm:rounded-xl bg-[var(--input-bg)] border border-[var(--border)] flex items-center justify-center text-[13px] sm:text-[14px] hover:scale-105 transition shrink-0">🌙</button>
+        <a href="index.html" class="inline-flex items-center justify-center gap-1.5 text-[12px] sm:text-[13px] font-semibold text-[var(--text)] border border-[var(--border)] px-3 sm:px-4 py-2 rounded-full hover:bg-[var(--input-bg)] transition whitespace-nowrap shrink-0">← <span>Volver<span class="hidden sm:inline"> a videos</span></span></a>
       </div>
     </div>
   </header>
