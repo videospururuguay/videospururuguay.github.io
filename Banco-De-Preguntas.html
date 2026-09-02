@@ -35,18 +35,18 @@
     html.dark{--bg:#020617; --card:#0f172a; --border:#1e293b; --text:#f1f5f9; --muted:#94a3b8; --sidebar-bg:rgba(15,23,42,0.96); --input-bg:#1e293b;}
     *{font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
     .jakarta{font-family:'Plus Jakarta Sans',sans-serif;}
-    body{background:var(--bg); color:var(--text); transition: background .25s, color .25s;}
-    .header{background:var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50; transition: background .25s, border-color .25s;}
+    body{background:var(--bg); color:var(--text);}
+    .header{background:var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50;}
     .logo-box{display:flex; align-items:center; gap:14px;}
     .logo-box img{width:44px; height:44px; border-radius:12px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.08);}
-    .q-card{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:all .2s ease, background .25s, border-color .25s;}
+    .q-card{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition: transform .2s ease, box-shadow .2s ease;}
     .q-card:hover{transform:translateY(-1px); box-shadow:0 8px 24px rgba(0,0,0,0.06); border-color:#cbd5e1;}
     html.dark .q-card:hover{border-color:#334155;}
     .q-num{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); background:#eff6ff; border:1px solid #dbeafe; padding:4px 10px; border-radius:999px;}
     html.dark .q-num{background:#1e293b; border-color:#334155; color:#93c5fd;}
     .q-title{font-family:'Inter',sans-serif; font-weight:600; font-size:16px; line-height:1.6; color:var(--text); margin-top:14px; margin-bottom:18px;}
     .options{display:flex; flex-direction:column; gap:10px;}
-    .option{padding:12px 16px; border-radius:14px; border:1px solid var(--border); background:var(--input-bg); font-size:14.5px; line-height:1.5; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; transition: all .2s ease; cursor:pointer; user-select:none;}
+    .option{padding:12px 16px; border-radius:14px; border:1px solid var(--border); background:var(--input-bg); font-size:14.5px; line-height:1.5; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; transition: transform .15s ease, border-color .15s ease; cursor:pointer; user-select:none;}
     .option:hover{border-color:#94a3b8; background:#f8fafc; transform:translateY(-1px);}
     html.dark .option:hover{background:#1e293b; border-color:#475569;}
     /* Estado inicial: ocultar que es correcta */
@@ -172,6 +172,11 @@
   content-visibility: auto;
   contain-intrinsic-size: 0 500px;
 }
+
+
+    /* FIX PERFORMANCE: desactivar transiciones pesadas al cambiar tema */
+    html.no-anim *{transition:none !important; animation:none !important;}
+    html.dark{color-scheme:dark}
 
 </style>
 <style>html.dark{color-scheme:dark}</style>
@@ -8841,9 +8846,16 @@
     try{ document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#020617' : '#0a1931'); }catch(e){}
   }
   function toggleDark(){
+    // Evitar animar 4000 elementos a la vez - cambio instantáneo
+    htmlEl.classList.add('no-anim');
     htmlEl.classList.toggle('dark');
     try{ localStorage.setItem('vpur-dark', htmlEl.classList.contains('dark') ? '1' : '0'); }catch(e){}
     updateDarkIcons();
+    // Forzar reflow y quitar bloqueo en el próximo frame
+    void htmlEl.offsetWidth;
+    requestAnimationFrame(()=> {
+      requestAnimationFrame(()=> htmlEl.classList.remove('no-anim'));
+    });
   }
   // sincronizar estado inicial (por si head script ya puso dark)
   updateDarkIcons();
