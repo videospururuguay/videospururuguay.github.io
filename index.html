@@ -95,17 +95,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
 
-    @keyframes pulseRed {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220,38,38,0.7); }
-      50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(220,38,38,0); }
-    }
-    .btn-banco-pulse {
-      animation: pulseRed 1.8s infinite;
-      background: #dc2626 !important;
+    .btn-banco {
+      background: #e11d48 !important;
       color: white !important;
+      box-shadow: 0 2px 10px rgba(225,29,72,0.25);
+      border: 1px solid rgba(255,255,255,0.15);
     }
-    html.dark .btn-banco-pulse {
-      background: #ef4444 !important;
+    .btn-banco:hover {
+      background: #be123c !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(225,29,72,0.35);
+    }
+    html.dark .btn-banco {
+      background: #e11d48 !important;
       color: white !important;
     }
 
@@ -270,7 +272,7 @@
     </div>
     <div class="flex items-center gap-2.5 shrink-0">
       <button id="darkToggleMobile" class="w-10 h-10 rounded-full bg-[var(--input-bg)] border border-[var(--border)] flex items-center justify-center text-[15px] active:scale-95 transition">🌙</button>
-      <a href="Banco-De-Preguntas.html" class="h-10 px-4 rounded-full bg-[#0a1931] dark:bg-white text-white dark:text-slate-900 text-[11px] font-extrabold tracking-wide inline-flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition btn-banco-pulse">BANCO</a>
+      <a href="Banco-De-Preguntas.html" class="h-10 px-4 rounded-full bg-[#0a1931] dark:bg-white text-white dark:text-slate-900 text-[11px] font-extrabold tracking-wide inline-flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition btn-banco">BANCO</a>
       <button id="menuBtn" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center text-[18px] active:scale-95 transition">☰</button>
     </div>
   </div>
@@ -350,7 +352,7 @@
     </div>
     <div class="flex items-center gap-2">
       <button id="darkToggle" class="w-9 h-9 rounded-xl bg-[var(--input-bg)] border border-[var(--border)] flex items-center justify-center text-[14px] hover:scale-105 transition">🌙</button>
-      <a href="Banco-De-Preguntas.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0a1931] dark:bg-white text-white dark:text-slate-900 text-[12px] font-extrabold tracking-wide hover:opacity-90 active:scale-[0.98] transition shadow-sm btn-banco-pulse">BANCO DE PREGUNTAS</a>
+      <a href="Banco-De-Preguntas.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0a1931] dark:bg-white text-white dark:text-slate-900 text-[12px] font-extrabold tracking-wide hover:opacity-90 active:scale-[0.98] transition shadow-sm btn-banco">BANCO DE PREGUNTAS</a>
       <a href="https://link.mercadopago.com.uy/miguesa" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-900 dark:text-amber-200 text-[12px] font-bold transition">Invitar cafecito <span>☕</span></a>
     </div>
   </header>
