@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BANCO DE PREGUNTAR PRUEBA UNICA DE RESIDENCIA URUGUAY</title>
-  <meta name="description" content="Banco de Preguntas Prueba Única de Residencia Uruguay. Preguntas con respuestas correctas resaltadas para preparar la residencia médica.">
+  <meta name="description" content="Banco de Preguntas Prueba Única de Residencia Uruguay. Modo práctica interactivo: marca tu respuesta y ve al instante si acertaste. Ideal para preparar la residencia médica.">
   <meta name="author" content="Videos PUR Uruguay">
   <meta name="theme-color" content="#0a1931">
   <link rel="icon" href="favicon.ico">
@@ -36,11 +36,33 @@
     html.dark .q-num{background:#1e293b; border-color:#334155; color:#93c5fd;}
     .q-title{font-family:'Inter',sans-serif; font-weight:600; font-size:16px; line-height:1.6; color:var(--text); margin-top:14px; margin-bottom:18px;}
     .options{display:flex; flex-direction:column; gap:10px;}
-    .option{padding:12px 16px; border-radius:14px; border:1px solid var(--border); background:var(--input-bg); font-size:14.5px; line-height:1.5; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; transition: background .25s, border-color .25s;}
-    .option.correct{background:#fef9c3; border-color:#fde047; color:#422006; font-weight:600; box-shadow:inset 0 0 0 1px rgba(253,224,71,0.5);}
-    html.dark .option.correct{background:#422006; border-color:#a16207; color:#fef9c3;}
-    .badge-correct{background:#0a1931; color:white; font-size:10.5px; font-weight:800; letter-spacing:0.05em; padding:3px 8px; border-radius:999px; white-space:nowrap; margin-left:8px; display:inline-flex; align-items:center;}
+    .option{padding:12px 16px; border-radius:14px; border:1px solid var(--border); background:var(--input-bg); font-size:14.5px; line-height:1.5; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; transition: all .2s ease; cursor:pointer; user-select:none;}
+    .option:hover{border-color:#94a3b8; background:#f8fafc; transform:translateY(-1px);}
+    html.dark .option:hover{background:#1e293b; border-color:#475569;}
+    /* Estado inicial: ocultar que es correcta */
+    .option.correct{ background:var(--input-bg); border-color:var(--border); color:var(--text); font-weight:400; box-shadow:none; }
+    html.dark .option.correct{ background:var(--input-bg); border-color:var(--border); color:var(--text); }
+    /* Badges ocultos hasta revelar */
+    .badge-correct{background:#0a1931; color:white; font-size:10.5px; font-weight:800; letter-spacing:0.05em; padding:3px 8px; border-radius:999px; white-space:nowrap; margin-left:8px; display:none; align-items:center;}
     html.dark .badge-correct{background:#f1f5f9; color:#0f172a;}
+    /* Estados al responder */
+    .option.selected-correct{background:#dcfce7 !important; border-color:#22c55e !important; color:#14532d !important; font-weight:600; box-shadow:0 2px 8px rgba(34,197,94,0.15);}
+    html.dark .option.selected-correct{background:#14532d !important; border-color:#22c55e !important; color:#dcfce7 !important;}
+    .option.selected-wrong{background:#fee2e2 !important; border-color:#ef4444 !important; color:#7f1d1d !important; font-weight:600; box-shadow:0 2px 8px rgba(239,68,68,0.15);}
+    html.dark .option.selected-wrong{background:#7f1d1d !important; border-color:#ef4444 !important; color:#fee2e2 !important;}
+    .option.show-correct{background:#fef9c3 !important; border-color:#facc15 !important; color:#422006 !important; font-weight:600; box-shadow:inset 0 0 0 1px rgba(253,224,71,0.5);}
+    html.dark .option.show-correct{background:#422006 !important; border-color:#eab308 !important; color:#fef9c3 !important;}
+    .option.selected-correct .badge-correct, .option.show-correct .badge-correct{display:inline-flex !important;}
+    .option.answered{pointer-events:none;}
+    .feedback{margin-top:14px; padding:10px 14px; border-radius:12px; font-size:13px; font-weight:600; display:none; animation: fadeIn .3s ease;}
+    .feedback.correct{ display:flex; align-items:center; gap:8px; background:#dcfce7; color:#14532d; border:1px solid #bbf7d0; }
+    .feedback.wrong{ display:flex; align-items:center; gap:8px; background:#fee2e2; color:#7f1d1d; border:1px solid #fecaca; }
+    html.dark .feedback.correct{ background:#14532d; color:#dcfce7; border-color:#166534; }
+    html.dark .feedback.wrong{ background:#7f1d1d; color:#fee2e2; border-color:#991b1b; }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+    .progress-bar{height:4px; background:var(--border); border-radius:999px; overflow:hidden; margin-top:12px;}
+    .progress-fill{height:100%; background:linear-gradient(90deg,#2563eb,#1e40af); width:0%; transition:width .4s ease;}
+    
     .hero{background:linear-gradient(135deg, #0a1931 0%, #1e3a8a 100%); color:white; border-radius:24px; padding:36px 28px; margin-bottom:32px; position:relative; overflow:hidden;}
     html.dark .hero{background:linear-gradient(135deg, #020617 0%, #1e293b 100%); border:1px solid var(--border);}
     .hero::after{content:''; position:absolute; top:-40px; right:-40px; width:200px; height:200px; background:radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); border-radius:50%;}
@@ -76,7 +98,7 @@
           
           <div class="mt-4 flex flex-wrap gap-2">
             <span class="bg-white/15 backdrop-blur text-white text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-white/20">105 Preguntas</span>
-            <span class="bg-yellow-300 text-[#422006] text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">Respuestas Correctas Marcadas</span>
+            
             <span class="bg-white/15 backdrop-blur text-white text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-white/20">PUR Uruguay</span>
           </div>
         </div>
@@ -89,6 +111,31 @@
       <input id="search" type="text" placeholder="Buscar pregunta, palabra clave, tema (ej: estatinas, VIH, diabetes)..." oninput="filtrar()">
       <span id="count" class="text-[12px] font-semibold text-[#64748b] bg-[#f1f5f9] px-2.5 py-1 rounded-full">105 preguntas</span>
     </div>
+
+
+    <!-- Stats de práctica -->
+    <div class="mb-6 grid grid-cols-3 gap-3">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 text-center">
+        <div class="text-[11px] font-bold tracking-widest uppercase text-[var(--muted)]">Respondidas</div>
+        <div id="stat-answered" class="jakarta text-[22px] font-extrabold text-[var(--text)]">0 / 105</div>
+      </div>
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 text-center">
+        <div class="text-[11px] font-bold tracking-widest uppercase text-[var(--muted)]">Correctas</div>
+        <div id="stat-correct" class="jakarta text-[22px] font-extrabold text-green-600">0</div>
+      </div>
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 text-center">
+        <div class="text-[11px] font-bold tracking-widest uppercase text-[var(--muted)]">Precisión</div>
+        <div id="stat-accuracy" class="jakarta text-[22px] font-extrabold text-[var(--text)]">0%</div>
+      </div>
+    </div>
+    <div class="mb-8">
+      <div class="flex justify-between text-[11px] font-bold tracking-widest uppercase text-[var(--muted)] mb-2"><span>Progreso</span><span id="progress-text">0%</span></div>
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+    </div>
+    <div class="mb-8 flex justify-center">
+      <button onclick="reiniciarQuiz()" class="text-[13px] font-semibold bg-[var(--card)] border border-[var(--border)] px-5 py-2.5 rounded-full hover:bg-[var(--input-bg)] transition">🔄 Reiniciar práctica</button>
+    </div>
+
 
     <!-- PREGUNTAS -->
     <div id="lista">
@@ -2378,6 +2425,84 @@ function filtrar(){
   });
   document.getElementById('count').textContent = visible + ' preguntas';
 }
+
+// MODO PRÁCTICA INTERACTIVO
+(function(){
+  let totalAnswered = 0;
+  let totalCorrect = 0;
+  const totalQuestions = document.querySelectorAll('.q-card').length;
+
+  function updateStats(){
+    document.getElementById('stat-answered').textContent = totalAnswered + ' / ' + totalQuestions;
+    document.getElementById('stat-correct').textContent = totalCorrect;
+    const acc = totalAnswered ? Math.round((totalCorrect/totalAnswered)*100) : 0;
+    const prog = totalQuestions ? Math.round((totalAnswered/totalQuestions)*100) : 0;
+    document.getElementById('stat-accuracy').textContent = acc + '%';
+    document.getElementById('progress-text').textContent = prog + '% completado';
+    document.getElementById('progress-fill').style.width = prog + '%';
+  }
+
+  document.querySelectorAll('.q-card').forEach(card=>{
+    const options = card.querySelectorAll('.option');
+    
+    // Crear contenedor de feedback si no existe
+    let feedback = document.createElement('div');
+    feedback.className = 'feedback';
+    card.appendChild(feedback);
+
+    options.forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        if(card.dataset.answered) return; // ya respondida
+        const isCorrect = opt.classList.contains('correct');
+        card.dataset.answered = '1';
+        totalAnswered++;
+
+        if(isCorrect){
+          opt.classList.add('selected-correct');
+          totalCorrect++;
+          feedback.className = 'feedback correct';
+          feedback.innerHTML = '✅ ¡Correcto! Muy bien.';
+        } else {
+          opt.classList.add('selected-wrong');
+          // mostrar la correcta
+          const correctOpt = card.querySelector('.option.correct');
+          if(correctOpt) correctOpt.classList.add('show-correct');
+          feedback.className = 'feedback wrong';
+          feedback.innerHTML = '❌ Incorrecto. La respuesta correcta está marcada en amarillo.';
+        }
+        feedback.style.display = 'flex';
+        
+        // bloquear opciones
+        options.forEach(o=> o.classList.add('answered'));
+        
+        updateStats();
+        
+        // scroll suave a feedback en mobile
+        if(window.innerWidth < 640){
+          setTimeout(()=> feedback.scrollIntoView({behavior:'smooth', block:'center'}), 100);
+        }
+      });
+    });
+  });
+
+  // Botón reiniciar
+  window.reiniciarQuiz = function(){
+    totalAnswered = 0;
+    totalCorrect = 0;
+    document.querySelectorAll('.q-card').forEach(card=>{
+      delete card.dataset.answered;
+      card.querySelectorAll('.option').forEach(o=>{
+        o.classList.remove('selected-correct','selected-wrong','show-correct','answered');
+      });
+      const fb = card.querySelector('.feedback');
+      if(fb){ fb.style.display='none'; fb.className='feedback'; }
+    });
+    updateStats();
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  updateStats();
+})();
 </script>
 </body>
 </html>
