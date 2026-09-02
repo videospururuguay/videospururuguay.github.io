@@ -2558,6 +2558,7 @@ function filtrar(){
         options.forEach(o=> o.classList.add('answered'));
         updateStats();
         saveProgress();
+        try{ if(typeof gtag === 'function'){ gtag('event', 'respuesta_quiz', { correcta: isCorrect }); } }catch(e){}
         if(window.innerWidth < 640){
           setTimeout(()=> feedback.scrollIntoView({behavior:'smooth', block:'center'}), 100);
         }
