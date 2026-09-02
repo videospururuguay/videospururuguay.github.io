@@ -260,6 +260,14 @@
 </select>
 <button id="btnIniciarSim" onclick="iniciarSimulacro()">INICIAR SIMULACRO →</button>
 </div>
+<div class="mt-3 flex flex-wrap items-center gap-3 text-[11px]">
+<label class="inline-flex items-center gap-2 cursor-pointer select-none bg-[var(--card)] border border-[var(--border)] px-3 py-1.5 rounded-full">
+<input type="checkbox" id="simNoRepeat" checked class="accent-[#0a1931] w-3.5 h-3.5">
+<span class="font-semibold text-[var(--text)]">Evitar repetir preguntas anteriores</span>
+</label>
+<span id="simPoolInfo" class="text-[var(--muted)] font-medium"></span>
+<button onclick="resetSimPool()" class="text-[10px] underline text-[var(--muted)] hover:text-[var(--text)]">Reset pool</button>
+</div>
 </div>
 <div class="hidden sm:flex w-14 h-14 rounded-2xl bg-black/5 border border-black/10 items-center justify-center text-2xl">🎯</div>
 </div>
@@ -9170,12 +9178,67 @@ function filtrarPUR(){
 
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
 
+const SIM_HIST_KEY = 'vpur-sim-historial-v1';
+function getSimHistorial(){ try{ const v=localStorage.getItem(SIM_HIST_KEY); return v?JSON.parse(v):[] }catch(e){ return [] } }
+function saveSimHistorial(arr){ try{ localStorage.setItem(SIM_HIST_KEY, JSON.stringify(arr)); updateSimPoolInfo(); }catch(e){} }
+function resetSimPool(){ if(confirm('¿Resetear historial de preguntas usadas en simulacros? Volverás a tener las 677 disponibles.')){ localStorage.removeItem(SIM_HIST_KEY); updateSimPoolInfo(); alert('Pool reseteado. Tenés las 677 preguntas de nuevo.'); } }
+function updateSimPoolInfo(){
+  const el=document.getElementById('simPoolInfo');
+  if(!el) return;
+  const hist=getSimHistorial();
+  const total=getAllQuestionsData().length;
+  const remaining=total - hist.length;
+  if(hist.length===0){ el.textContent='Pool fresco: '+total+' preguntas sin usar'; }
+  else if(remaining>0){ el.textContent=`Usaste ${hist.length}/${total} · Te quedan ${remaining} nuevas`; }
+  else { el.textContent=`Usaste las ${total} todas. Se reiniciará en el próximo.`; }
+}
+
 function iniciarSimulacro(){
   const count = parseInt(document.getElementById('simCount').value);
   const minutes = parseInt(document.getElementById('simTime').value);
+  const avoidRepeat = document.getElementById('simNoRepeat') ? document.getElementById('simNoRepeat').checked : true;
   const all = getAllQuestionsData();
   if(all.length < count){ alert('No hay suficientes preguntas. Tenés '+all.length); return; }
-  const shuffled = shuffle([...all]).slice(0, count);
+  let shuffled;
+  let hist = getSimHistorial();
+
+  if(avoidRepeat){
+    let unused = all.filter(q=> !hist.includes(q.id));
+    if(unused.length < count){
+      if(unused.length===0){
+        if(!confirm('Ya usaste las '+all.length+' preguntas en simulacros anteriores.\n¿Querés reiniciar el pool y empezar de cero con preguntas nuevas?')) return;
+        hist=[]; 
+        saveSimHistorial([]);
+        unused=[...all];
+      } else {
+        const need = count - unused.length;
+        if(!confirm(`Solo te quedan ${unused.length} preguntas NUEVAS sin usar.\nPara llegar a ${count}, se completará con ${need} repetidas.\n\n¿Continuar?\n\n(Tip: Si hacés click en "Reset pool" volvés a tener todas)`)) return;
+        const usedPool = all.filter(q=> hist.includes(q.id));
+        const fill = shuffle([...usedPool]).slice(0, need);
+        shuffled = [...shuffle([...unused]), ...fill];
+        shuffled = shuffle(shuffled);
+      }
+    }
+    if(!shuffled){
+      shuffled = shuffle([...unused]).slice(0, count);
+    }
+    // guardar historial: agregar las nuevas (solo las que eran unused, o todas si preferís)
+    const newIds = shuffled.map(q=>q.id);
+    const combined = [...new Set([...hist, ...newIds])]; // sin duplicar IDs
+    // si combinados superan total, es que dimos vuelta, dejamos solo las de esta tirada
+    if(combined.length > all.length && unused.length===all.length){
+      saveSimHistorial(newIds);
+    } else {
+      saveSimHistorial(combined);
+    }
+  } else {
+    shuffled = shuffle([...all]).slice(0, count);
+    // aunque no evite repetir, igual lo trackeamos
+    const newIds = shuffled.map(q=>q.id);
+    const combined = [...new Set([...hist, ...newIds])];
+    saveSimHistorial(combined.slice(-1000)); // limitar
+  }
+
   simData.questions = shuffled;
   simData.answers = Array(count).fill(null);
   simData.marked = new Set();
