@@ -7,8 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 **Sitio oficial:** https://videospururuguay.github.io/  
-**Banco de Preguntas:** https://videospururuguay.github.io/Banco-d
-De-Preguntas.html  
+**Banco de Preguntas:** https://videospururuguay.github.io/Banco-De-Preguntas.html  
 **Temario PUR:** https://temariopur.github.io/
 
 ---
