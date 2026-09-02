@@ -2426,11 +2426,13 @@ function filtrar(){
   document.getElementById('count').textContent = visible + ' preguntas';
 }
 
-// MODO PRÁCTICA INTERACTIVO
+// MODO PRÁCTICA INTERACTIVO CON CACHE (localStorage)
 (function(){
+  const STORAGE_KEY = 'vpur-quiz-progress-v1';
   let totalAnswered = 0;
   let totalCorrect = 0;
-  const totalQuestions = document.querySelectorAll('.q-card').length;
+  const cards = document.querySelectorAll('.q-card');
+  const totalQuestions = cards.length;
 
   function updateStats(){
     document.getElementById('stat-answered').textContent = totalAnswered + ' / ' + totalQuestions;
@@ -2438,21 +2440,104 @@ function filtrar(){
     const acc = totalAnswered ? Math.round((totalCorrect/totalAnswered)*100) : 0;
     const prog = totalQuestions ? Math.round((totalAnswered/totalQuestions)*100) : 0;
     document.getElementById('stat-accuracy').textContent = acc + '%';
-    document.getElementById('progress-text').textContent = prog + '% completado';
-    document.getElementById('progress-fill').style.width = prog + '%';
+    const pt = document.getElementById('progress-text');
+    if(pt) pt.textContent = prog + '% completado';
+    const pf = document.getElementById('progress-fill');
+    if(pf) pf.style.width = prog + '%';
   }
 
-  document.querySelectorAll('.q-card').forEach(card=>{
+  function saveProgress(){
+    try{
+      const answers = [];
+      cards.forEach((card, idx)=>{
+        const opts = Array.from(card.querySelectorAll('.option'));
+        const selIdx = opts.findIndex(o=> o.classList.contains('selected-correct') || o.classList.contains('selected-wrong'));
+        if(card.dataset.answered){
+          answers[idx] = { answered: true, selectedIdx: selIdx >= 0 ? selIdx : null };
+        } else {
+          answers[idx] = { answered: false };
+        }
+      });
+      const payload = { totalAnswered, totalCorrect, answers, v: 1 };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }catch(e){}
+  }
+
+  function loadProgress(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return false;
+      const data = JSON.parse(raw);
+      if(!data || !Array.isArray(data.answers)) return false;
+      // Si cambió la cantidad de preguntas, no restaurar para evitar desfase
+      if(data.answers.length !== totalQuestions && data.answers.length !== 0) {
+        // si es menor, igual intentamos restaurar lo que haya
+      }
+      totalAnswered = data.totalAnswered || 0;
+      totalCorrect = data.totalCorrect || 0;
+
+      data.answers.forEach((ans, idx)=>{
+        if(!ans || !ans.answered) return;
+        const card = cards[idx];
+        if(!card) return;
+        const options = card.querySelectorAll('.option');
+        const feedback = card.querySelector('.feedback');
+        if(ans.selectedIdx === null || ans.selectedIdx === undefined) return;
+        const opt = options[ans.selectedIdx];
+        if(!opt) return;
+
+        card.dataset.answered = '1';
+        const isCorrect = opt.classList.contains('correct');
+
+        if(isCorrect){
+          opt.classList.add('selected-correct');
+          if(feedback){
+            feedback.className = 'feedback correct';
+            feedback.innerHTML = '✅ ¡Correcto! Muy bien.';
+            feedback.style.display = 'flex';
+          }
+        } else {
+          opt.classList.add('selected-wrong');
+          const correctOpt = card.querySelector('.option.correct');
+          if(correctOpt) correctOpt.classList.add('show-correct');
+          if(feedback){
+            feedback.className = 'feedback wrong';
+            feedback.innerHTML = '❌ Incorrecto. La respuesta correcta está marcada en amarillo.';
+            feedback.style.display = 'flex';
+          }
+        }
+        options.forEach(o=> o.classList.add('answered'));
+      });
+
+      // Recalcular por las dudas por si hubo desfasaje
+      // totalAnswered y totalCorrect ya vienen guardados, pero validamos
+      updateStats();
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  // Crear feedbacks
+  cards.forEach(card=>{
+    // evitar duplicar si ya existe
+    if(!card.querySelector('.feedback')){
+      let feedback = document.createElement('div');
+      feedback.className = 'feedback';
+      card.appendChild(feedback);
+    }
+  });
+
+  // Intentar restaurar
+  loadProgress();
+
+  cards.forEach(card=>{
     const options = card.querySelectorAll('.option');
-    
-    // Crear contenedor de feedback si no existe
-    let feedback = document.createElement('div');
-    feedback.className = 'feedback';
-    card.appendChild(feedback);
+    const feedback = card.querySelector('.feedback');
 
     options.forEach(opt=>{
       opt.addEventListener('click', ()=>{
-        if(card.dataset.answered) return; // ya respondida
+        if(card.dataset.answered) return;
         const isCorrect = opt.classList.contains('correct');
         card.dataset.answered = '1';
         totalAnswered++;
@@ -2464,20 +2549,15 @@ function filtrar(){
           feedback.innerHTML = '✅ ¡Correcto! Muy bien.';
         } else {
           opt.classList.add('selected-wrong');
-          // mostrar la correcta
           const correctOpt = card.querySelector('.option.correct');
           if(correctOpt) correctOpt.classList.add('show-correct');
           feedback.className = 'feedback wrong';
           feedback.innerHTML = '❌ Incorrecto. La respuesta correcta está marcada en amarillo.';
         }
         feedback.style.display = 'flex';
-        
-        // bloquear opciones
         options.forEach(o=> o.classList.add('answered'));
-        
         updateStats();
-        
-        // scroll suave a feedback en mobile
+        saveProgress();
         if(window.innerWidth < 640){
           setTimeout(()=> feedback.scrollIntoView({behavior:'smooth', block:'center'}), 100);
         }
@@ -2485,11 +2565,12 @@ function filtrar(){
     });
   });
 
-  // Botón reiniciar
+  // Botón reiniciar - borra cache
   window.reiniciarQuiz = function(){
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
     totalAnswered = 0;
     totalCorrect = 0;
-    document.querySelectorAll('.q-card').forEach(card=>{
+    cards.forEach(card=>{
       delete card.dataset.answered;
       card.querySelectorAll('.option').forEach(o=>{
         o.classList.remove('selected-correct','selected-wrong','show-correct','answered');
