@@ -656,7 +656,7 @@
         const key = API_KEYS[currentKeyIdx];
         const url = urlWithoutKey + (urlWithoutKey.includes('?') ? '&' : '?') + 'key=' + key;
         try{
-          const r = await fetch(url);
+          const r = await fetch(url, {cache: 'no-store'});
           const j = await r.json();
           if(j.error){
             const reason = j.error.errors?.[0]?.reason || '';
