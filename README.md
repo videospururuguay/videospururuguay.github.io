@@ -1,95 +1,135 @@
-# Videos PUR Uruguay
+# Videos PUR Uruguay 🇺🇾
 
-Plataforma educativa gratuita que organiza las cátedras de la Facultad de Medicina de Uruguay en playlists de YouTube para facilitar la preparación para la **Prueba Única de Residencia (PUR)** y el Ciclo Internado Rotatorio.
+> Clases gratuitas en video para preparar la **Prueba Única de Residencia (PUR)** en Uruguay. Medicina Interna, Familiar, Ginecología, Pediatría, Cirugía, Psiquiatría, Bioética y más.
 
-🔗 **Sitio oficial:** https://videospururuguay.github.io/
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?style=for-the-badge)](https://videospururuguay.github.io/)
+[![PUR Uruguay](https://img.shields.io/badge/PUR-Uruguay%202026-0a1931?style=for-the-badge)](https://videospururuguay.github.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+
+**Sitio oficial:** https://videospururuguay.github.io/  
+**Banco de Preguntas:** https://videospururuguay.github.io/banco-de-preguntas.html  
+**Temario PUR:** https://temariopur.github.io/
 
 ---
 
-## ✨ Características
+### ✨ Qué es esto
 
-- 📚 **10 módulos organizados:** Medicina Interna, Familiar, Ginecología, Pediatría, Cirugía, Psiquiatría, Bioética, Encares CIR-PUR, RCP Adulto y Pediátrico
-- 🎥 **500+ clases en video** curadas de las cátedras oficiales de Udelar
-- 📱 **100% responsive:** funciona perfecto en celular y PC
-- ⚡ **Anti Error 153:** filtra automáticamente videos con restricción de embed usando YouTube Data API v3 con rotación de keys
-- 🔍 **Buscador integrado:** busca clases por título dentro de cada módulo
-- 🎯 **Reproductor inteligente:** con fallback a YouTube si un video bloquea el embed
-- 🌙 **Diseño moderno:** navy + teal, glassmorphism, tipografía Plus Jakarta Sans
-- 🚀 **SEO completo:** sitemap, robots, Open Graph, SearchAction
+Proyecto open-source y sin fines de lucro que centraliza todas las clases necesarias para la PUR Uruguay. Nació para que no tengas que buscar playlist por playlist.
 
-## 📁 Estructura del proyecto
+Incluye:
+- **Reproductor integrado**
+- **10 módulos** organizados (Encares CIR-PUR 2026-2027, 2025-2026, Interna, Familiar, Gineco, Pedia, Cirugía, Psiquiatría, Bioética, ECG)
+- **Banco de Preguntas interactivo** con corrección instantánea
+- **Modo Simulacro** con timer, navegación por grilla y revisión detallada
+- **Búsqueda inteligente** por tema (ej: "Apendicitis" encuentra el video aunque el título original sea otro)
+
+### 🚀 Features
+
+- [x] Dark Mode persistente (localStorage)
+- [x] PWA - instalable como app con `manifest.json` + `service-worker.js`
+- [x] Cache inteligente: 12hs para módulos normales, 6hs para Encares 2026-2027
+- [x] Diseño 100% responsive (mobile-first, Tailwind CSS)
+- [x] SEO optimizado: JSON-LD, OpenGraph, Twitter Cards, canonical
+- [x] Monetización ética: AdSense + cafecito voluntario MercadoPago
+- [x] Banners a proyectos hermanos (Temario PUR, Resúmenes Drive, @ENCARESCIRPUR)
+
+### 🛠️ Stack
+
+- **Frontend:** HTML5, Vanilla JavaScript, Tailwind CSS
+- **Hosting:** GitHub Pages
+- **Analytics:** Google Analytics 4 + AdSense
+- **Fuentes:** Inter + Plus Jakarta Sans
+
+### 📁 Estructura del proyecto
 
 ```
 videospururuguay.github.io/
-├── index.html              # Página principal
-├── logo.png                # Logo transparente PUR
-├── banner.webp             # Banner hero
-├── favicon.ico             # Favicon multi-resolución
-├── favicon-16x16.png
-├── favicon-32x32.png
-├── favicon-192x192.png
-├── favicon-512x512.png
-├── ads.txt                 # Google AdSense
-├── robots.txt              # SEO - Robots
-├── sitemap.xml             # SEO - Sitemap
-├── styles.css              # CSS legacy
-├── scripts.js              # JS legacy
-├── README.md               # Este archivo
-├── LICENSE                 # Licencia MIT
-└── .gitignore              # Protección de keys
+├── index.html                  # Home - reproductor de videos
+├── banco-de-preguntas.html     # Banco interactivo + simulacro
+├── manifest.json               # PWA config
+├── service-worker.js           # Offline cache
+├── favicon.ico / favicon-*.png
+├── whatsapp-videos-pur-uruguay.png # OG image
+├── logo.png
+├── og-image.jpg                # Banner Temario
+└── thumbs/                     # Thumbnails de módulos
+    ├── medicina-interna.webp
+    ├── ginecologia.webp
+    ├── pediatria.png
+    ├── encares-cir-pur-2026-2027.webp
+    ├── drive-resumenes.webp
+    └── cafecito-profesional.webp
 ```
 
-## 🚀 Instalación local
+### 💻 Desarrollo local
+
+No necesitas build step. Es estático puro.
 
 ```bash
+# Clonar
 git clone https://github.com/videospururuguay/videospururuguay.github.io.git
 cd videospururuguay.github.io
+
+# Servir local (cualquiera de estas)
 python -m http.server 8000
-# abrir http://localhost:8000
+# o
+npx serve .
 ```
 
-## 🔑 Configuración API de YouTube
+Abrí http://localhost:8000
 
-El sitio usa YouTube Data API v3 con sistema de rotación y cache en localStorage para evitar quemar cuota.
+### 📚 Banco de Preguntas
 
-1. Ir a Google Cloud Console
-2. Crear proyecto y habilitar YouTube Data API v3
-3. Crear credencial tipo API Key
-4. Restringir la key OBLIGATORIO:
-   - Referentes HTTP: `videospururuguay.github.io/*` y `localhost/*`
-   - APIs: Solo YouTube Data API v3
+El archivo `banco-de-preguntas.html` es standalone:
+- Renderiza preguntas desde un JSON interno
+- Lógica de corrección: `selected-correct`, `selected-wrong`, `show-correct`
+- Simulacro: guarda en `window._lastSimResult` para revisión
+- Próximas mejoras: persistencia de progreso, estadísticas por materia
 
-> ⚠️ Nunca subas tu API key real a GitHub público sin restricción. Te pueden generar cargos.
+### 🗺️ Roadmap
 
-## 🌐 Deploy en GitHub Pages
+- [ ] Guardar progreso del banco en localStorage + exportar PDF
+- [ ] Agregar modo flashcards
+- [ ] Sitemap.xml automático
+- [ ] RSS para nuevas clases
+- [ ] Mejoras de Lighthouse y accesibilidad
 
-1. Subir todos los archivos a la rama `main`
-2. En Settings > Pages, activar GitHub Pages desde `main / root`
-3. Esperar 1-2 minutos
+### 🤝 Cómo contribuir
 
-El sitio ya incluye:
-- Google AdSense (`ca-pub-6775600074630483`)
-- Google Analytics 4 (`G-3LX0DX40X8`)
-- Open Graph tags para redes sociales
+¡Toda ayuda suma para los que preparan la PUR!
 
-## 🛠️ Tecnologías
+1. Fork el repo
+2. Crea branch: `git checkout -b feature/nueva-funcionalidad`
+3. Commit: `git commit -m 'Agrega: ...'`
+4. Push y abre PR
 
-- **Frontend:** HTML5, Tailwind CSS, Vanilla JavaScript
-- **APIs:** YouTube Data API v3, YouTube IFrame Player API
-- **Player:** youtube-nocookie.com para privacidad y evitar Error 153
-- **Fuentes:** Inter + Plus Jakarta Sans
-- **Hosting:** GitHub Pages
+Ideas para contribuir:
+- Corregir títulos en `MIS_NOTAS`
+- Agregar preguntas al banco
+- Mejorar accesibilidad / contraste
+- Traducir / mejorar SEO
 
-## 📄 Licencia
+### ☕ Apoyar el proyecto
 
-Este proyecto está bajo licencia MIT. El contenido de los videos pertenece a sus respectivas cátedras de Facultad de Medicina - Udelar. Esta plataforma solo organiza y facilita el acceso.
+Si te sirvió para estudiar, podés invitar un cafecito:
+**MercadoPago:** https://link.mercadopago.com.uy/miguesa
 
-## 🙏 Agradecimientos
+Todo lo recaudado se usa para hosting, dominio y tiempo de edición.
 
-- A todas las cátedras de Facultad de Medicina Udelar
-- A los estudiantes que mantienen actualizadas las playlists
-- A la comunidad de medicina de Uruguay
+### 📄 Legal
+
+- **Contenido:** Los videos pertenecen a sus respectivos docentes / canales (ej: @ENCARESCIRPUR). Este sitio solo los organiza.
+- **Código:** MIT License - hacé lo que quieras, pero mantené los créditos.
+- **Marca:** "PUR" y "Prueba Única de Residencia" son de Facultad de Medicina - UdelaR.
+
+### 📬 Contacto
+
+- **Sitio:** https://videospururuguay.github.io/
+- **Contacto:** Ver página `contacto.html` en el sitio
+- **YouTube asociado:** @ENCARESCIRPUR
 
 ---
-**Hecho con ❤️ para estudiantes de medicina de Uruguay**
-© 2026 VIDEOS PUR URUGUAY
+
+© 2026 Videos PUR Uruguay · Educación médica gratuita · Hecho con ❤️ en Uruguay 🇺🇾
+
+> Si estás preparando la PUR 2026, ¡mucha fuerza! Nos vemos del otro lado, como colegas.
