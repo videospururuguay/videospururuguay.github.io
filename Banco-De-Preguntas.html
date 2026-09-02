@@ -63,6 +63,15 @@
     .progress-bar{height:4px; background:var(--border); border-radius:999px; overflow:hidden; margin-top:12px;}
     .progress-fill{height:100%; background:linear-gradient(90deg,#2563eb,#1e40af); width:0%; transition:width .4s ease;}
     
+    
+    @keyframes pulseRed {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(220, 38, 38, 0); }
+    }
+    .btn-pulse {
+      animation: pulseRed 1.8s infinite;
+    }
+
     .hero{background:linear-gradient(135deg, #0a1931 0%, #1e3a8a 100%); color:white; border-radius:24px; padding:36px 28px; margin-bottom:32px; position:relative; overflow:hidden;}
     html.dark .hero{background:linear-gradient(135deg, #020617 0%, #1e293b 100%); border:1px solid var(--border);}
     .hero::after{content:''; position:absolute; top:-40px; right:-40px; width:200px; height:200px; background:radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); border-radius:50%;}
@@ -98,8 +107,10 @@
           
           <div class="mt-4 flex flex-wrap gap-2">
             <span class="bg-white/15 backdrop-blur text-white text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-white/20">105 Preguntas</span>
-            
             <span class="bg-white/15 backdrop-blur text-white text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border border-white/20">PUR Uruguay</span>
+          </div>
+          <div class="mt-6 flex justify-center sm:justify-start">
+            <a href="https://videospururuguay.github.io/" class="btn-pulse inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-extrabold text-[14px] tracking-widest uppercase px-7 py-3 rounded-full shadow-xl shadow-red-600/40 transition cursor-pointer">CLASES EN VÍDEOS</a>
           </div>
         </div>
       </div>
