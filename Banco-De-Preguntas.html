@@ -156,6 +156,13 @@
     #simResult.active{display:block;}
     .result-card{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; max-width:720px; margin:20px auto;}
 
+
+/* NIVEL 2 - 0% riesgo - Solo pinta lo visible (truco YouTube) */
+.q-card, .v-card, .pl-btn, .thumbs {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
 </style>
 </head>
 <body>
@@ -163,7 +170,7 @@
 <header class="header">
 <div class="max-w-5xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
 <a class="logo-box flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1" href="index.html">
-<img alt="Logo Videos PUR Uruguay" class="w-9 h-9 sm:w-11 sm:h-11 rounded-[12px] shrink-0" onerror="this.src='https://videospururuguay.github.io/logo.png'; this.onerror=null;" src="logo.png"/>
+<img loading="lazy"  alt="Logo Videos PUR Uruguay" class="w-9 h-9 sm:w-11 sm:h-11 rounded-[12px] shrink-0" onerror="this.src='https://videospururuguay.github.io/logo.png'; this.onerror=null;" src="logo.png"/>
 <div class="min-w-0 leading-none">
 <div class="jakarta font-extrabold text-[13px] sm:text-[15px] leading-[1.1] tracking-tight text-[var(--text)] truncate">Videos PUR Uruguay</div>
 <div class="text-[10px] sm:text-[12px] text-[var(--muted)] font-medium leading-none mt-[2px] truncate hidden xs:block">Clases para Residencia Médica</div>
@@ -179,7 +186,7 @@
 <!-- HERO TITULO PRINCIPAL -->
 <div class="hero">
 <div class="flex items-start gap-4 relative z-10">
-<img alt="Logo" class="w-14 h-14 rounded-2xl bg-white p-1.5 shadow-lg hidden sm:block" onerror="this.style.display='none'" src="logo.png"/>
+<img loading="lazy"  alt="Logo" class="w-14 h-14 rounded-2xl bg-white p-1.5 shadow-lg hidden sm:block" onerror="this.style.display='none'" src="logo.png"/>
 <div class="flex-1">
 <h1 class="jakarta font-extrabold text-[28px] sm:text-[36px] leading-[1.1] tracking-tight">BANCO DE PREGUNTAS<br/>PRUEBA ÚNICA DE RESIDENCIA</h1>
 <div class="mt-4 flex flex-wrap gap-2">
@@ -3905,7 +3912,7 @@
 </div>
 <div class="mt-12 text-center border-t border-[#e2e8f0] pt-8 pb-4">
 <div class="flex justify-center mb-4">
-<img alt="Logo" class="w-10 h-10 rounded-xl" onerror="this.src='https://videospururuguay.github.io/logo.png'" src="logo.png"/>
+<img loading="lazy"  alt="Logo" class="w-10 h-10 rounded-xl" onerror="this.src='https://videospururuguay.github.io/logo.png'" src="logo.png"/>
 </div>
 <p class="text-[13px] text-[#64748b]">© 2026 Videos PUR Uruguay · Banco de Preguntas PUR Uruguay · Educación médica gratuita</p>
 <div class="mt-4 flex gap-4 justify-center text-[13px]">
