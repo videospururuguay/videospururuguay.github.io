@@ -29,6 +29,27 @@
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3LX0DX40X8"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3LX0DX40X8');</script>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SUPABASE_URL='https://elkcyyflhyohiydbpoba.supabase.co';
+const SUPABASE_KEY='sb_publishable_gOPHLrKgQ2R0X802VVoe5A_mFyZSvQr';
+let supa=null; try{supa=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
+let _ultimoRankingGuardado=null;
+</script>
+<style>
+.ranking-box{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:20px; margin-top:20px;}
+.rank-input{width:100%; padding:13px 16px; border-radius:14px; border:1px solid var(--border); background:var(--input-bg); color:var(--text); font-weight:600; font-size:15px; outline:none;}
+.rank-input:focus{border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,0.12);}
+.top5-list{display:flex; flex-direction:column; gap:8px; margin-top:14px;}
+.top5-item{display:flex; align-items:center; justify-content:space-between; padding:11px 14px; border-radius:12px; border:1px solid var(--border); background:var(--card);}
+.top5-item.top1{background:#fefce8; border-color:#facc15;} html.dark .top5-item.top1{background:rgba(250,204,21,0.15);}
+.top5-item.me{border-color:#2563eb; box-shadow:0 0 0 2px rgba(37,99,235,0.15);}
+.top5-pos{font-weight:800; width:34px; text-align:center;}
+.top5-name{flex:1; font-weight:700; font-size:14px; margin-left:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.top5-pct{font-weight:800; font-size:14px;}
+.top5-detail{font-size:11px; color:var(--muted);}
+</style>
+
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <style>
     :root{--bg:#f8fafc; --card:#ffffff; --border:#e2e8f0; --text:#0f172a; --muted:#64748b; --primary:#0a1931; --accent:#2563eb; --sidebar-bg:rgba(255,255,255,0.96); --input-bg:#f1f5f9;}
@@ -9104,12 +9125,20 @@ function filtrar(){
 <div class="text-[12px] font-bold tracking-widest uppercase text-[var(--muted)]">Resultado Simulacro PUR</div>
 <div class="jakarta font-extrabold text-[56px] leading-none mt-3" id="resScore">0/100</div>
 <div class="jakarta font-extrabold text-[22px] text-[#2563eb] mt-1" id="resPercent">0%</div>
-<div class="grid grid-cols-3 gap-3 mt-6">
-<div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3"><div class="text-[11px] uppercase font-bold text-[var(--muted)]">Correctas</div><div class="font-extrabold text-[20px] text-green-600" id="resCorrect">0</div></div>
-<div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3"><div class="text-[11px] uppercase font-bold text-[var(--muted)]">Incorrectas</div><div class="font-extrabold text-[20px] text-red-600" id="resWrong">0</div></div>
-<div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3"><div class="text-[11px] uppercase font-bold text-[var(--muted)]">Tiempo</div><div class="font-extrabold text-[20px]" id="resTime">00:00</div></div>
+<div class="grid grid-cols-3 gap-2.5 mt-6">
+<div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center min-w-0"><div class="text-[10px] uppercase font-bold text-[var(--muted)] tracking-widest">Correctas</div><div class="font-extrabold text-[22px] text-green-600 leading-none mt-1" id="resCorrect">0</div></div>
+<div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center min-w-0"><div class="text-[10px] uppercase font-bold text-[var(--muted)] tracking-widest">Incorrectas</div><div class="font-extrabold text-[22px] text-red-600 leading-none mt-1" id="resWrongMain">0</div><div class="text-[11px] font-bold text-red-600/80 mt-1 leading-tight" id="resWrongSub"></div></div>
+<div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center min-w-0"><div class="text-[10px] uppercase font-bold text-[var(--muted)] tracking-widest">Tiempo</div><div class="font-extrabold text-[20px] leading-none mt-1" id="resTime">00:00</div></div>
 </div>
 <div class="mt-6 text-[14px] leading-relaxed" id="resMessage"></div>
+<div id="rankingSaveBox" class="ranking-box" style="display:none">
+  <div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="text-[20px]">🏆</span><span class="jakarta font-extrabold text-[18px]">Ranking Oficial</span></div><span class="text-[10px] font-bold uppercase bg-[#eff6ff] dark:bg-[#1e293b] text-[#2563eb] dark:text-[#93c5fd] border border-[#dbeafe] dark:border-[#334155] px-2.5 py-1 rounded-full">130 PREG / 4H</span></div>
+  <div class="text-[13px] text-[var(--muted)] mt-2">Solo simulacro oficial. Guardá tu puntaje en el Top 5.</div>
+  <div class="mt-4 flex flex-col sm:flex-row gap-2.5"><input id="rankApodo" class="rank-input" placeholder="Tu apodo" maxlength="20"/><button class="sim-btn primary !mt-0 h-[48px] px-6" id="btnGuardarRanking" onclick="guardarEnRanking()">Guardar</button></div>
+  <div id="rankingSaveMsg" class="text-[12px] mt-2 font-semibold min-h-[16px]"></div>
+  <div class="mt-4 flex items-center justify-between"><span class="jakarta font-extrabold text-[14px]">Top 5 — Ranking Oficial</span><button class="text-[11px] font-bold text-[#2563eb]" onclick="cargarRankingTop()">↻ Actualizar</button></div>
+  <div id="rankingTopPreview"></div>
+</div>
 <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
 <button class="sim-btn primary" onclick="revisarSimulacro()">🔍 REVISAR RESPUESTAS</button>
 <button class="sim-btn" onclick="reiniciarSimDesdeResultado()">🔄 NUEVO SIMULACRO</button>
@@ -9121,7 +9150,7 @@ function filtrar(){
 </div>
 <script>
 // === SIMULACRO PUR ===
-let simData = { questions: [], answers: [], marked: new Set(), current: 0, total: 130, timeLeft: 10800, timer: null, startTime: null, finished: false };
+let simData = { questions: [], answers: [], marked: new Set(), current: 0, total: 130, timeLeft: 14400, timer: null, startTime: null, finished: false };
 
 function getAllQuestionsData(){
   const cards = document.querySelectorAll('.q-card');
@@ -9361,7 +9390,8 @@ function finalizarSimulacro(auto=false){
   document.getElementById('resScore').textContent = correct+'/'+total;
   document.getElementById('resPercent').textContent = percent+'%';
   document.getElementById('resCorrect').textContent = correct;
-  document.getElementById('resWrong').textContent = wrong + (unanswered?` (+${unanswered} sin resp)`:'');
+  document.getElementById('resWrongMain').textContent = wrong;
+  document.getElementById('resWrongSub').textContent = unanswered ? `+${unanswered} sin resp` : '';
   document.getElementById('resTime').textContent = String(minutesUsed).padStart(2,'0')+':'+String(secsUsed).padStart(2,'0');
   let msg='';
   if(percent>=80) msg='¡Excelente! Estás a nivel PUR. Seguí así, con repasos de los temas flojos.';
@@ -9370,10 +9400,27 @@ function finalizarSimulacro(auto=false){
   else msg='Tranqui, es parte del proceso. Usá el banco en modo práctica por temas y volvé al simulacro cuando subas precisión.';
   document.getElementById('resMessage').textContent = msg + ` Respondiste ${simData.answers.filter(a=>a!==null).length} de ${total}.`;
   
-  // guardar resultado para review
+  // guardar resultado para review y ranking SOLO 130
   window._lastSimResult = { questions: simData.questions, answers: simData.answers };
+  window._lastSimStats = { correct, total, percent };
+  const rb=document.getElementById('rankingSaveBox');
+  if(rb){ if(total===130){ rb.style.display='block'; document.getElementById('rankingSaveMsg').textContent=''; const b=document.getElementById('btnGuardarRanking'); if(b){b.disabled=false; b.textContent='Guardar';} cargarRankingTop(); setTimeout(()=>rb.scrollIntoView({behavior:'smooth', block:'start'}),300);} else { rb.style.display='none'; } }
+
   document.getElementById('resReview').innerHTML='';
   try{ gtag('event','finalizar_simulacro',{correct,total,percent}); }catch(e){}
+}
+
+
+async function guardarEnRanking(){
+  const apodoEl=document.getElementById('rankApodo'); const msg=document.getElementById('rankingSaveMsg'); const btn=document.getElementById('btnGuardarRanking');
+  let apodo=(apodoEl.value||'').trim(); if(!apodo){msg.textContent='Poné un apodo'; msg.style.color='#ef4444'; return;} if(apodo.length<3){msg.textContent='Mínimo 3 letras'; msg.style.color='#ef4444'; return;}
+  const stats=window._lastSimStats; if(!stats||stats.total!==130){msg.textContent='Solo ranking oficial 130'; return;}
+  btn.disabled=true; btn.textContent='Guardando...'; msg.textContent='Guardando...'; msg.style.color='var(--muted)';
+  try{const {error}=await supa.from('ranking_pur').insert({apodo, correctas:stats.correct, total:130, porcentaje:stats.percent, tipo:130}); if(error) throw error; msg.textContent='¡Guardado! 🏆 Estás en el Top 5'; msg.style.color='#16a34a'; _ultimoRankingGuardado=apodo; apodoEl.value=''; btn.textContent='Guardado ✓'; setTimeout(()=>cargarRankingTop(),500);}catch(e){msg.textContent='Error: '+(e.message||''); msg.style.color='#ef4444'; btn.disabled=false; btn.textContent='Guardar';}
+}
+async function cargarRankingTop(){
+  const cont=document.getElementById('rankingTopPreview'); if(!cont) return; cont.innerHTML='<div class="text-[12px] text-[var(--muted)] p-2">Cargando Top 5...</div>'; if(!supa){cont.innerHTML='<div class="text-red-500 text-[12px]">Sin conexión</div>'; return;}
+  try{const {data,error}=await supa.from('ranking_pur').select('*').eq('tipo',130).order('porcentaje',{ascending:false}).order('correctas',{ascending:false}).order('created_at',{ascending:true}).limit(5); if(error) throw error; if(!data||data.length===0){cont.innerHTML='<div class="text-[13px] p-4 bg-[var(--input-bg)] border border-[var(--border)] rounded-xl text-center mt-3 text-[var(--muted)]">Aún no hay puntajes oficiales. ¡Sé el primero!</div>'; return;} let html='<div class="top5-list">'; data.forEach((r,i)=>{const me=_ultimoRankingGuardado&&r.apodo===_ultimoRankingGuardado; const cls=i===0?'top1':i===1?'top2':i===2?'top3':''; const med=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}°`; html+=`<div class="top5-item ${cls} ${me?'me':''}"><div class="flex items-center"><span class="top5-pos">${med}</span><span class="top5-name">${(r.apodo||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}${me?' (vos)':''}</span></div><div class="top5-score"><div class="top5-pct">${r.porcentaje}%</div><div class="top5-detail">${r.correctas}/130</div></div></div>`;}); html+='</div>'; cont.innerHTML=html;}catch(e){cont.innerHTML=`<div class="text-red-500 p-2 text-[12px]">Error: ${e.message}</div>`;}
 }
 
 function revisarSimulacro(){
