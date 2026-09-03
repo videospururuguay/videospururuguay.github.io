@@ -887,6 +887,9 @@ let currentPl = PLAYLISTS[0].id;
 
     async function loadPlaylist(pid, opts={}){
       const clearVideo = opts.clearVideo || false;
+      // FIX: al cambiar de playlist, borrar búsqueda para no dejar la otra vacía
+      const _searchFix = document.getElementById('search');
+      if(_searchFix){ _searchFix.value = ''; }
       currentPl=pid;
       // guarda la playlist actual en la URL para que el compartir funcione siempre
       try{
