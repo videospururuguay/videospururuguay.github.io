@@ -283,7 +283,7 @@ let _ultimoRankingGuardado=null;
 </div>
 <div class="mt-3 flex flex-wrap items-center gap-3 text-[11px]">
 <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-[var(--card)] border border-[var(--border)] px-3 py-1.5 rounded-full">
-<input type="checkbox" id="simNoRepeat" checked class="accent-[#0a1931] w-3.5 h-3.5">
+<input type="checkbox" id="simNoRepeat" checked onchange="updateSimPoolInfo()" class="accent-[#0a1931] w-3.5 h-3.5">
 <span class="font-semibold text-[var(--text)]">Evitar repetir preguntas anteriores</span>
 </label>
 <span id="simPoolInfo" class="text-[var(--muted)] font-medium"></span>
@@ -9152,6 +9152,7 @@ function filtrar(){
 // === SIMULACRO PUR ===
 let simData = { questions: [], answers: [], marked: new Set(), current: 0, total: 130, timeLeft: 14400, timer: null, startTime: null, finished: false };
 
+document.addEventListener('DOMContentLoaded',()=>{ setTimeout(updateSimPoolInfo,500); });
 function getAllQuestionsData(){
   const cards = document.querySelectorAll('.q-card');
   const arr = [];
@@ -9214,9 +9215,15 @@ function resetSimPool(){ if(confirm('¿Resetear historial de preguntas usadas en
 function updateSimPoolInfo(){
   const el=document.getElementById('simPoolInfo');
   if(!el) return;
+  const cb=document.getElementById('simNoRepeat');
+  const avoidRepeat = cb ? cb.checked : true;
   const hist=getSimHistorial();
   const total=getAllQuestionsData().length;
   const remaining=total - hist.length;
+  if(!avoidRepeat){
+    el.textContent='Modo libre: se pueden repetir preguntas (no consume pool)';
+    return;
+  }
   if(hist.length===0){ el.textContent='Pool fresco: '+total+' preguntas sin usar'; }
   else if(remaining>0){ el.textContent=`Usaste ${hist.length}/${total} · Te quedan ${remaining} nuevas`; }
   else { el.textContent=`Usaste las ${total} todas. Se reiniciará en el próximo.`; }
@@ -9261,11 +9268,8 @@ function iniciarSimulacro(){
       saveSimHistorial(combined);
     }
   } else {
+    // Modo con repetición: no consume pool, no guarda historial
     shuffled = shuffle([...all]).slice(0, count);
-    // aunque no evite repetir, igual lo trackeamos
-    const newIds = shuffled.map(q=>q.id);
-    const combined = [...new Set([...hist, ...newIds])];
-    saveSimHistorial(combined.slice(-1000)); // limitar
   }
 
   simData.questions = shuffled;
