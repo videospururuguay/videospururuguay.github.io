@@ -24,12 +24,192 @@
     if(d==='1' || (!d && m)) document.documentElement.classList.add('dark');
   }catch(e){}
 })();
+function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
 </script>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6775600074630483"></script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3LX0DX40X8"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3LX0DX40X8');</script>
-<script src="https://cdn.tailwindcss.com"></script>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6775600074630483">function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
+</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3LX0DX40X8">function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3LX0DX40X8');function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
+</script>
+<script src="https://cdn.tailwindcss.com">function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
+</script>
 <script>
+function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
 </script>
 <style>
 .ranking-box{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:20px; margin-top:20px;}
@@ -9071,6 +9251,36 @@ function filtrar(){
 
   updateStats();
 })();
+function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
 </script>
 <!-- OVERLAY EXAMEN -->
 <div id="simulacroOverlay">
@@ -9405,6 +9615,36 @@ function reiniciarSimDesdeResultado(){
   document.getElementById('simResult').classList.remove('active');
   iniciarSimulacro();
 }
+function revisarSimulacro(){
+  const data = window._lastSimResult;
+  if(!data){ alert('No hay datos de simulacro'); return; }
+  const cont = document.getElementById('resReview');
+  let html = '<h3 class="jakarta font-extrabold text-[20px] mb-4">Revisión detallada</h3>';
+  data.questions.forEach((q,i)=>{
+    const ans = data.answers[i];
+    const correctIdx = q.options.findIndex(o=>o.isCorrect);
+    const isCorrect = ans!==null && ans===correctIdx;
+    html += `<div class="q-card ${isCorrect?'border-green-300': ans===null?'border-amber-300':'border-red-200'}">`;
+    html += `<div class="flex justify-between items-center"><span class="q-num">Pregunta ${i+1} ${isCorrect?'✅':'❌'}</span><span class="text-[11px] ${isCorrect?'text-green-600':'text-red-600'} font-bold">${isCorrect?'Correcta':'Incorrecta'}</span></div>`;
+    html += `<div class="q-title">${q.title}</div><div class="options">`;
+    q.options.forEach((opt, idx)=>{
+      let cls='option ';
+      if(idx===correctIdx) cls+='show-correct ';
+      if(idx===ans && ans!==correctIdx) cls+='selected-wrong ';
+      if(idx===ans && ans===correctIdx) cls+='selected-correct ';
+      if(idx!==ans && idx!==correctIdx) cls+='answered ';
+      html += `<div class="${cls}"><span>${String.fromCharCode(65+idx)}. ${opt.text}</span>${idx===correctIdx?'<span class="badge-correct">CORRECTA</span>':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
+  cont.innerHTML = html;
+  cont.scrollIntoView({behavior:'smooth'});
+}
+function reiniciarSimDesdeResultado(){
+  document.getElementById('simResult').classList.remove('active');
+  iniciarSimulacro();
+}
+
 </script>
 </body>
 </html>
