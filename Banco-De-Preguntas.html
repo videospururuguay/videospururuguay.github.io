@@ -9130,7 +9130,16 @@ function filtrar(){
 <div class="bg-[var(--input-bg)] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center min-w-0"><div class="text-[10px] uppercase font-bold text-[var(--muted)] tracking-widest">Tiempo</div><div class="font-extrabold text-[20px] leading-none mt-1" id="resTime">00:00</div></div>
 </div>
 <div class="mt-6 text-[14px] leading-relaxed" id="resMessage"></div>
-<!-- RANKING ELIMINADO -->
+<!-- ranking eliminado por pedido -->
+<div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+<button class="sim-btn primary" onclick="revisarSimulacro()">🔍 REVISAR RESPUESTAS</button>
+<button class="sim-btn" onclick="reiniciarSimDesdeResultado()">🔄 NUEVO SIMULACRO</button>
+<a class="sim-btn" href="#" onclick="document.getElementById('simResult').classList.remove('active'); return false;">← Volver al banco</a>
+</div>
+</div>
+<div class="mt-6" id="resReview"></div>
+</div>
+</div>
 <script>
 // === SIMULACRO PUR ===
 let simData = { questions: [], answers: [], marked: new Set(), current: 0, total: 130, timeLeft: 14400, timer: null, startTime: null, finished: false };
@@ -9387,7 +9396,7 @@ function finalizarSimulacro(auto=false){
   else msg='Tranqui, es parte del proceso. Usá el banco en modo práctica por temas y volvé al simulacro cuando subas precisión.';
   document.getElementById('resMessage').textContent = msg + ` Respondiste ${simData.answers.filter(a=>a!==null).length} de ${total}.`;
   
-  // guardar resultado para review (sin ranking)
+  // guardar resultado para review
   window._lastSimResult = { questions: simData.questions, answers: simData.answers };
   window._lastSimStats = { correct, total, percent };
 
@@ -9399,8 +9408,82 @@ function finalizarSimulacro(auto=false){
 async function guardarEnRanking(){ /* ranking eliminado */ }
 
 
-async function cargarRankingTop(){ /* ranking eliminado */ }
+async function cargarRankingTop(miFila=null){
+  const cont=document.getElementById('rankingTopPreview'); if(!cont) return; cont.innerHTML='<div class="text-[12px] text-[var(--muted)] p-2">Cargando Top 5...</div>'; if(!supa){cont.innerHTML='<div class="text-red-500 text-[12px]">Sin conexión</div>'; return;}
+  try{
+    const {data: top5raw, error}=await supa.from('ranking_pur').select('*').eq('tipo',130).order('porcentaje',{ascending:false}).order('correctas',{ascending:false}).order('created_at',{ascending:true}).limit(20);
+    if(error) throw error;
+    if(!top5raw||top5raw.length===0){cont.innerHTML='<div class="text-[13px] p-4 bg-[var(--input-bg)] border border-[var(--border)] rounded-xl text-center mt-3 text-[var(--muted)]">Aún no hay puntajes oficiales. ¡Sé el primero!</div>'; return;}
 
+    const filaParaComparar = miFila || window._ultimoRankingRow || null;
+    const tiempoActual = filaParaComparar?.tiempo_seg ?? window._lastSimStats?.tiempo_seg ?? null;
+
+    function esMiFila(r){
+      if(!filaParaComparar) return false;
+      if(r.id && filaParaComparar.id && r.id===filaParaComparar.id) return true;
+      if(r.created_at && filaParaComparar.created_at && r.created_at===filaParaComparar.created_at && r.apodo===filaParaComparar.apodo) return true;
+      return false;
+    }
+
+    // re-ordenamos en cliente aplicando desempate por tiempo (sin tocar Supabase)
+    function ordenarConTiempo(a,b){
+      if(b.porcentaje!==a.porcentaje) return b.porcentaje - a.porcentaje;
+      if(b.correctas!==a.correctas) return b.correctas - a.correctas;
+      const timeA = esMiFila(a) ? (tiempoActual ?? 999999) : 999999;
+      const timeB = esMiFila(b) ? (tiempoActual ?? 999999) : 999999;
+      if(timeA!==timeB) return timeA - timeB;
+      return new Date(a.created_at) - new Date(b.created_at);
+    }
+
+    const top5ordenado = [...top5raw].sort(ordenarConTiempo);
+    const top5 = top5ordenado.slice(0,5);
+
+    let estoyEnTop5=false;
+    let html='<div class="top5-list">';
+    top5.forEach((r,i)=>{
+      const esYo = esMiFila(r);
+      if(esYo) estoyEnTop5=true;
+      const me=null && r.apodo===null;
+      const cls=i===0?'top1':i===1?'top2':i===2?'top3':'';
+      const med=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}°`;
+      const esActual = esYo && tiempoActual!=null;
+      const t = esActual ? ` • ${filaParaComparar.tiempo_txt}` : '';
+      html+=`<div class="top5-item ${cls} ${(me||esYo)?'me':''}"><div class="flex items-center"><span class="top5-pos">${med}</span><span class="top5-name">${(r.apodo||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}${(me||esYo)?' (vos)':''}</span></div><div class="top5-score"><div class="top5-pct">${r.porcentaje}%</div><div class="top5-detail">${r.correctas}/130${t}</div></div></div>`;
+    });
+    html+='</div>';
+
+    if(filaParaComparar){
+      try{
+        const {data: allRaw, error: err2}=await supa.from('ranking_pur').select('id,apodo,porcentaje,correctas,created_at').eq('tipo',130).order('porcentaje',{ascending:false}).order('correctas',{ascending:false}).order('created_at',{ascending:true}).limit(2000);
+        if(!err2 && allRaw){
+          // inyectamos el tiempo local solo a mi fila para el cálculo
+          const all = [...allRaw];
+          // si mi fila no está en allRaw por limit o timing, la agregamos
+          const yaEsta = all.some(r=>esMiFila(r));
+          if(!yaEsta){
+            all.push({id:filaParaComparar.id, apodo:filaParaComparar.apodo, porcentaje:filaParaComparar.porcentaje, correctas:filaParaComparar.correctas, created_at:filaParaComparar.created_at});
+          }
+          const allOrdenado = all.sort(ordenarConTiempo);
+          let idx = allOrdenado.findIndex(r=>esMiFila(r));
+          if(idx>=0){
+            const miPos = idx+1;
+            if(!estoyEnTop5){
+              const t2 = filaParaComparar.tiempo_txt || '';
+              html+=`<div style="margin-top:14px;"><div style="text-align:center; font-size:11px; letter-spacing:0.08em; font-weight:800; color:var(--muted); margin-bottom:8px;">TU POSICIÓN • DESEMPATE POR TIEMPO</div><div class="top5-item me" style="border-color:#2563eb; background:rgba(37,99,235,0.06);"><div class="flex items-center"><span class="top5-pos">${miPos}°</span><span class="top5-name">${(filaParaComparar.apodo||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')} (vos)</span></div><div class="top5-score"><div class="top5-pct">${filaParaComparar.porcentaje}%</div><div class="top5-detail">${filaParaComparar.correctas}/130${t2?` • ${t2}`:''}</div></div></div><div style="text-align:center; font-size:12px; color:var(--muted); margin-top:8px;">Puesto ${miPos}° de ${allOrdenado.length} • Si empatás % y correctas, gana el menor tiempo</div></div>`;
+              const msgEl=document.getElementById('rankingSaveMsg');
+              if(msgEl) { msgEl.textContent=`¡Guardado! Estás ${miPos}° con ${filaParaComparar.porcentaje}% en ${t2} • Desempate por tiempo`; msgEl.style.color='#2563eb'; }
+            } else {
+              const msgEl=document.getElementById('rankingSaveMsg');
+              if(msgEl){ msgEl.textContent=`¡Guardado! 🏆 Top ${miPos}° con ${filaParaComparar.porcentaje}% en ${filaParaComparar.tiempo_txt||''}`; msgEl.style.color='#16a34a'; }
+            }
+          }
+        }
+      }catch(e2){ console.log('Error puesto', e2); }
+    }
+
+    cont.innerHTML=html;
+  }catch(e){cont.innerHTML=`<div class="text-red-500 p-2 text-[12px]">Error: ${e.message}</div>`;}
+}
 
 
 function revisarSimulacro(){
