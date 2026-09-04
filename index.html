@@ -1056,14 +1056,20 @@ let currentPl = PLAYLISTS[0].id;
           }
         });
       }
-      // FIX: no tocar window.scrollY en movil al cambiar video
-      if(window.innerWidth >= 768){
-        // en desktop si queres que suba al player, descomenta:
-        // document.getElementById('player').scrollIntoView({behavior:'smooth', block:'start'});
-      } else {
-        // en movil, mantener donde estaba el usuario
-        window.scrollTo(0, savedWindowY);
+      // FIX FINAL: 
+      // - En PC: la playlist esta al costado, el player siempre se ve, NO scrollear ventana
+      // - En MOVIL: la playlist esta abajo, si tocas video 60 estas muy abajo, hay que subir suave al player
+      // pero sin perder la posicion de la lista
+      if(window.innerWidth < 768){
+        requestAnimationFrame(()=>{
+          const playerWrap = document.getElementById('player')?.parentElement || document.getElementById('player');
+          if(playerWrap){
+            const top = playerWrap.getBoundingClientRect().top + window.scrollY - 12;
+            window.scrollTo({top: top, behavior: 'smooth'});
+          }
+        });
       }
+      // En PC no hacemos window.scrollTo, porque el layout es sidebar + main
 
       if(updateUrl){
         try{
