@@ -1064,7 +1064,7 @@ let currentPl = PLAYLISTS[0].id;
         requestAnimationFrame(()=>{
           const playerWrap = document.getElementById('player')?.parentElement || document.getElementById('player');
           if(playerWrap){
-            const top = playerWrap.getBoundingClientRect().top + window.scrollY - 95; // FIX: sube 95px mas para que no quede en descripcion, video bien visible
+            const top = playerWrap.getBoundingClientRect().top + window.scrollY - 100; // FIX: sube 95px mas para que no quede en descripcion, video bien visible
             window.scrollTo({top: top, behavior: 'smooth'});
           }
         });
