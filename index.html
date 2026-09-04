@@ -115,6 +115,11 @@
       background: rgba(120,53,15,0.40) !important;
     }
 
+    
+    /* FIX: evita salto de scroll en playlists largas en movil */
+    #videoList{ overflow-anchor: none; }
+    #videoList *{ overflow-anchor: none; }
+
     :root{--bg:#f8fafc; --card:#ffffff; --border:#e2e8f0; --text:#0f172a; --muted:#64748b; --sidebar-bg:rgba(255,255,255,0.96); --input-bg:#f1f5f9;}
     html.dark{--bg:#020617; --card:#0f172a; --border:#1e293b; --text:#f1f5f9; --muted:#94a3b8; --sidebar-bg:rgba(15,23,42,0.96); --input-bg:#1e293b;}
     *{font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
@@ -959,12 +964,34 @@ let currentPl = PLAYLISTS[0].id;
       let total=0; document.querySelectorAll('.pl-count').forEach(el=>{ const n=parseInt(el.textContent); if(!isNaN(n)) total+=n; }); if(total) document.getElementById('totalBadge').textContent=`${total}+ videos`;
     }
 
+    
     function renderList(filter){
-      const list=document.getElementById('videoList'); const f=(filter||'').toLowerCase();
+      const list=document.getElementById('videoList'); 
+      const f=(filter||'').toLowerCase();
+      // FIX: guardar scroll antes de tocar el DOM
+      const savedScrollTop = list ? list.scrollTop : 0;
+      const wasFiltering = !!f;
+
       const filtered=videos.filter(v=> {
         const nota = (MIS_NOTAS[v.id]||'').toLowerCase();
         return v.title.toLowerCase().includes(f) || nota.includes(f);
       });
+      
+      // OPTIMIZACION: si no hay filtro y la lista ya existe con la misma cantidad, solo actualizar active
+      if(!wasFiltering && list.children.length === filtered.length && filtered.length === videos.length){
+        // solo toggle active class sin recrear DOM -> no hay salto
+        Array.from(list.children).forEach((child, i) => {
+          const v = filtered[i];
+          const idx = videos.indexOf(v);
+          if(idx === currentIdx) child.classList.add('active');
+          else child.classList.remove('active');
+        });
+        document.getElementById('listCount').textContent = filtered.length + ' videos' + (f ? ' · filtrados' : '');
+        // restaurar scroll por si algo lo movio
+        requestAnimationFrame(()=>{ if(list) list.scrollTop = savedScrollTop; });
+        return;
+      }
+
       list.innerHTML='';
       if(!filtered.length){ list.innerHTML='<div class="p-6 text-center text-[12px] text-[var(--muted)]">No encontré videos</div>'; return; }
       filtered.forEach(v=>{
@@ -972,15 +999,32 @@ let currentPl = PLAYLISTS[0].id;
         const nota = MIS_NOTAS[v.id] || '';
         const div=document.createElement('div');
         div.className=`v-card ${idx===currentIdx?'active':''}`;
+        div.dataset.idx = idx; // FIX: para identificar
         div.innerHTML=`<img src="${v.thumb}" class="v-thumb" loading="lazy"><div class="flex-1 min-w-0">${nota ? `<div class="badge-nota">${nota}</div>` : ''}<div class="v-title">${v.title}</div><div class="v-meta">▶ Video ${idx+1}${nota ? ' · '+nota : ''}</div></div>`;
         div.onclick=()=>play(idx);
         list.appendChild(div);
       });
       document.getElementById('listCount').textContent = filtered.length + ' videos' + (f ? ' · filtrados' : '');
+
+      // FIX: restaurar scroll despues de render (con doble rAF para movil)
+      if(!wasFiltering){
+        requestAnimationFrame(()=>{
+          requestAnimationFrame(()=>{
+            if(list) list.scrollTop = savedScrollTop;
+          });
+        });
+      }
     }
+
+    
 
     function play(idx, {updateUrl=true}={}){
       if(!videos[idx]) return;
+      // FIX: guardar scroll de la lista y de la ventana ANTES de cualquier cambio DOM
+      const listEl = document.getElementById('videoList');
+      const savedScrollTop = listEl ? listEl.scrollTop : 0;
+      const savedWindowY = window.scrollY;
+
       currentIdx=idx; const v=videos[idx];
       const notaActual = MIS_NOTAS[v.id] || '';
       document.getElementById('videoTitle').innerHTML = (notaActual ? `<div class="nota-titulo">${notaActual}</div>` : '') + v.title;
@@ -990,7 +1034,37 @@ let currentPl = PLAYLISTS[0].id;
       else document.getElementById('player').innerHTML=`<iframe loading="lazy"  width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
       document.getElementById('fallbackLink').href=`https://www.youtube.com/watch?v=${v.id}`;
       sidebarEl.classList.remove('open'); overlay.classList.add('hidden');
+      
+      // FIX: render optimizado que no rompe scroll si no hay filtro
       renderList(document.getElementById('search').value);
+
+      // FIX CRITICO MOVIL: restaurar scroll inmediatamente despues de renderList
+      // y evitar que el browser haga focus-scroll al active
+      if(listEl){
+        listEl.scrollTop = savedScrollTop;
+        requestAnimationFrame(()=>{
+          listEl.scrollTop = savedScrollTop;
+          // Solo si el item activo esta fuera de vista, scrollearlo suavemente a la vista (nearest, no center)
+          const activeCard = listEl.querySelector('.v-card.active');
+          if(activeCard){
+            const rect = activeCard.getBoundingClientRect();
+            const listRect = listEl.getBoundingClientRect();
+            const isOutOfView = rect.top < listRect.top || rect.bottom > listRect.bottom;
+            if(isOutOfView){
+              activeCard.scrollIntoView({behavior:'auto', block:'nearest'});
+            }
+          }
+        });
+      }
+      // FIX: no tocar window.scrollY en movil al cambiar video
+      if(window.innerWidth >= 768){
+        // en desktop si queres que suba al player, descomenta:
+        // document.getElementById('player').scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        // en movil, mantener donde estaba el usuario
+        window.scrollTo(0, savedWindowY);
+      }
+
       if(updateUrl){
         try{
           const u = new URL(location.href);
