@@ -9,91 +9,89 @@
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0a1931">
   <link rel="icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     .jakarta{font-family:'Plus Jakarta Sans',sans-serif}
-    body{font-family:'Inter',sans-serif;background:#f8fafc}
-    html.dark body{background:#020617}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#0f172a}
+    /* FIX CONTRASTE - asegura que se vea aunque Tailwind falle */
+    h1{color:#0f172a !important; opacity:1 !important;}
+    .subtitle{color:#475569 !important; opacity:1 !important;}
   </style>
 </head>
-<body class="text-slate-900 dark:text-slate-100">
+<body>
 <main class="max-w-4xl mx-auto px-5 py-10">
   <div class="mb-8">
-    <a href="index.html" class="text-[13px] font-bold text-blue-600 underline">← Volver a Videos PUR</a>
-    <h1 class="jakarta font-extrabold text-[32px] md:text-[44px] leading-[0.95] mt-4 mb-4">Qué es la PUR y cómo prepararla sin volverte loco</h1>
-    <p class="text-[17px] leading-7 text-slate-600 dark:text-slate-400">La Prueba Única de Residencia es el concurso que define tu entrada a la residencia médica en Uruguay. Acá te explico en criollo qué es, cómo es y cómo usar esta web para prepararla. Yo también la doy este año, así que esto es lo que me hubiera gustado tener ordenado.</p>
+    <a href="index.html" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:underline;">← Volver a Videos PUR</a>
+    <h1 class="jakarta" style="font-weight:800;font-size:36px;line-height:0.95;margin-top:16px;margin-bottom:16px;color:#0f172a !important;">Qué es la PUR y cómo prepararla sin volverte loco</h1>
+    <p class="subtitle" style="font-size:17px;line-height:28px;color:#475569;margin-top:8px;">La Prueba Única de Residencia es el concurso que define tu entrada a la residencia médica en Uruguay. Acá te explico en criollo qué es, cómo es y cómo usar esta web para prepararla. Yo también la doy este año, así que esto es lo que me hubiera gustado tener ordenado.</p>
   </div>
 
-  <article class="prose prose-slate dark:prose-invert max-w-none prose-p:text-[15.5px] prose-p:leading-7 prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-headings:jakarta prose-headings:font-extrabold">
+  <article style="max-width:none;">
     
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[20px] p-6 md:p-8 mb-8">
-      <h2 class="text-xl mt-0 mb-3">¿Qué es la PUR?</h2>
-      <p>La PUR es la Prueba Única de Residencia organizada por la Facultad de Medicina de la UdelaR y el Ministerio de Salud Pública. Es una prueba única, mismo día, misma hora, para todos los egresados que quieren hacer una especialidad en Uruguay.</p>
-      <p>Es una prueba de 130 preguntas (100 principales + 30 de desempate) de múltiple opción que abarca toda la carrera. No es un examen de memoria, es de razonamiento clínico. Te ponen casos y tenés que decidir conducta. Las 30 de desempate solo se usan si hay empates en el puntaje.</p>
+    <div style="background:white;border:1px solid #e2e8f0;border-radius:20px;padding:24px 28px;margin-bottom:24px;">
+      <h2 style="font-size:20px;font-weight:800;margin:0 0 12px 0;color:#0f172a;" class="jakarta">¿Qué es la PUR?</h2>
+      <p style="font-size:15.5px;line-height:28px;color:#334155;margin:0 0 12px 0;">La PUR es la Prueba Única de Residencia organizada por la Facultad de Medicina de la UdelaR y el Ministerio de Salud Pública. Es una prueba única, mismo día, misma hora, para todos los egresados que quieren hacer una especialidad en Uruguay.</p>
+      <p style="font-size:15.5px;line-height:28px;color:#334155;margin:0;">Es una prueba de <strong>130 preguntas (100 principales + 30 de desempate)</strong> de múltiple opción que abarca toda la carrera. No es un examen de memoria, es de razonamiento clínico. Te ponen casos y tenés que decidir conducta. Las 30 de desempate solo se usan si hay empates en el puntaje.</p>
     </div>
 
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[20px] p-6 md:p-8 mb-8">
-      <h2 class="text-xl mt-0 mb-3">¿Cómo es el examen?</h2>
-      <ul class="list-disc pl-5 space-y-2 text-[15px] leading-6 text-slate-700 dark:text-slate-300">
-        <li><strong>130 preguntas en total:</strong> 100 principales + 30 de desempate, múltiple opción (4 o 5 opciones)</li>
-        <li><strong>4 horas</strong> de duración</li>
-        <li><strong>Sin descuento por error</strong> - conviene responder todo, no dejar en blanco</li>
-        <li>Se rinde una vez al año, generalmente en noviembre/diciembre</li>
-        <li>El temario oficial sale en facultad y nosotros lo ordenamos en <a href="https://temariopur.github.io/" class="text-blue-600 underline">temariopur.github.io</a></li>
+    <div style="background:white;border:1px solid #e2e8f0;border-radius:20px;padding:24px 28px;margin-bottom:24px;">
+      <h2 style="font-size:20px;font-weight:800;margin:0 0 12px 0;color:#0f172a;" class="jakarta">¿Cómo es el examen?</h2>
+      <ul style="list-style:disc;padding-left:20px;font-size:15px;line-height:24px;color:#334155;">
+        <li style="margin-bottom:6px;"><strong>130 preguntas en total:</strong> 100 principales + 30 de desempate, múltiple opción (4 o 5 opciones)</li>
+        <li style="margin-bottom:6px;"><strong>4 horas</strong> de duración</li>
+        <li style="margin-bottom:6px;"><strong>Sin descuento por error</strong> - conviene responder todo, no dejar en blanco</li>
+        <li style="margin-bottom:6px;">Se rinde una vez al año, generalmente en noviembre/diciembre</li>
+        <li>El temario oficial sale en facultad y nosotros lo ordenamos en <a href="https://temariopur.github.io/" style="color:#2563eb;text-decoration:underline;">temariopur.github.io</a></li>
       </ul>
     </div>
 
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[20px] p-6 md:p-8 mb-8">
-      <h2 class="text-xl mt-0 mb-3">Materias que entran</h2>
-      <p>Entra todo, pero con peso distinto. Según los últimos años:</p>
-      <div class="grid grid-cols-2 gap-3 mt-4">
-        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-[13px]"><strong>Medicina Interna</strong><br><span class="text-slate-500">~30% del examen, lo más pesado</span></div>
-        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-[13px]"><strong>Pediatría</strong><br><span class="text-slate-500">~15-18%</span></div>
-        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-[13px]"><strong>Gineco y Obstetricia</strong><br><span class="text-slate-500">~15%</span></div>
-        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-[13px]"><strong>Cirugía</strong><br><span class="text-slate-500">~12-15%</span></div>
-        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-[13px]"><strong>Medicina Familiar</strong><br><span class="text-slate-500">~10%</span></div>
-        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-[13px]"><strong>Psiquiatría, Bioética, Legal</strong><br><span class="text-slate-500">~8-10% entre las 3</span></div>
+    <div style="background:white;border:1px solid #e2e8f0;border-radius:20px;padding:24px 28px;margin-bottom:24px;">
+      <h2 style="font-size:20px;font-weight:800;margin:0 0 12px 0;color:#0f172a;" class="jakarta">Materias que entran</h2>
+      <p style="font-size:14px;color:#475569;margin-bottom:12px;">Entra todo, pero con peso distinto. Según los últimos años:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;"><strong>Medicina Interna</strong><br><span style="color:#64748b">~30% del examen, lo más pesado</span></div>
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;"><strong>Pediatría</strong><br><span style="color:#64748b">~15-18%</span></div>
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;"><strong>Gineco</strong><br><span style="color:#64748b">~15%</span></div>
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;"><strong>Cirugía</strong><br><span style="color:#64748b">~12-15%</span></div>
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;"><strong>Medicina Familiar</strong><br><span style="color:#64748b">~10%</span></div>
+        <div style="background:#f8fafc;border-radius:12px;padding:12px;font-size:13px;"><strong>Psiquiatría, Bioética, Legal</strong><br><span style="color:#64748b">~8-10%</span></div>
       </div>
     </div>
 
-    <div class="bg-[#0a1931] text-white rounded-[20px] p-6 md:p-8 mb-8">
-      <h2 class="text-xl mt-0 mb-3 text-white">¿Cómo prepararla con esta web?</h2>
-      <p class="text-slate-300">Este sitio nació porque preparar la PUR era un caos de playlists de YouTube perdidas en grupos de WhatsApp. Empecé organizando playlists, después subiendo clases del internado, después armé un player único con la API de YouTube, y en 2 días armé el banco de preguntas con exámenes viejos pregunta por pregunta.</p>
-      <ol class="list-decimal pl-5 space-y-2 text-[15px] leading-6 text-slate-200 mt-4">
-        <li><strong>Empezá por Encares CIR-PUR 2026-2027</strong> si estás corto de tiempo. Son resúmenes enfocados en lo que preguntan.</li>
-        <li><strong>Después andá a las materias pesadas:</strong> Interna, Pedia y Gineco. Mirá los videos en 1.25x y anotá.</li>
-        <li><strong>Usá el Banco de Preguntas</strong> todos los días. El modo práctica te corrige al instante y el simulacro de 4 horas te acostumbra al tiempo real.</li>
-        <li><strong>Cerrá con ECG, Bioética y Legal</strong> que son puntos fáciles si los repasás bien.</li>
+    <div style="background:#0a1931;color:white;border-radius:20px;padding:24px 28px;margin-bottom:24px;">
+      <h2 style="font-size:20px;font-weight:800;margin:0 0 12px 0;color:white;" class="jakarta">¿Cómo prepararla con esta web?</h2>
+      <p style="color:#cbd5e1;font-size:15px;line-height:24px;margin:0 0 16px 0;">Este sitio nació porque preparar la PUR era un caos de playlists de YouTube perdidas en grupos de WhatsApp. Empecé organizando playlists, después subiendo clases del internado, después armé un player único con la API de YouTube, y en 2 días armé el banco de preguntas con exámenes viejos pregunta por pregunta.</p>
+      <ol style="list-style:decimal;padding-left:20px;font-size:15px;line-height:24px;color:#e2e8f0;">
+        <li style="margin-bottom:8px;"><strong>Empezá por Encares CIR-PUR 2026-2027</strong> si estás corto de tiempo.</li>
+        <li style="margin-bottom:8px;"><strong>Después andá a las materias pesadas:</strong> Interna, Pedia y Gineco.</li>
+        <li style="margin-bottom:8px;"><strong>Usá el Banco de Preguntas</strong> todos los días. El simulacro de 4 horas te acostumbra al tiempo real.</li>
+        <li><strong>Cerrá con ECG, Bioética y Legal</strong> que son puntos fáciles.</li>
       </ol>
-      <div class="flex gap-3 mt-6 flex-wrap">
-        <a href="index.html" class="px-5 py-3 bg-white text-slate-900 rounded-full font-bold text-[13px]">Ir a los videos →</a>
-        <a href="Banco-De-Preguntas.html" class="px-5 py-3 bg-slate-800 text-white rounded-full font-bold text-[13px] border border-slate-700">Probar el banco →</a>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <a href="index.html" style="padding:12px 20px;background:white;color:#0f172a;border-radius:9999px;font-weight:700;font-size:13px;text-decoration:none;display:inline-block;">Ir a los videos →</a>
+        <a href="Banco-De-Preguntas.html" style="padding:12px 20px;background:#1e293b;color:white;border-radius:9999px;font-weight:700;font-size:13px;text-decoration:none;display:inline-block;border:1px solid #334155;">Probar el banco →</a>
       </div>
     </div>
 
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[20px] p-6 md:p-8">
-      <h2 class="text-xl mt-0 mb-3">Preguntas frecuentes</h2>
-      <details class="py-3 border-b border-slate-100 dark:border-slate-800"><summary class="font-semibold cursor-pointer text-[15px]">¿Es gratis?</summary><p class="mt-2 text-[14px]">Sí, 100% gratis y sin registro. Los videos son de docentes que ya los suben gratis a YouTube, nosotros solo los ordenamos. Yo también doy la PUR este año.</p></details>
-      <details class="py-3 border-b border-slate-100 dark:border-slate-800"><summary class="font-semibold cursor-pointer text-[15px]">¿Alcanza solo con esto para aprobar?</summary><p class="mt-2 text-[14px]">Es una base muy sólida, pero tenés que complementarlo con el temario oficial y lectura de guías. Esto te ahorra el 80% del tiempo de búsqueda.</p></details>
-      <details class="py-3"><summary class="font-semibold cursor-pointer text-[15px]">¿Las preguntas del banco son oficiales?</summary><p class="mt-2 text-[14px]">No. Son preguntas de repaso tipo PUR, creadas para practicar el formato real (100 + 30 de desempate, 4 horas), basadas en exámenes viejos. No son reproducción oficial de la UdelaR y son solo con fines educativos.</p></details>
+    <div style="background:white;border:1px solid #e2e8f0;border-radius:20px;padding:24px 28px;">
+      <h2 style="font-size:20px;font-weight:800;margin:0 0 12px 0;color:#0f172a;" class="jakarta">Preguntas frecuentes</h2>
+      <details style="padding:12px 0;border-bottom:1px solid #f1f5f9;"><summary style="font-weight:600;cursor:pointer;font-size:15px;color:#0f172a;">¿Es gratis?</summary><p style="margin-top:8px;font-size:14px;color:#475569;">Sí, 100% gratis y sin registro. Los videos son de docentes que ya los suben gratis a YouTube, nosotros solo los ordenamos. Yo también doy la PUR este año.</p></details>
+      <details style="padding:12px 0;border-bottom:1px solid #f1f5f9;"><summary style="font-weight:600;cursor:pointer;font-size:15px;color:#0f172a;">¿Alcanza solo con esto para aprobar?</summary><p style="margin-top:8px;font-size:14px;color:#475569;">Es una base muy sólida, pero tenés que complementarlo con el temario oficial y lectura de guías. Esto te ahorra el 80% del tiempo de búsqueda.</p></details>
+      <details style="padding:12px 0;"><summary style="font-weight:600;cursor:pointer;font-size:15px;color:#0f172a;">¿Las preguntas del banco son oficiales?</summary><p style="margin-top:8px;font-size:14px;color:#475569;">No. Son preguntas de repaso tipo PUR, creadas para practicar el formato real (100 + 30 de desempate, 4 horas), basadas en exámenes viejos. No son reproducción oficial de la UdelaR y son solo con fines educativos.</p></details>
     </div>
 
   </article>
 </main>
 
-<footer class="border-t border-slate-200 dark:border-slate-800 mt-10 py-8">
-  <div class="max-w-4xl mx-auto px-5 flex flex-col md:flex-row justify-between gap-4 text-[12px] text-slate-500">
-    <div class="flex gap-4 flex-wrap">
-      <a href="privacidad.html" class="underline">Privacidad</a>
-      <a href="terminos.html" class="underline">Aviso Legal</a>
-      <a href="contacto.html" class="underline">Contacto</a>
-      <a href="sobre.html" class="underline">Sobre el proyecto</a>
-    </div>
-    <div>© 2026 Videos PUR Uruguay · Educación médica gratuita</div>
+<footer style="border-top:1px solid #e2e8f0;margin-top:40px;padding:24px 0;text-align:center;font-size:12px;color:#64748b;">
+  <div style="display:flex;gap:16px;justify-content:center;margin-bottom:12px;flex-wrap:wrap;">
+    <a href="privacidad.html" style="color:inherit;text-decoration:underline;">Privacidad</a>
+    <a href="terminos.html" style="color:inherit;text-decoration:underline;">Aviso Legal</a>
+    <a href="contacto.html" style="color:inherit;text-decoration:underline;">Contacto</a>
+    <a href="sobre.html" style="color:inherit;text-decoration:underline;">Sobre el proyecto</a>
   </div>
+  <div>© 2026 Videos PUR Uruguay · Educación médica gratuita</div>
 </footer>
 </body>
 </html>
