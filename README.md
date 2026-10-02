@@ -2,11 +2,11 @@
 
 > Clases gratuitas en video para preparar la **Prueba Única de Residencia (PUR)** en Uruguay. Medicina Interna, Familiar, Ginecología, Pediatría, Cirugía, Psiquiatría, Bioética y más.
 
-[[GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?style=for-the-badge)](https://videospururuguay.github.io/)
-[[PUR Uruguay](https://img.shields.io/badge/PUR-Uruguay%202026-0a1931?style=for-the-badge)](https://videospururuguay.github.io/)
-[[License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-[[Instagram](https://img.shields.io/badge/Instagram-%40videospururuguay-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/videospururuguay)
-[[YouTube](https://img.shields.io/badge/YouTube-%40EncaresCIRPUR-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@EncaresCIRPUR)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?style=for-the-badge)](https://videospururuguay.github.io/)
+[![PUR Uruguay](https://img.shields.io/badge/PUR-Uruguay%202026-0a1931?style=for-the-badge)](https://videospururuguay.github.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Instagram](https://img.shields.io/badge/Instagram-%40videospururuguay-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/videospururuguay)
+[![YouTube](https://img.shields.io/badge/YouTube-%40EncaresCIRPUR-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@EncaresCIRPUR)
 
 **Sitio oficial:** https://videospururuguay.github.io/  
 **Banco de Preguntas:** https://videospururuguay.github.io/Banco-De-Preguntas.html  
