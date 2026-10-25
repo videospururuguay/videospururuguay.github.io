@@ -9231,7 +9231,7 @@ let simData = { questions: [], answers: [], marked: new Set(), current: 0, total
 
 document.addEventListener('DOMContentLoaded',()=>{ setTimeout(updateSimPoolInfo,500); });
 function getAllQuestionsData(){
-  const cards = document.querySelectorAll('.q-card');
+  const cards = document.querySelectorAll('#lista .q-card');
   const arr = [];
   cards.forEach((card, idx)=>{
     const titleEl = card.querySelector('.q-title');
